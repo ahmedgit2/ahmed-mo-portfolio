@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude mcp *)",
+      "Bash(mkdir -p \"/Users/ahmed/Desktop/My Portofoilo/images/icons\")",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=720159081\")",
+      "Bash(python3 -c \"import json,sys;d=json.load\\(sys.stdin\\);print\\(d['results'][0]['artworkUrl512'] if d['resultCount'] else 'NONE'\\)\")",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=1464885006\")",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=1526982727\")",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=1526993844\")",
+      "Bash(curl -s \"https://itunes.apple.com/lookup?id=6544797811\")",
+      "Bash(curl -s -o planradar.jpg \"https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/c4/ac/c2/c4acc2d9-c693-95c3-5132-9f0c348358cc/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/512x512bb.jpg\")",
+      "Bash(curl -s -o chefruler.jpg \"https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/a4/48/a8/a448a8d4-14e7-d344-cc84-1a49be5ef009/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/512x512bb.jpg\")",
+      "Bash(curl -s -o geet-client.jpg \"https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/ec/60/51/ec605129-2938-74f3-1901-cb8032aef73f/AppIcon-1x_U007emarketing-0-7-0-0-85-220.png/512x512bb.jpg\")",
+      "Bash(curl -s -o geet-driver.jpg \"https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/98/fe/1a/98fe1a60-2a68-30a7-f7b1-abb14962e892/AppIcon-1x_U007emarketing-0-7-0-0-85-220.png/512x512bb.jpg\")",
+      "Bash(curl -s -o flow.jpg \"https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/92/f9/06/92f906ac-b527-1d17-8d7a-a90fae07be0b/AppIcon-0-0-1x_U007epad-0-1-85-220.png/512x512bb.jpg\")",
+      "WebSearch",
+      "Bash(curl -s -o sanabel.jpg \"https://play-lh.googleusercontent.com/TfRB669H2IT-6EMJlPLouTQNhkO2rAR4TlroHCbAN1KutSNuktKfOXKbxeZRem9eREPbPP2zCvvAyLthp_yCmw\")",
+      "Bash(open *)",
+      "Bash(gh auth *)",
+      "Bash(git config *)",
+      "Bash(brew --version)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" \"https://api.github.com/users/ahmedgit2\")",
+      "Bash(curl -s \"https://api.github.com/users/ahmedgit2\")",
+      "Bash(python3 -c \"import json,sys;d=json.load\\(sys.stdin\\);print\\(d.get\\('login'\\),d.get\\('name'\\)\\)\")",
+      "Bash(brew install *)",
+      "Bash(git init *)",
+      "Bash(cp ahmed_portfolio.html index.html)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}
