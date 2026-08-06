@@ -20,7 +20,7 @@
   .wrap{max-width:960px; margin:0 auto; padding:0 28px;}
 
   nav{position:sticky; top:0; z-index:50; background:rgba(18,25,26,0.88); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
-  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 28px;}
   .brand{font-family:var(--mono); font-size:14px;}
   .brand span{color:var(--copper);}
   nav .links{display:flex; gap:28px; font-family:var(--mono); font-size:13px;}
@@ -187,7 +187,7 @@
   .contact-links a:hover{color:var(--copper); border-bottom-color:var(--copper);}
   .foot-note{margin-top:56px; font-family:var(--mono); font-size:11px; color:var(--muted); opacity:0.6;}
 
-  @media (max-width:640px){.layer{padding:14px 18px;} .job-head{flex-direction:column;} .tab-panel{padding:18px;}}
+  @media (max-width:640px){.layer{padding:14px 18px;} .job-head{flex-direction:column;} .tab-panel{padding:18px;} nav .wrap{padding:14px 18px;} nav .links{gap:16px; font-size:12px;}}
 </style>
 </head>
 <body>
