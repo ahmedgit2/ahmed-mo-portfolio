@@ -169,6 +169,16 @@
   .notif-title{font-size:13px; font-weight:600;}
   .notif-body{font-size:12px; color:var(--muted);}
 
+  /* Demo: TV focus grid */
+  .tv-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; margin-bottom:14px;}
+  .tv-tile{background:var(--panel-2); border:1px solid var(--line); border-radius:4px; height:52px; display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:11px; color:var(--muted); transition:all 0.15s;}
+  .tv-tile.focused{border-color:var(--copper); background:rgba(198,119,61,0.16); color:var(--copper); transform:scale(1.05);}
+  .dpad{display:grid; grid-template-columns:repeat(3, 36px); grid-template-rows:repeat(3, 36px); gap:4px; margin-bottom:14px;}
+  .dpad button{padding:0; font-size:12px;}
+  .dpad .empty{visibility:hidden;}
+
+  .skill-desc{color:var(--muted); font-size:12.5px; margin-bottom:12px; line-height:1.55;}
+
   footer{padding:80px 0 60px; text-align:center;}
   footer h2.big{font-family:var(--mono); font-weight:700; font-size:clamp(26px, 4vw, 38px); margin-bottom:18px;}
   footer .sub{color:var(--muted); margin-bottom:32px;}
@@ -326,6 +336,11 @@
       <button class="tab-btn" data-tab="push" role="tab">Push Notifications</button>
       <button class="tab-btn" data-tab="cicd" role="tab">CI/CD Pipeline</button>
       <button class="tab-btn" data-tab="i18n" role="tab">Localization</button>
+      <button class="tab-btn" data-tab="newarch" role="tab">New Architecture</button>
+      <button class="tab-btn" data-tab="release" role="tab">Native Binary Release</button>
+      <button class="tab-btn" data-tab="testing" role="tab">Test Suite</button>
+      <button class="tab-btn" data-tab="ota" role="tab">CodePush OTA</button>
+      <button class="tab-btn" data-tab="multidevice" role="tab">TV & Wearables</button>
     </div>
 
     <div class="tab-panel active" id="panel-list">
@@ -567,6 +582,116 @@ I18nManager.forceRTL(isRTL);</pre>
       </div>
       <div class="demo-note">// react-native-localize detects device locale; I18nManager flips layout direction.</div>
     </div>
+
+    <div class="tab-panel" id="panel-newarch">
+      <p class="tab-desc">Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare.</p>
+      <div class="demo-grid">
+        <div class="demo-box">
+          <button class="btn btn-primary" id="newarchBtn" style="padding:9px 16px; margin-bottom:14px;">Call native module: getBatteryLevel()</button>
+          <div class="bridge-log" id="newarchLog">Run it on the old bridge, then on JSI →</div>
+        </div>
+        <pre class="code-block"><span class="cm">// Old bridge — async, JSON-serialized</span>
+NativeModules.Battery.getLevel(
+  (level) => setLevel(level)
+); <span class="cm">// ~40ms round trip</span>
+
+<span class="cm">// TurboModule + JSI — sync, direct</span>
+<span class="kw">import</span> Battery <span class="kw">from</span> <span class="str">'./NativeBattery'</span>;
+<span class="kw">const</span> level = Battery.getLevel(); <span class="cm">// &lt;1ms, no bridge</span></pre>
+      </div>
+      <div class="demo-note">// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip.</div>
+    </div>
+
+    <div class="tab-panel" id="panel-release">
+      <p class="tab-desc">Co-architected RN's packaging as a versioned native binary (XCFramework + AAR) — decoupling the RN layer from native host apps, no Node/Yarn toolchain required for native teams.</p>
+      <div class="demo-grid">
+        <div class="demo-box">
+          <button class="btn btn-primary" id="releaseBtn" style="padding:9px 16px; margin-bottom:16px;">Cut release v4.12.0</button>
+          <div class="pipeline-steps" id="releaseSteps"></div>
+        </div>
+        <pre class="code-block"><span class="cm"># Podfile (native iOS host)</span>
+pod <span class="str">'RNModule'</span>, :git =&gt; <span class="str">'git@.../rn-binary.git'</span>,
+             :tag =&gt; <span class="str">'4.12.0'</span> <span class="cm"># XCFramework</span>
+
+<span class="cm">// build.gradle (native Android host)</span>
+implementation <span class="str">'com.company:rn-module:4.12.0'</span> <span class="cm">// AAR</span></pre>
+      </div>
+      <div class="demo-note">// Native teams bump one version string — no RN toolchain install, no Metro, no Yarn.</div>
+    </div>
+
+    <div class="tab-panel" id="panel-testing">
+      <p class="tab-desc">1,500+ commits across 200+ tickets at PlanRadar, guarded by a 3,500+ test suite in GitLab CI/CD. Run a sample suite.</p>
+      <div class="demo-grid">
+        <div class="demo-box">
+          <button class="btn btn-primary" id="testBtn" style="padding:9px 16px; margin-bottom:14px;">Run suite</button>
+          <div class="render-counter" style="margin-top:0;">
+            <span>Tests: <b id="testCount">0</b>/128</span>
+            <span>Coverage: <b id="testCoverage">0</b>%</span>
+            <span id="testStatus"></span>
+          </div>
+        </div>
+        <pre class="code-block"><span class="kw">describe</span>(<span class="str">'toggleSelection'</span>, () =&gt; {
+  <span class="kw">it</span>(<span class="str">'uses O(1) Set lookup, not array scan'</span>, () =&gt; {
+    <span class="kw">const</span> { result } = renderHook(() =&gt; useSelection());
+    act(() =&gt; result.current.toggle(<span class="str">'row-1'</span>));
+    expect(result.current.selected.has(<span class="str">'row-1'</span>)).toBe(<span class="kw">true</span>);
+  });
+});</pre>
+      </div>
+      <div class="demo-note">// CI blocks merge on red tests — coverage gate keeps refactors safe across 200+ tickets.</div>
+    </div>
+
+    <div class="tab-panel" id="panel-ota">
+      <p class="tab-desc">CodePush OTA delivery at Index Group — ship JS/asset updates without an app-store review cycle, staged and reversible.</p>
+      <div class="demo-grid">
+        <div class="demo-box">
+          <div class="cta-row" style="margin-top:0; margin-bottom:14px;">
+            <button class="btn btn-ghost ota-btn" data-pct="10" style="padding:9px 16px;">Stage 10%</button>
+            <button class="btn btn-ghost ota-btn" data-pct="50" style="padding:9px 16px;">Stage 50%</button>
+            <button class="btn btn-ghost ota-btn" data-pct="100" style="padding:9px 16px;">Stage 100%</button>
+            <button class="btn btn-ghost" id="otaRollback" style="padding:9px 16px;">Rollback</button>
+          </div>
+          <div class="bridge-log" id="otaLog">Pick a rollout stage →</div>
+        </div>
+        <pre class="code-block">codePush.sync({
+  deploymentKey: <span class="str">'PROD-ANDROID'</span>,
+  installMode: codePush.InstallMode.ON_NEXT_RESTART,
+  rollbackRetryOptions: { maxRetryAttempts: <span class="kw">3</span> }
+});
+
+<span class="cm">// staged rollout, set server-side</span>
+<span class="cm">// 10% → monitor crash-free rate → 50% → 100%</span></pre>
+      </div>
+      <div class="demo-note">// Bad bundle at any stage → rollback reverts devices to the last known-good version.</div>
+    </div>
+
+    <div class="tab-panel" id="panel-multidevice">
+      <p class="tab-desc">Extending React Native beyond phones: Smart TV (tvOS, Android TV via react-native-tvos) uses D-pad focus instead of touch; wearables (watchOS, Wear OS) pair over a native companion bridge. No shipped production app yet — architecture below is how I'd approach it.</p>
+      <div class="demo-grid">
+        <div class="demo-box">
+          <div class="tv-grid" id="tvGrid"></div>
+          <div class="dpad">
+            <span class="empty"></span><button class="btn btn-ghost" data-dir="up">▲</button><span class="empty"></span>
+            <button class="btn btn-ghost" data-dir="left">◀</button><button class="btn btn-ghost" data-dir="ok">OK</button><button class="btn btn-ghost" data-dir="right">▶</button>
+            <span class="empty"></span><button class="btn btn-ghost" data-dir="down">▼</button><span class="empty"></span>
+          </div>
+          <div class="bridge-log" id="tvLog">Use the D-pad to move focus →</div>
+        </div>
+        <pre class="code-block"><span class="cm">// Smart TV — focus management</span>
+&lt;Pressable
+  hasTVPreferredFocus={isFirst}
+  onFocus={() =&gt; setFocused(id)}
+  style={({ focused }) =&gt; focused &amp;&amp; styles.focusRing}
+/&gt;
+
+<span class="cm">// Wearable — native companion bridge</span>
+WCSession.sendMessage(
+  { orderStatus: <span class="str">'approved'</span> },
+  (reply) =&gt; {}, (err) =&gt; {}
+); <span class="cm">// watchOS via WatchConnectivity / Wear OS via MessageClient</span></pre>
+      </div>
+      <div class="demo-note">// Same component model, different input system — focus/spatial nav replaces touch gestures.</div>
+    </div>
   </div>
 </section>
 
@@ -648,6 +773,11 @@ I18nManager.forceRTL(isRTL);</pre>
       </div></div>
       <div class="skill-group"><h3>Ways of Working</h3><div class="pill-row">
         <span class="pill">Agile/Scrum</span><span class="pill">Sprint Planning</span><span class="pill">Code Reviews</span><span class="pill">Cross-Functional Collab</span>
+      </div></div>
+      <div class="skill-group"><h3>Multi-Device Integration</h3>
+        <p class="skill-desc">Comfortable with expanding React Native applications to Smart TV and Wearables using platform forks (react-native-tvos), focus controls, and Native Bridge / Companion App architecture for watchOS & Wear OS.</p>
+        <div class="pill-row">
+        <span class="pill">react-native-tvos</span><span class="pill">tvOS</span><span class="pill">Android TV</span><span class="pill">Focus Management</span><span class="pill">Spatial Navigation</span><span class="pill">watchOS</span><span class="pill">Wear OS</span><span class="pill">Native Bridge</span><span class="pill">Companion Apps</span>
       </div></div>
     </div>
   </div>
@@ -843,6 +973,113 @@ I18nManager.forceRTL(isRTL);</pre>
       el.textContent = i18nStrings[btn.dataset.lang];
       el.style.direction = btn.dataset.lang === 'ar' ? 'rtl' : 'ltr';
       el.style.textAlign = btn.dataset.lang === 'ar' ? 'right' : 'left';
+    });
+  });
+
+  // Demo: New Architecture (bridge vs JSI)
+  document.getElementById('newarchBtn').addEventListener('click', ()=>{
+    const log = document.getElementById('newarchLog');
+    log.innerHTML = '';
+    const steps = [
+      {t:'Old bridge: serialize args → JSON', cls:'cur'},
+      {t:'Old bridge: queue → native thread → deserialize', cls:'cur'},
+      {t:'Old bridge: result ≈ 40ms round trip', cls:'cur'},
+      {t:'JSI: direct call, no queue, no serialize', cls:'cur'},
+      {t:'JSI: result ≈ 0.6ms round trip ✓', cls:'ok'},
+    ];
+    steps.forEach((s,i)=>{
+      setTimeout(()=>{
+        const line = document.createElement('div');
+        line.className = s.cls;
+        line.textContent = s.t;
+        log.appendChild(line);
+      }, i*450);
+    });
+  });
+
+  // Demo: native binary release pipeline
+  const releaseStepsList = ['Bump version → 4.12.0', 'Build XCFramework (iOS)', 'Build AAR (Android)', 'Publish to internal registry', 'Native teams consume via SPM/Gradle'];
+  const releaseEl = document.getElementById('releaseSteps');
+  releaseStepsList.forEach(s=>{
+    const div = document.createElement('div');
+    div.className = 'pstep';
+    div.innerHTML = `<span class="dot"></span>${s}`;
+    releaseEl.appendChild(div);
+  });
+  document.getElementById('releaseBtn').addEventListener('click', ()=>{
+    const steps = releaseEl.querySelectorAll('.pstep');
+    steps.forEach(s=>s.classList.remove('active','done'));
+    steps.forEach((s,i)=>{
+      setTimeout(()=>{
+        steps.forEach(x=>x.classList.remove('active'));
+        s.classList.add('active');
+        setTimeout(()=>{ s.classList.remove('active'); s.classList.add('done'); }, 500);
+      }, i*550);
+    });
+  });
+
+  // Demo: test suite run
+  document.getElementById('testBtn').addEventListener('click', ()=>{
+    const countEl = document.getElementById('testCount');
+    const covEl = document.getElementById('testCoverage');
+    const statusEl = document.getElementById('testStatus');
+    statusEl.textContent = '';
+    let count = 0, cov = 0;
+    const total = 128, targetCov = 94;
+    const timer = setInterval(()=>{
+      count += 8; cov += 6;
+      countEl.textContent = Math.min(count, total);
+      covEl.textContent = Math.min(cov, targetCov);
+      if(count >= total){
+        clearInterval(timer);
+        countEl.textContent = total;
+        covEl.textContent = targetCov;
+        statusEl.innerHTML = '<b style="color:#7FBF8F;">✓ all green</b>';
+      }
+    }, 90);
+  });
+
+  // Demo: CodePush OTA staged rollout
+  const otaLog = document.getElementById('otaLog');
+  document.querySelectorAll('.ota-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const pct = btn.dataset.pct;
+      otaLog.innerHTML = `<div class="cur">⇪ Bundle v2.3.1 pushed to ${pct}% of devices — monitoring crash-free rate...</div>` +
+        (pct === '100' ? '<div class="ok">✓ Rollout complete, no crash spike detected</div>' : '');
+    });
+  });
+  document.getElementById('otaRollback').addEventListener('click', ()=>{
+    otaLog.innerHTML = '<div class="cur">↩ Rolled back — devices reverted to last known-good bundle</div>';
+  });
+
+  // Demo: TV focus grid + D-pad
+  const tvGrid = document.getElementById('tvGrid');
+  const tvLog = document.getElementById('tvLog');
+  const tvLabels = ['Home','Search','Library','Live','Settings','Profile','Downloads','Guide','Exit'];
+  let tvFocus = 4; // center tile starts focused
+  tvLabels.forEach((label,i)=>{
+    const tile = document.createElement('div');
+    tile.className = 'tv-tile' + (i===tvFocus ? ' focused' : '');
+    tile.textContent = label;
+    tvGrid.appendChild(tile);
+  });
+  function renderTvFocus(){
+    document.querySelectorAll('.tv-tile').forEach((t,i)=>t.classList.toggle('focused', i===tvFocus));
+  }
+  document.querySelectorAll('.dpad button[data-dir]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const dir = btn.dataset.dir;
+      if(dir === 'ok'){
+        tvLog.innerHTML = `<div class="ok">✓ onFocus → onPress fired on "${tvLabels[tvFocus]}"</div>`;
+        return;
+      }
+      const row = Math.floor(tvFocus/3), col = tvFocus%3;
+      if(dir==='up' && row>0) tvFocus -= 3;
+      if(dir==='down' && row<2) tvFocus += 3;
+      if(dir==='left' && col>0) tvFocus -= 1;
+      if(dir==='right' && col<2) tvFocus += 1;
+      renderTvFocus();
+      tvLog.innerHTML = `<div class="cur">→ TVEventHandler: focus moved to "${tvLabels[tvFocus]}"</div>`;
     });
   });
 </script>
