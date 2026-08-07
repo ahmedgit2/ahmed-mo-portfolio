@@ -34,23 +34,40 @@ export default function ListPerfDemo() {
           <span>New: <b>1</b></span>
         </div>
       </div>
-      <pre className="code-block">{`// before — O(n²)
-const toggle = (id) => {
-  setSelected(prev =>
-    prev.includes(id)
-      ? prev.filter(x => x !== id)
-      : [...prev, id]
+      <pre className="code-block">{`// before — FlatList row, memoized but still O(n) per tap
+const Row = React.memo(({ item, selectedIds, onToggle }: RowProps) => {
+  const isSelected = selectedIds.includes(item.id); // array scan, n comparisons
+  return (
+    <Pressable onPress={() => onToggle(item.id)} style={styles.row}>
+      <Text>{item.title}</Text>
+      {isSelected && <Icon name="check" />}
+    </Pressable>
   );
-};
+});
+// selectedIds is a new array reference every toggle → every Row's
+// props.selectedIds changes identity → React.memo bails, all 400 rows re-render.
 
-// after — O(1), Set membership
-const toggle = (id) => {
-  setSelected(prev => {
+// after — Set membership, stable reference per row
+const Row = React.memo(
+  ({ item, isSelected, onToggle }: RowProps) => (
+    <Pressable onPress={() => onToggle(item.id)} style={styles.row}>
+      <Text>{item.title}</Text>
+      {isSelected && <Icon name="check" />}
+    </Pressable>
+  ),
+  (prev, next) => prev.isSelected === next.isSelected, // custom comparator
+);
+
+const toggle = useCallback((id: string) => {
+  setSelectedIds((prev) => {
     const next = new Set(prev);
     next.has(id) ? next.delete(id) : next.add(id);
     return next;
   });
-};`}</pre>
+}, []);
+
+// parent passes isSelected={selectedIds.has(item.id)} per row —
+// only the touched row's boolean prop actually changes.`}</pre>
     </DemoPanel>
   );
 }

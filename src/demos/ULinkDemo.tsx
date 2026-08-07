@@ -36,21 +36,33 @@ export default function ULinkDemo() {
           ))}
         </div>
       </div>
-      <pre className="code-block">{`// apple-app-site-association (hosted on geet.app)
+      <pre className="code-block">{`// apple-app-site-association — served at
+// https://geet.app/.well-known/apple-app-site-association, no extension, no redirect
 {
-  "applinks": { "details": [{
-    "appID": "TEAMID.com.geet.app",
-    "paths": [ "/order/*", "/driver/*" ]
-  }]}
+  "applinks": {
+    "apps": [],
+    "details": [{
+      "appID": "TEAMID.com.geet.app",
+      "paths": ["/order/*", "/driver/*", "NOT /admin/*"]
+    }]
+  }
 }
 
-// Xcode: Associated Domains capability
+// Xcode: Associated Domains capability (per environment)
 applinks:geet.app
+applinks:staging.geet.app
 
-// Android: assetlinks.json + intent-filter
+// Android: /.well-known/assetlinks.json + manifest intent-filter
 <intent-filter android:autoVerify="true">
-  <data android:scheme="https" android:host="geet.app"/>
-</intent-filter>`}</pre>
+  <action android:name="android.intent.action.VIEW" />
+  <category android:name="android.intent.category.DEFAULT" />
+  <category android:name="android.intent.category.BROWSABLE" />
+  <data android:scheme="https" android:host="geet.app" />
+</intent-filter>
+
+// caught in review once: staging builds pointed at the prod AASA file,
+// so TestFlight links silently opened production data. Split by scheme
+// and verify assetlinks.json / AASA per environment in CI before release.`}</pre>
     </DemoPanel>
   );
 }

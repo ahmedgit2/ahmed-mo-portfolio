@@ -48,7 +48,7 @@
    size to their own content. */
 .demo-grid { display: flex; gap: 16px; align-items: flex-start; }
 .demo-grid > .demo-box { flex: 1; min-width: 0; }
-.demo-grid > .code-block { flex: 1.2; min-width: 0; white-space: pre-wrap; word-break: break-word; }
+.demo-grid > .code-block { flex: 1.2; min-width: 0; white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto; }
 @media (max-width: 900px) { .demo-grid { flex-direction: column; } }
 
 /* Demo: list perf */

@@ -31,18 +31,33 @@ export default function DeepLinkDemo() {
           {selected === null ? 'Pick a link to resolve it →' : LINKS[selected].route}
         </div>
       </div>
-      <pre className="code-block">{`const linking = {
-  prefixes: ['geet://'],
-  config: { screens: {
-    OrderDetails: 'order/:orderId',
-    DriverProfile: 'driver/:driverId',
-    Chat: 'chat/:threadId'
-  }},
-  // fallback when no matching route
+      <pre className="code-block">{`const linking: LinkingOptions<RootStackParamList> = {
+  prefixes: ['geet://', 'https://geet.app'], // custom scheme + Universal Link host
+  config: {
+    screens: {
+      OrderDetails: { path: 'order/:orderId', parse: { orderId: Number } },
+      DriverProfile: { path: 'driver/:driverId', parse: { driverId: Number } },
+      Chat: 'chat/:threadId',
+      NotFound: '*', // catch-all, kept out of getStateFromPath below
+    },
+  },
+  // an unmatched path shouldn't crash the navigator or leave a blank screen
   getStateFromPath: (path, options) => {
-    try { return getStateFromPath(path, options); }
-    catch { return undefined; } // → Home
-  }
+    try {
+      const state = getStateFromPath(path, options);
+      return state ?? buildInitialState('Home');
+    } catch (err) {
+      logger.warn('deep link failed to resolve', { path, err });
+      return buildInitialState('Home');
+    }
+  },
+  // cold start: app opened directly from a link, not a running instance
+  async getInitialURL() {
+    const url = await Linking.getInitialURL();
+    if (url) return url;
+    const message = await messaging().getInitialNotification();
+    return message?.data?.link ?? null; // push notifications also carry deep links
+  },
 };`}</pre>
     </DemoPanel>
   );

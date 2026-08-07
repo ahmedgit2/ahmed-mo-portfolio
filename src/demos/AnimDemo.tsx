@@ -33,18 +33,41 @@ export default function AnimDemo() {
         </div>
         <button className="btn btn-ghost" style={{ padding: '9px 16px', marginTop: 12 }} onClick={() => setPopShown((v) => !v)}>Spring pop-in</button>
       </div>
-      <pre className="code-block">{`const x = useSharedValue(0);
-const style = useAnimatedStyle(() => ({
-  transform: [{ translateX: withSpring(x.value,
-    { damping: 14, stiffness: 120 }) }]
-}));
+      <pre className="code-block">{`// gesture-driven navigation transition — runs entirely on the UI thread
+function useSlideTransition() {
+  const translateX = useSharedValue(0);
 
-// modal pop-in
+  const gesture = Gesture.Pan()
+    .onUpdate((e) => { translateX.value = e.translationX; })
+    .onEnd((e) => {
+      const shouldDismiss = e.translationX > SCREEN_WIDTH * 0.3 || e.velocityX > 800;
+      translateX.value = withSpring(shouldDismiss ? SCREEN_WIDTH : 0, {
+        damping: 18,
+        stiffness: 140,
+        velocity: e.velocityX, // hand off gesture velocity, feels continuous
+      });
+      if (shouldDismiss) runOnJS(navigation.goBack)();
+    });
+
+  const style = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  return { gesture, style };
+}
+
+// modal pop-in confirmation, mirrors a system alert's feel
 const scale = useSharedValue(0.6);
+const opacity = useSharedValue(0);
+
+function showApprovalModal() {
+  scale.value = withSpring(1, { damping: 12, stiffness: 160 });
+  opacity.value = withTiming(1, { duration: 180 });
+}
+
 const popStyle = useAnimatedStyle(() => ({
-  transform: [{ scale: withSpring(scale.value,
-    { damping: 10, stiffness: 140 }) }],
-  opacity: withTiming(scale.value === 1 ? 1 : 0)
+  transform: [{ scale: scale.value }],
+  opacity: opacity.value,
 }));`}</pre>
     </DemoPanel>
   );

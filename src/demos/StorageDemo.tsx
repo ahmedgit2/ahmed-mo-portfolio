@@ -35,17 +35,37 @@ export default function StorageDemo() {
             ))}
         </div>
       </div>
-      <pre className="code-block">{`// AsyncStorage — async
-await AsyncStorage.setItem('token', v);
+      <pre className="code-block">{`// before — AsyncStorage, async everywhere it's touched
+async function getAuthToken(): Promise<string | null> {
+  return AsyncStorage.getItem('auth_token'); // ~2-5ms, disk I/O off JS thread
+}
+// every screen mount that reads a cached value needs a loading state
+// just to cover the await — noticeable flicker on cold start.
 
-// MMKV — sync, encrypted
+// after — MMKV, backed by mmap, synchronous
 import { MMKV } from 'react-native-mmkv';
-const storage = new MMKV({
-  id: 'app-storage',
-  encryptionKey: deviceKey
+
+const secureStorage = new MMKV({
+  id: 'planradar-secure',
+  encryptionKey: getDeviceKeystoreKey(), // per-device, from Keychain/Keystore
 });
-storage.set('token', v);
-const t = storage.getString('token');`}</pre>
+
+export function getAuthToken(): string | null {
+  return secureStorage.getString('auth_token') ?? null; // <1ms, no await
+}
+
+export function setAuthToken(token: string): void {
+  secureStorage.set('auth_token', token);
+}
+
+// migration ran once on app boot behind a feature flag,
+// reading both stores and preferring MMKV once populated
+async function migrateFromAsyncStorage() {
+  const legacy = await AsyncStorage.getItem('auth_token');
+  if (legacy && !secureStorage.contains('auth_token')) {
+    secureStorage.set('auth_token', legacy);
+  }
+}`}</pre>
     </DemoPanel>
   );
 }

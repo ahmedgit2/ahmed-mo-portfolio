@@ -90,19 +90,39 @@ export default function AiAssistantDemo() {
         <div className="ai-usage-bar"><div className="ai-usage-fill" style={{ width: `${Math.round((usage / MAX_USAGE) * 100)}%` }} /></div>
         <div className="ai-usage-label">{usage} / {MAX_USAGE} messages this cycle</div>
       </div>
-      <pre className="code-block">{`// processAnswer.ts — stage the raw backend JSON
-const stages: AnswerStage[] = JSON.parse(rawAnswer);
-const renderable = stages.filter(s =>
-  s.state === 'Response' || s.state === 'Thinking');
+      <pre className="code-block">{`// processAnswer.ts — the backend streams staged JSON, not raw markdown
+type AnswerStage = { state: 'Thinking' | 'Response' | 'FormActions'; output: string };
 
-return renderable.map(stage =>
-  stage.state === 'Thinking'
-    ? \`<thinking-placeholder>\${stage.output}</thinking-placeholder>\`
-    : stage.output
-).join('');
+export function processAnswer(rawAnswer: string | null): string | null {
+  if (!rawAnswer) return null;
+  const stages: AnswerStage[] = JSON.parse(rawAnswer);
 
-// use-assistant-cable.ts — ActionCable channel
-const ASSISTANT_CHANNEL = 'AssistantMessageChannel';`}</pre>
+  return stages
+    .filter((s) => s.state === 'Response' || s.state === 'Thinking') // skip FormActions, web-only
+    .map((stage) =>
+      stage.state === 'Thinking'
+        ? \`<thinking-placeholder>\${stage.output}</thinking-placeholder>\` // collapsible in MarkdownRenderer
+        : stage.output, // plain markdown + XML ticket tags, rendered as-is
+    )
+    .join('');
+}
+
+// use-assistant-cable.ts — one ActionCable subscription per session
+export function useAssistantCable({ sessionId, onReceived, enabled = true }: Props) {
+  useEffect(() => {
+    if (!enabled || !sessionId) return;
+
+    const channel = cable.subscriptions.create(
+      { channel: 'AssistantMessageChannel', session_id: sessionId },
+      { received: (data: AssistantCableMessageUpsertProps) => onReceived(data) },
+    );
+
+    return () => channel.unsubscribe(); // one leaked subscription per screen visit adds up fast
+  }, [sessionId, enabled]);
+}
+
+// upsert payload lets partial tokens patch the *same* message bubble
+// instead of appending a new one per chunk — { uuid, answer, done, failed }`}</pre>
     </DemoPanel>
   );
 }

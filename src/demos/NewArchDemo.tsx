@@ -35,14 +35,28 @@ export default function NewArchDemo() {
           {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
         </div>
       </div>
-      <pre className="code-block">{`// Old bridge — async, JSON-serialized
-NativeModules.Battery.getLevel(
-  (level) => setLevel(level)
-); // ~40ms round trip
+      <pre className="code-block">{`// Old architecture — every call crosses the bridge as a JSON string
+NativeModules.DocumentIndexer.checkStatus(
+  documentId,
+  (status) => setIndexStatus(status),
+  (error) => logger.error(error),
+); // args + return value both serialized, queued, deserialized — ~30-50ms
 
-// TurboModule + JSI — sync, direct
-import Battery from './NativeBattery';
-const level = Battery.getLevel(); // <1ms, no bridge`}</pre>
+// New Architecture — TurboModule spec, codegen'd from a TypeScript interface
+export interface Spec extends TurboModule {
+  checkStatus(documentId: string): string; // sync, returns directly
+  subscribeToIndexUpdates(callback: (event: IndexEvent) => void): void;
+}
+export default TurboModuleRegistry.getEnforcing<Spec>('DocumentIndexer');
+
+// JSI gives JS a direct pointer to the native HostObject —
+// no bridge queue, no JSON.stringify/parse, callable synchronously
+import DocumentIndexer from './NativeDocumentIndexer';
+const status = DocumentIndexer.checkStatus(documentId); // <1ms
+
+// migration reality: 40+ third-party native modules had to be audited —
+// some shipped Fabric-compatible versions, a few we forked and patched
+// ourselves to unblock the 0.85 upgrade before submitting PRs upstream.`}</pre>
     </DemoPanel>
   );
 }

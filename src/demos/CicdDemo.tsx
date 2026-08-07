@@ -15,20 +15,49 @@ export default function CicdDemo() {
         <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 16 }} onClick={run}>Run pipeline</button>
         <PipelineSteps steps={STEPS} states={states} />
       </div>
-      <pre className="code-block">{`# .gitlab-ci.yml (simplified)
-stages: [test, build, deploy]
+      <pre className="code-block">{`# .gitlab-ci.yml
+stages: [install, test, build, deploy]
+
+install:
+  stage: install
+  script: yarn install --frozen-lockfile
+  cache:
+    key: \${CI_COMMIT_REF_SLUG}
+    paths: [node_modules/]
 
 test:
-  script: yarn test --coverage
+  stage: test
+  script:
+    - yarn lint
+    - yarn tsc --noEmit
+    - yarn test --coverage --ci
+  coverage: '/All files[^|]*\\|[^|]*\\s+([\\d.]+)/'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
 
 build_ios:
-  script: eas build -p ios --profile production
+  stage: build
+  script: eas build -p ios --profile production --non-interactive
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\\d+\\.\\d+\\.\\d+$/
+
+build_android:
+  stage: build
+  script: eas build -p android --profile production --non-interactive
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^v\\d+\\.\\d+\\.\\d+$/
 
 deploy_testflight:
-  script: eas submit -p ios --latest
+  stage: deploy
+  script: eas submit -p ios --latest --non-interactive
+  needs: [build_ios]
+  when: manual # release owner promotes after smoke-testing the build
 
 deploy_play:
-  script: eas submit -p android --latest`}</pre>
+  stage: deploy
+  script: eas submit -p android --latest --non-interactive
+  needs: [build_android]
+  when: manual`}</pre>
     </DemoPanel>
   );
 }

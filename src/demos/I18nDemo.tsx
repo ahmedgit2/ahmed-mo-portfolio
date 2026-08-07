@@ -39,13 +39,36 @@ export default function I18nDemo() {
           {STRINGS[lang]}
         </p>
       </div>
-      <pre className="code-block">{`const { t } = useTranslation();
-<Text>{t('welcome_updates', { count: 3 })}</Text>
+      <pre className="code-block">{`// i18next config — pluralization + interpolation, not just flat key lookup
+i18next.use(initReactI18next).init({
+  resources: { en: { translation: en }, ar: { translation: ar }, de: { translation: de } },
+  lng: RNLocalize.getLocales()[0]?.languageCode ?? 'en',
+  fallbackLng: 'en',
+  interpolation: { escapeValue: false },
+});
 
-// ar.json
-{ "welcome_updates": "مرحبًا بعودتك — لديك {{count}} تحديثات." }
+const { t } = useTranslation();
+<Text>{t('welcome_updates', { count: unreadCount })}</Text>
 
-I18nManager.forceRTL(isRTL);`}</pre>
+// ar.json — i18next picks the plural form automatically from {{count}}
+{
+  "welcome_updates_one": "مرحبًا بعودتك — لديك تحديث واحد.",
+  "welcome_updates_other": "مرحبًا بعودتك — لديك {{count}} تحديثات."
+}
+
+// RTL isn't just text direction — layout, icons, and gestures all flip
+function applyLocaleDirection(languageCode: string) {
+  const isRTL = ['ar', 'he', 'ur'].includes(languageCode);
+  if (I18nManager.isRTL !== isRTL) {
+    I18nManager.allowRTL(isRTL);
+    I18nManager.forceRTL(isRTL);
+    RNRestart.restart(); // layout direction only applies on next launch
+  }
+}
+
+// caught in QA: flex-direction: 'row' assumptions broke in RTL —
+// used marginStart/marginEnd and I18nManager.isRTL checks instead of
+// hardcoded left/right throughout the design system components.`}</pre>
     </DemoPanel>
   );
 }

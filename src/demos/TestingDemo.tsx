@@ -42,13 +42,40 @@ export default function TestingDemo() {
           {done && <span><b style={{ color: '#7FBF8F' }}>✓ all green</b></span>}
         </div>
       </div>
-      <pre className="code-block">{`describe('toggleSelection', () => {
+      <pre className="code-block">{`describe('useDocumentSelection', () => {
   it('uses O(1) Set lookup, not array scan', () => {
-    const { result } = renderHook(() => useSelection());
-    act(() => result.current.toggle('row-1'));
-    expect(result.current.selected.has('row-1')).toBe(true);
+    const { result } = renderHook(() => useDocumentSelection());
+    act(() => result.current.toggle('doc-1'));
+    expect(result.current.selected.has('doc-1')).toBe(true);
+    expect(result.current.selected.size).toBe(1);
   });
-});`}</pre>
+
+  it('does not re-toggle a row already flushed to the sync queue', () => {
+    const { result } = renderHook(() => useDocumentSelection());
+    act(() => result.current.toggle('doc-1'));
+    act(() => result.current.flush());
+    act(() => result.current.toggle('doc-1')); // re-select after flush is fine
+    expect(mockOfflineQueue.push).toHaveBeenCalledTimes(1);
+  });
+});
+
+// component test — offline queue behavior, not just the reducer
+it('queues approval when NetInfo reports offline', async () => {
+  mockNetInfo.mockReturnValue({ isConnected: false });
+  const { getByText } = render(<DocumentApprovalScreen documentId="doc-1" />);
+
+  fireEvent.press(getByText('Approve'));
+
+  await waitFor(() =>
+    expect(getByText(/queued — will sync when online/i)).toBeTruthy()
+  );
+});
+
+// CI gate: yarn test --coverage --ci, merge blocked below 90% on changed files
+// jest.config.js
+coverageThreshold: {
+  './src/containers/**': { branches: 85, functions: 90, lines: 90 },
+}`}</pre>
     </DemoPanel>
   );
 }

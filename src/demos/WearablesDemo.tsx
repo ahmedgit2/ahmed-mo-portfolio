@@ -57,20 +57,28 @@ export default function WearablesDemo() {
           {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
         </div>
       </div>
-      <pre className="code-block">{`// RN → Watch
-WCSession.sendMessage(
-  { orderStatus: 'approved' },
-  (reply) => {}, (err) => {}
-); // watchOS via WatchConnectivity
+      <pre className="code-block">{`// RN → Watch — native module wraps WatchConnectivity (iOS) behind one JS API
+class WatchBridge extends NativeEventEmitter {
+  sendOrderStatus(orderId: string, status: OrderStatus) {
+    if (Platform.OS === 'ios') {
+      WCSessionModule.sendMessage({ orderId, status }, (reply) => {
+        analytics.track('watch_message_delivered', { orderId });
+      }, (err) => logger.warn('watch unreachable, will retry on wake', err));
+    } else {
+      WearableModule.sendMessage(this.connectedNodeId, '/order-status',
+        JSON.stringify({ orderId, status }));
+    }
+  }
+}
 
-// Watch → RN
-session.onMessage = (payload) => {
-  handleAction(payload); // same handler phone UI uses
-};
+// Watch → RN — one handler regardless of which platform triggered it
+watchBridge.addListener('watchAction', (payload: { action: string; orderId: string }) => {
+  handleOrderAction(payload.orderId, payload.action); // same reducer as the phone UI
+});
 
-// Android equivalent (Wear OS)
-Wearable.getMessageClient(context)
-  .sendMessage(nodeId, '/order-status', payload);`}</pre>
+// complication data (the glanceable watch-face text) is pushed separately —
+// it has its own budget/refresh-rate limits, can't just piggyback the message API
+CLKComplicationServer.reloadTimeline(complicationDescriptor);`}</pre>
     </DemoPanel>
   );
 }

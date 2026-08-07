@@ -30,19 +30,33 @@ export default function OtaDemo() {
           ))}
           <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={rollback}>Rollback</button>
         </div>
-        <div className="bridge-log">
+        <div className="bridge-log" style={{ minHeight: 46 }}>
           {log.length === 0 && 'Pick a rollout stage →'}
           {log.map((l, i) => <div key={i} className={l.kind}>{l.text}</div>)}
         </div>
       </div>
-      <pre className="code-block">{`codePush.sync({
-  deploymentKey: 'PROD-ANDROID',
-  installMode: codePush.InstallMode.ON_NEXT_RESTART,
-  rollbackRetryOptions: { maxRetryAttempts: 3 }
-});
+      <pre className="code-block">{`function checkForUpdate() {
+  codePush.sync(
+    {
+      deploymentKey: Config.CODEPUSH_KEY, // per-env: DEV / STAGING / PROD-ANDROID
+      installMode: codePush.InstallMode.ON_NEXT_RESUME,
+      mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, // forced security fixes
+      rollbackRetryOptions: { maxRetryAttempts: 3, minBackoffMs: 60000 },
+      updateDialog: false, // silent — we control messaging via in-app banner
+    },
+    (status) => analytics.track('codepush_status', { status }),
+    ({ receivedBytes, totalBytes }) => setDownloadProgress(receivedBytes / totalBytes),
+  );
+}
 
-// staged rollout, set server-side
-// 10% → monitor crash-free rate → 50% → 100%`}</pre>
+// rollout staged server-side via App Center / self-hosted CodePush server
+// 10% → watch crash-free rate on Crashlytics for ~2h → 50% → 100%
+// codePush.notifyAppReady() must fire post-mount, or the SDK assumes
+// the update crashed on boot and auto-rolls-back the whole cohort
+
+useEffect(() => {
+  codePush.notifyAppReady();
+}, []);`}</pre>
     </DemoPanel>
   );
 }

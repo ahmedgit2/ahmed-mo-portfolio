@@ -40,18 +40,41 @@ export default function SyncDemo() {
           {log ? <div className={log.kind}>{log.text}</div> : 'Actions will log here →'}
         </div>
       </div>
-      <pre className="code-block">{`const ws = new WebSocket(url);
-const queue = useOfflineQueue();
+      <pre className="code-block">{`type QueuedAction = { id: string; type: 'APPROVE' | 'REJECT'; documentId: string; ts: number };
 
-function approveDoc(id) {
-  if (!isOnline) {
-    return queue.push({ type: 'APPROVE', id });
+// queue persisted to MMKV, not memory — survives an app kill mid-offline
+class OfflineQueue {
+  private storage = new MMKV({ id: 'offline-queue' });
+
+  push(action: Omit<QueuedAction, 'ts'>) {
+    const queued = this.getAll();
+    queued.push({ ...action, ts: Date.now() });
+    this.storage.set('actions', JSON.stringify(queued));
   }
-  ws.send(JSON.stringify({ action: 'APPROVE', id }));
+
+  getAll(): QueuedAction[] {
+    return JSON.parse(this.storage.getString('actions') ?? '[]');
+  }
+
+  async flush(ws: WebSocket) {
+    for (const action of this.getAll()) {
+      ws.send(JSON.stringify(action)); // in original order, oldest first
+      await waitForAck(action.id);     // server ack before next, avoids reorder
+    }
+    this.storage.delete('actions');
+  }
 }
 
-// on reconnect: flush queue in order
-ws.onopen = () => queue.flush(ws);`}</pre>
+function approveDocument(documentId: string) {
+  const action = { id: uuid(), type: 'APPROVE' as const, documentId };
+  if (!networkState.isOnline) return queue.push(action);
+  socket.send(JSON.stringify(action));
+}
+
+// NetInfo listener drives both the toggle UI and the flush trigger
+NetInfo.addEventListener(({ isConnected }) => {
+  if (isConnected && wasOffline) queue.flush(socket);
+});`}</pre>
     </DemoPanel>
   );
 }

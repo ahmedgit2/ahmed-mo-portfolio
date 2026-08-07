@@ -27,16 +27,34 @@ export default function PushDemo() {
       </div>
       <pre className="code-block">{`import messaging from '@react-native-firebase/messaging';
 
-messaging().onNotificationOpenedApp(remoteMessage => {
-  const { orderId } = remoteMessage.data;
-  navigation.navigate('OrderDetails', { orderId });
-});
+// three lifecycle states, three different entry points into the same handler
+function useNotificationRouting(navigation: NavigationProp) {
+  const route = useCallback((data: Record<string, string>) => {
+    if (data?.orderId) navigation.navigate('OrderDetails', { orderId: Number(data.orderId) });
+    if (data?.threadId) navigation.navigate('Chat', { threadId: data.threadId });
+  }, [navigation]);
 
-// cold start from a killed state
-messaging().getInitialNotification().then(msg => {
-  if (msg) navigation.navigate('OrderDetails',
-    { orderId: msg.data.orderId });
-});`}</pre>
+  useEffect(() => {
+    // 1. foreground — app open, notification arrives while user is looking at it
+    const unsubForeground = messaging().onMessage(async (msg) => {
+      await notifee.displayNotification(mapToLocalNotification(msg));
+    });
+
+    // 2. background/quit tap — app was backgrounded or killed, user taps the tray notification
+    const unsubOpened = messaging().onNotificationOpenedApp((msg) => route(msg.data));
+
+    // 3. cold start — killed state, FCM's own listeners aren't attached yet at this point
+    messaging().getInitialNotification().then((msg) => {
+      if (msg) route(msg.data); // must run after NavigationContainer is ready
+    });
+
+    return () => { unsubForeground(); unsubOpened(); };
+  }, [route]);
+}
+
+// missed this the first time in prod: getInitialNotification() resolves before
+// the navigator's initial route mounts, so the navigate() call was a no-op —
+// fixed by gating it on navigationRef.isReady().`}</pre>
     </DemoPanel>
   );
 }
