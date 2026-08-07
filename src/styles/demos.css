@@ -42,10 +42,14 @@
 .tab-desc { color: var(--muted); font-size: 13.5px; margin-bottom: 20px; max-width: 70ch; flex-shrink: 0; }
 .demo-box { background: var(--ink); border: 1px solid var(--line); border-radius: 4px; padding: 20px; min-width: 0; }
 .demo-note { font-family: var(--mono); font-size: 11px; color: var(--copper); margin-top: 14px; flex-shrink: 0; }
-.demo-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 16px; flex: 1; min-height: 0; align-items: start; }
-.demo-grid .code-block { min-width: 0; white-space: pre-wrap; word-break: break-word; max-height: 100%; overflow-y: auto; }
-@media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } }
-@media (max-width: 900px) { .demo-grid { grid-template-columns: 1fr; } }
+/* flex, not grid — grid's implicit row track stretches to fill leftover height by
+   default even with align-items:start, which was inflating demo-box/code-block.
+   Flex's align-items:flex-start has no such row-stretch step, so items always
+   size to their own content. */
+.demo-grid { display: flex; gap: 16px; flex: 1; min-height: 0; align-items: flex-start; }
+.demo-grid > .demo-box { flex: 1; min-width: 0; }
+.demo-grid > .code-block { flex: 1.2; min-width: 0; white-space: pre-wrap; word-break: break-word; }
+@media (max-width: 900px) { .demo-grid { flex-direction: column; } }
 
 /* Demo: list perf */
 .fake-list { max-height: 220px; overflow-y: auto; border: 1px solid var(--line); border-radius: 3px; }
