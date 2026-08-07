@@ -30,7 +30,7 @@ export default function NewArchDemo() {
     >
       <div className="demo-box">
         <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={run}>Call native module: getBatteryLevel()</button>
-        <div className="bridge-log">
+        <div className="bridge-log" style={{ minHeight: STEPS.length * 23 }}>
           {lines.length === 0 && 'Run it on the old bridge, then on JSI →'}
           {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
         </div>

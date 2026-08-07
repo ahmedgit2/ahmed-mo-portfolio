@@ -29,7 +29,7 @@ export default function ULinkDemo() {
     >
       <div className="demo-box">
         <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={run}>Open https://geet.app/order/8842</button>
-        <div className="bridge-log" style={{ marginTop: 14 }}>
+        <div className="bridge-log" style={{ marginTop: 14, minHeight: STEPS.length * 23 }}>
           {lines.length === 0 && 'Simulates iOS resolving the link →'}
           {lines.map((line, i) => (
             <div key={line} className={i === STEPS.length - 1 ? 'ok' : 'cur'}>{line}</div>
