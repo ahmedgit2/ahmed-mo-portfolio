@@ -27,7 +27,23 @@ export function useScrollSpy(sectionIds: string[]): string {
     );
 
     elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+
+    // The last section (the footer) is often shorter than the observer's excluded
+    // bottom margin, so it can never earn enough intersection ratio to win — once
+    // the page is scrolled to the very bottom, force it active as a fallback.
+    const lastId = sectionIds[sectionIds.length - 1];
+    function handleScroll() {
+      const scrolledToBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (scrolledToBottom) setActiveId(lastId);
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, [sectionIds]);
 
   return activeId;
