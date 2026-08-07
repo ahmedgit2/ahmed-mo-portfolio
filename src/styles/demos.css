@@ -46,7 +46,7 @@
    default even with align-items:start, which was inflating demo-box/code-block.
    Flex's align-items:flex-start has no such row-stretch step, so items always
    size to their own content. */
-.demo-grid { display: flex; gap: 16px; flex: 1; min-height: 0; align-items: flex-start; }
+.demo-grid { display: flex; gap: 16px; align-items: flex-start; }
 .demo-grid > .demo-box { flex: 1; min-width: 0; }
 .demo-grid > .code-block { flex: 1.2; min-width: 0; white-space: pre-wrap; word-break: break-word; }
 @media (max-width: 900px) { .demo-grid { flex-direction: column; } }
