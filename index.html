@@ -709,13 +709,17 @@ WCSession.sendMessage(
     </div>
 
     <div class="tab-panel" id="panel-aiassistant">
-      <p class="tab-desc">PlanRadar's in-app AI Assistant — I built the RN client: ActionCable-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Click Ask below.</p>
+      <p class="tab-desc">PlanRadar's in-app AI Assistant — I built the RN client: ActionCable-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Pick a prompt below.</p>
       <div class="demo-grid">
         <div class="demo-box">
           <div class="chat-box" id="aiChatBox">
-            <div class="chat-msg user">Show me overdue tickets on this project</div>
+            <div class="chat-msg ai" style="opacity:0.7;">Ask me about this project — try a prompt below.</div>
           </div>
-          <button class="btn btn-primary" id="aiAskBtn" style="padding:9px 16px; margin-top:14px;">Ask</button>
+          <div id="aiPromptChips" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;">
+            <button class="btn btn-ghost ai-prompt-btn" style="padding:8px 12px; font-size:12px;" data-prompt="overdue">Overdue tickets</button>
+            <button class="btn btn-ghost ai-prompt-btn" style="padding:8px 12px; font-size:12px;" data-prompt="summary">Summarize this project</button>
+            <button class="btn btn-ghost ai-prompt-btn" style="padding:8px 12px; font-size:12px;" data-prompt="similar">Find similar past issues</button>
+          </div>
           <div class="ai-usage-bar"><div class="ai-usage-fill" id="aiUsageFill"></div></div>
           <div class="ai-usage-label" id="aiUsageLabel">12 / 50 messages this cycle</div>
         </div>
@@ -1128,14 +1132,39 @@ WCSession.sendMessage(
   });
 
   const aiChatBox = document.getElementById('aiChatBox');
-  const aiAskBtn = document.getElementById('aiAskBtn');
   const aiUsageFill = document.getElementById('aiUsageFill');
   const aiUsageLabel = document.getElementById('aiUsageLabel');
   let aiUsageCount = 12;
   aiUsageFill.style.width = Math.round((aiUsageCount/50)*100) + '%';
-  aiAskBtn.addEventListener('click', ()=>{
-    aiAskBtn.disabled = true;
-    document.querySelectorAll('#aiChatBox .chat-thinking, #aiChatBox .chat-msg.ai').forEach(el=>el.remove());
+
+  const AI_PROMPTS = {
+    overdue: {
+      question: 'Show me overdue tickets on this project',
+      answer: 'Found <b>3 overdue tickets</b> on this project, all assigned to you.' +
+        '<div class="chat-ticket-chip">🎫 TICKET-4821 · Roof leak, west wing</div>',
+    },
+    summary: {
+      question: 'Summarize this project',
+      answer: '<b>West Tower Renovation</b> — 42 tickets total, 34 resolved, 8 open. ' +
+        '2 documents pending review, on track for the March 15 milestone.' +
+        '<div class="chat-ticket-chip">📄 site-inspection-report.pdf</div>',
+    },
+    similar: {
+      question: 'Find similar past issues',
+      answer: 'Found <b>2 similar issues</b> from past projects — same root cause (flashing gap).' +
+        '<div class="chat-ticket-chip">🎫 TICKET-2210 · East wing, resolved</div>',
+    },
+  };
+
+  function askAi(promptKey){
+    const prompt = AI_PROMPTS[promptKey];
+    if(!prompt) return;
+    document.querySelectorAll('#aiPromptChips .ai-prompt-btn').forEach(b=>b.disabled = true);
+    document.querySelectorAll('#aiChatBox .chat-msg, #aiChatBox .chat-thinking').forEach(el=>el.remove());
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-msg user';
+    userMsg.textContent = prompt.question;
+    aiChatBox.appendChild(userMsg);
     const thinking = document.createElement('div');
     thinking.className = 'chat-thinking';
     thinking.innerHTML = '<span></span><span></span><span></span>';
@@ -1144,14 +1173,16 @@ WCSession.sendMessage(
       thinking.remove();
       const reply = document.createElement('div');
       reply.className = 'chat-msg ai';
-      reply.innerHTML = 'Found <b>3 overdue tickets</b> on this project, all assigned to you.' +
-        '<div class="chat-ticket-chip">🎫 TICKET-4821 · Roof leak, west wing</div>';
+      reply.innerHTML = prompt.answer;
       aiChatBox.appendChild(reply);
       aiUsageCount = Math.min(50, aiUsageCount+1);
       aiUsageFill.style.width = Math.round((aiUsageCount/50)*100) + '%';
       aiUsageLabel.textContent = aiUsageCount + ' / 50 messages this cycle';
-      aiAskBtn.disabled = false;
+      document.querySelectorAll('#aiPromptChips .ai-prompt-btn').forEach(b=>b.disabled = false);
     }, 1100);
+  }
+  document.querySelectorAll('#aiPromptChips .ai-prompt-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>askAi(btn.dataset.prompt));
   });
 </script>
 
