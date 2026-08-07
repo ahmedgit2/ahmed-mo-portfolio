@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import { inject } from '@vercel/analytics';
 import App from './App';
+
+inject();
 
 import './styles/base.css';
 import './styles/nav.css';
