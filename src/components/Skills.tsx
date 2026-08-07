@@ -19,6 +19,11 @@ const GROUPS: SkillGroup[] = [
     desc: 'Comfortable with expanding React Native applications to Smart TV and Wearables using platform forks (react-native-tvos), focus controls, and Native Bridge / Companion App architecture for watchOS & Wear OS.',
     pills: ['react-native-tvos', 'tvOS', 'Android TV', 'Focus Management', 'Spatial Navigation', 'watchOS', 'Wear OS', 'Native Bridge', 'Companion Apps'],
   },
+  {
+    title: 'Additional',
+    desc: 'Familiar with React.js and Next.js fundamentals (component architecture, server-side rendering, hooks, state management) through a React Native background — open to web roles. This portfolio itself is built with React.',
+    pills: ['React.js', 'Next.js (fundamentals)', 'SSR', 'Web'],
+  },
 ];
 
 export default function Skills() {

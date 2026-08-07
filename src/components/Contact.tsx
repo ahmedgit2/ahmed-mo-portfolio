@@ -9,7 +9,7 @@ export default function Contact() {
           <a href="tel:+201009014257">+20 100 901 4257</a>
           <a href="https://linkedin.com/in/ahmedmoh93" target="_blank" rel="noopener">linkedin.com/in/ahmedmoh93</a>
         </div>
-        <div className="foot-note">Built by hand — no template.</div>
+        <div className="foot-note">Built by hand with React + TypeScript — no template.</div>
       </div>
     </footer>
   );

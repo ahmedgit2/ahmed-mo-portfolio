@@ -7,12 +7,6 @@ const LAYERS = [
   { name: 'Persistence', detail: 'Encrypted local storage, offline-first queueing', tag: 'MMKV · Keychain/Keystore' },
 ];
 
-const STATS = [
-  { num: '6 yrs', label: 'software engineering' },
-  { num: '10+', label: 'apps shipped to production' },
-  { num: '1,500+', label: 'commits across 200+ tickets' },
-];
-
 export default function Hero() {
   return (
     <header className="hero">
@@ -24,20 +18,16 @@ export default function Hero() {
           JavaScript meets <span className="accent">native</span>.
         </h1>
         <p className="tagline">
-          6 years in software engineering, 5 shipping production React Native apps — specializing in
-          native binary architecture, cross-platform performance, and the boring-but-critical work of
-          making JS and native code talk to each other cleanly.
+          Senior React Native Developer with <span className="accent">6 years</span> of software
+          engineering experience, including 5 years building production mobile applications across
+          enterprise SaaS (construction), e-commerce, and logistics. Beyond core React Native, I bring
+          hands-on expertise in native iOS and Android integration — Swift/Kotlin, custom native
+          modules, versioned native binaries, and embedded RN host architectures. I specialize in
+          performance optimization, New Architecture adoption, and codebase standardization, including
+          architecting modular container patterns adopted across enterprise applications. Focused on
+          delivering high-impact, test-backed mobile solutions, with long-term aspirations of growing
+          into a Team Lead role.
         </p>
-
-        {/* Quick take for non-technical readers (recruiters) — skimmable in 2 seconds */}
-        <div className="stat-strip">
-          {STATS.map((s) => (
-            <div className="stat-item" key={s.label}>
-              <span className="stat-num">{s.num}</span>
-              <span className="stat-label">{s.label}</span>
-            </div>
-          ))}
-        </div>
 
         <div className="cta-row">
           <a className="btn btn-primary" href="#demos">See it in action</a>
