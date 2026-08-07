@@ -18,15 +18,15 @@ export default function Hero() {
           JavaScript meets <span className="accent">native</span>.
         </h1>
         <p className="tagline">
-          Senior React Native Developer with <span className="accent">6 years</span> of software
-          engineering experience, including 5 years building production mobile applications across
-          enterprise SaaS (construction), e-commerce, and logistics. Beyond core React Native, I bring
-          hands-on expertise in native iOS and Android integration — Swift/Kotlin, custom native
-          modules, versioned native binaries, and embedded RN host architectures. I specialize in
-          performance optimization, New Architecture adoption, and codebase standardization, including
-          architecting modular container patterns adopted across enterprise applications. Focused on
-          delivering high-impact, test-backed mobile solutions, with long-term aspirations of growing
-          into a Team Lead role.
+          Senior React Native Developer with <b className="accent">6 years</b> of software engineering
+          experience, including <b className="accent">5 years</b> building production mobile applications
+          across enterprise SaaS (construction), e-commerce, and logistics. Beyond core React Native, I
+          bring hands-on expertise in <b className="accent">native iOS and Android integration</b> —
+          Swift/Kotlin, custom native modules, versioned native binaries, and embedded RN host
+          architectures. I specialize in performance optimization, <b className="accent">New Architecture</b>{' '}
+          adoption, and codebase standardization, including architecting modular container patterns
+          adopted across enterprise applications. Focused on delivering high-impact, test-backed mobile
+          solutions, with long-term aspirations of growing into a <b className="accent">Team Lead</b> role.
         </p>
 
         <div className="cta-row">
