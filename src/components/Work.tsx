@@ -63,7 +63,7 @@ export default function Work() {
       <div className="wrap">
         <div className="sec-head">
           <h2>Shipped Apps</h2>
-          <p className="sec-sub">Production apps live on the App Store and Google Play.</p>
+          <p className="sec-sub">6 of 10+ shipped — the ones most worth showing. All live on the App Store and Google Play.</p>
         </div>
         <div className="projects">
           {PROJECTS.map((p) => (

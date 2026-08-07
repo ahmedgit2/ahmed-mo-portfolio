@@ -9,7 +9,7 @@ const LAYERS = [
 
 const STATS = [
   { num: '6 yrs', label: 'software engineering' },
-  { num: '6', label: 'apps shipped to production' },
+  { num: '10+', label: 'apps shipped to production' },
   { num: '1,500+', label: 'commits across 200+ tickets' },
 ];
 
