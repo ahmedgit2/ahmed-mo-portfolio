@@ -87,7 +87,7 @@
 .pop-card .pc-sub { font-size: 12px; color: var(--muted); }
 
 /* Demo: bridge log (shared by several demos) */
-.bridge-log { font-family: var(--mono); font-size: 12px; color: var(--muted); min-height: 110px; line-height: 1.9; }
+.bridge-log { font-family: var(--mono); font-size: 12px; color: var(--muted); min-height: 22px; line-height: 1.9; }
 .bridge-log .ok { color: #7FBF8F; }
 .bridge-log .cur { color: var(--copper); }
 
