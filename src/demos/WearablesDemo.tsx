@@ -47,7 +47,7 @@ export default function WearablesDemo() {
       desc="Wearables (watchOS, Wear OS) pair over a native companion bridge, not a shrunk-down RN screen — both directions. No shipped production app yet — architecture below is how I'd approach it."
       note="// The bridge is native-to-native — RN only sends/receives the payload, the watch app renders it."
     >
-      <div className="demo-box">
+      <div className="demo-box" style={{ alignSelf: 'stretch' }}>
         <div className="cta-row" style={{ marginTop: 0, marginBottom: 14 }}>
           <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run('send')}>{FLOWS.send.label}</button>
           <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => run('receive')}>{FLOWS.receive.label}</button>
