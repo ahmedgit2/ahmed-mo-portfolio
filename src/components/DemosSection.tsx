@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DEMO_LIST } from '../demos/types';
 import ListPerfDemo from '../demos/ListPerfDemo';
 import StorageDemo from '../demos/StorageDemo';
@@ -34,9 +34,37 @@ const DEMO_COMPONENTS: Record<string, React.ComponentType> = {
   aiassistant: AiAssistantDemo,
 };
 
+const DESKTOP_BREAKPOINT = 820; // matches .demos-layout single-column breakpoint in demos.css
+
 export default function DemosSection() {
   const [activeId, setActiveId] = useState(DEMO_LIST[0].id);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [panelHeight, setPanelHeight] = useState<number | undefined>(undefined);
   const ActiveDemo = DEMO_COMPONENTS[activeId];
+
+  // Every demo panel matches the sidebar's height exactly — measured, not guessed,
+  // so it stays correct regardless of how tall any individual demo's content is.
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+
+    function syncHeight() {
+      if (window.innerWidth < DESKTOP_BREAKPOINT) {
+        setPanelHeight(undefined); // sidebar stacks above the panel on mobile — no forced height
+        return;
+      }
+      setPanelHeight(sidebar!.offsetHeight);
+    }
+
+    syncHeight();
+    const observer = new ResizeObserver(syncHeight);
+    observer.observe(sidebar);
+    window.addEventListener('resize', syncHeight);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', syncHeight);
+    };
+  }, []);
 
   return (
     <section id="demos">
@@ -47,7 +75,7 @@ export default function DemosSection() {
         </div>
 
         <div className="demos-layout">
-          <div className="demo-sidebar" role="tablist" aria-orientation="vertical">
+          <div className="demo-sidebar" role="tablist" aria-orientation="vertical" ref={sidebarRef}>
             {DEMO_LIST.map((d) => (
               <button
                 key={d.id}
@@ -61,7 +89,7 @@ export default function DemosSection() {
             ))}
           </div>
 
-          <div className="tab-panel active">
+          <div className="tab-panel active" style={panelHeight ? { height: panelHeight } : undefined}>
             <ActiveDemo />
           </div>
         </div>
