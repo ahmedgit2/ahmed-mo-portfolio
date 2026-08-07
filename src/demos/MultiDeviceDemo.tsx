@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DemoPanel from './DemoPanel';
 
 const TV_LABELS = ['Home', 'Search', 'Library', 'Live', 'Settings', 'Profile', 'Downloads', 'Guide', 'Exit'];
 
@@ -23,31 +24,28 @@ export default function MultiDeviceDemo() {
   }
 
   return (
-    <>
-      <p className="tab-desc">
-        Extending React Native beyond phones: Smart TV (tvOS, Android TV via react-native-tvos) uses
-        D-pad focus instead of touch; wearables (watchOS, Wear OS) pair over a native companion bridge.
-        No shipped production app yet — architecture below is how I'd approach it.
-      </p>
-      <div className="demo-grid">
-        <div className="demo-box">
-          <div className="tv-grid">
-            {TV_LABELS.map((label, i) => (
-              <div className={'tv-tile' + (i === focus ? ' focused' : '')} key={label}>{label}</div>
-            ))}
-          </div>
-          <div className="dpad">
-            <span className="empty" /><button className="btn btn-ghost" onClick={() => move('up')}>▲</button><span className="empty" />
-            <button className="btn btn-ghost" onClick={() => move('left')}>◀</button>
-            <button className="btn btn-ghost" onClick={() => move('ok')}>OK</button>
-            <button className="btn btn-ghost" onClick={() => move('right')}>▶</button>
-            <span className="empty" /><button className="btn btn-ghost" onClick={() => move('down')}>▼</button><span className="empty" />
-          </div>
-          <div className="bridge-log">
-            {log ? <div className={log.kind}>{log.text}</div> : 'Use the D-pad to move focus →'}
-          </div>
+    <DemoPanel
+      desc="Extending React Native beyond phones: Smart TV (tvOS, Android TV via react-native-tvos) uses D-pad focus instead of touch; wearables (watchOS, Wear OS) pair over a native companion bridge. No shipped production app yet — architecture below is how I'd approach it."
+      note="// Same component model, different input system — focus/spatial nav replaces touch gestures."
+    >
+      <div className="demo-box">
+        <div className="tv-grid">
+          {TV_LABELS.map((label, i) => (
+            <div className={'tv-tile' + (i === focus ? ' focused' : '')} key={label}>{label}</div>
+          ))}
         </div>
-        <pre className="code-block">{`// Smart TV — focus management
+        <div className="dpad">
+          <span className="empty" /><button className="btn btn-ghost" onClick={() => move('up')}>▲</button><span className="empty" />
+          <button className="btn btn-ghost" onClick={() => move('left')}>◀</button>
+          <button className="btn btn-ghost" onClick={() => move('ok')}>OK</button>
+          <button className="btn btn-ghost" onClick={() => move('right')}>▶</button>
+          <span className="empty" /><button className="btn btn-ghost" onClick={() => move('down')}>▼</button><span className="empty" />
+        </div>
+        <div className="bridge-log">
+          {log ? <div className={log.kind}>{log.text}</div> : 'Use the D-pad to move focus →'}
+        </div>
+      </div>
+      <pre className="code-block">{`// Smart TV — focus management
 <Pressable
   hasTVPreferredFocus={isFirst}
   onFocus={() => setFocused(id)}
@@ -59,8 +57,6 @@ WCSession.sendMessage(
   { orderStatus: 'approved' },
   (reply) => {}, (err) => {}
 ); // watchOS via WatchConnectivity / Wear OS via MessageClient`}</pre>
-      </div>
-      <div className="demo-note">// Same component model, different input system — focus/spatial nav replaces touch gestures.</div>
-    </>
+    </DemoPanel>
   );
 }

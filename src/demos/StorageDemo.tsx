@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DemoPanel from './DemoPanel';
 
 export default function StorageDemo() {
   const [store, setStore] = useState<Record<string, string>>({});
@@ -16,24 +17,25 @@ export default function StorageDemo() {
   const entries = Object.entries(store);
 
   return (
-    <>
-      <p className="tab-desc">Migrated PlanRadar's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads.</p>
-      <div className="demo-grid">
-        <div className="demo-box">
-          <div className="kv-row">
-            <input type="text" placeholder="key" value={key} onChange={(e) => setKey(e.target.value)} />
-            <input type="text" placeholder="value" value={val} onChange={(e) => setVal(e.target.value)} />
-            <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={handleSave}>Set</button>
-          </div>
-          <div className="kv-list">
-            {entries.length === 0
-              ? <div className="kv-item"><span>—</span><span>no keys yet</span></div>
-              : entries.map(([k, v]) => (
-                <div className="kv-item" key={k}><span>{k}</span><span>{v}</span></div>
-              ))}
-          </div>
+    <DemoPanel
+      desc="Migrated PlanRadar's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads."
+      note="// MMKV writes are synchronous — no await, no flicker on read."
+    >
+      <div className="demo-box">
+        <div className="kv-row">
+          <input type="text" placeholder="key" value={key} onChange={(e) => setKey(e.target.value)} />
+          <input type="text" placeholder="value" value={val} onChange={(e) => setVal(e.target.value)} />
+          <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={handleSave}>Set</button>
         </div>
-        <pre className="code-block">{`// AsyncStorage — async
+        <div className="kv-list">
+          {entries.length === 0
+            ? <div className="kv-item"><span>—</span><span>no keys yet</span></div>
+            : entries.map(([k, v]) => (
+              <div className="kv-item" key={k}><span>{k}</span><span>{v}</span></div>
+            ))}
+        </div>
+      </div>
+      <pre className="code-block">{`// AsyncStorage — async
 await AsyncStorage.setItem('token', v);
 
 // MMKV — sync, encrypted
@@ -44,8 +46,6 @@ const storage = new MMKV({
 });
 storage.set('token', v);
 const t = storage.getString('token');`}</pre>
-      </div>
-      <div className="demo-note">// MMKV writes are synchronous — no await, no flicker on read.</div>
-    </>
+    </DemoPanel>
   );
 }

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DemoPanel from './DemoPanel';
 
 type ChatMessage =
   | { role: 'user'; text: string }
@@ -52,46 +53,44 @@ export default function AiAssistantDemo() {
   }
 
   return (
-    <>
-      <p className="tab-desc">
-        PlanRadar's in-app AI Assistant — I built the RN client: ActionCable-streamed staged responses
-        (thinking → response), ticket/document context attachments, and usage-tier gating. Pick a prompt below.
-      </p>
-      <div className="demo-grid">
-        <div className="demo-box">
-          <div className="chat-box">
-            {messages.length === 0 && (
-              <div className="chat-msg ai" style={{ opacity: 0.7 }}>Ask me about this project — try a prompt below.</div>
-            )}
-            {messages.map((m, i) => {
-              if (m.role === 'user') return <div className="chat-msg user" key={i}>{m.text}</div>;
-              if (m.role === 'thinking') {
-                return (
-                  <div className="chat-thinking" key={i}>
-                    <span /><span /><span />
-                  </div>
-                );
-              }
-              return <div className="chat-msg ai" key={i} dangerouslySetInnerHTML={{ __html: m.html }} />;
-            })}
-          </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
-            {(Object.keys(PROMPTS) as PromptKey[]).map((key) => (
-              <button
-                key={key}
-                className="btn btn-ghost"
-                style={{ padding: '8px 12px', fontSize: 12 }}
-                disabled={busy}
-                onClick={() => ask(key)}
-              >
-                {PROMPTS[key].label}
-              </button>
-            ))}
-          </div>
-          <div className="ai-usage-bar"><div className="ai-usage-fill" style={{ width: `${Math.round((usage / MAX_USAGE) * 100)}%` }} /></div>
-          <div className="ai-usage-label">{usage} / {MAX_USAGE} messages this cycle</div>
+    <DemoPanel
+      desc="PlanRadar's in-app AI Assistant — I built the RN client: ActionCable-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Pick a prompt below."
+      note="// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working."
+    >
+      <div className="demo-box">
+        <div className="chat-box">
+          {messages.length === 0 && (
+            <div className="chat-msg ai" style={{ opacity: 0.7 }}>Ask me about this project — try a prompt below.</div>
+          )}
+          {messages.map((m, i) => {
+            if (m.role === 'user') return <div className="chat-msg user" key={i}>{m.text}</div>;
+            if (m.role === 'thinking') {
+              return (
+                <div className="chat-thinking" key={i}>
+                  <span /><span /><span />
+                </div>
+              );
+            }
+            return <div className="chat-msg ai" key={i} dangerouslySetInnerHTML={{ __html: m.html }} />;
+          })}
         </div>
-        <pre className="code-block">{`// processAnswer.ts — stage the raw backend JSON
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
+          {(Object.keys(PROMPTS) as PromptKey[]).map((key) => (
+            <button
+              key={key}
+              className="btn btn-ghost"
+              style={{ padding: '8px 12px', fontSize: 12 }}
+              disabled={busy}
+              onClick={() => ask(key)}
+            >
+              {PROMPTS[key].label}
+            </button>
+          ))}
+        </div>
+        <div className="ai-usage-bar"><div className="ai-usage-fill" style={{ width: `${Math.round((usage / MAX_USAGE) * 100)}%` }} /></div>
+        <div className="ai-usage-label">{usage} / {MAX_USAGE} messages this cycle</div>
+      </div>
+      <pre className="code-block">{`// processAnswer.ts — stage the raw backend JSON
 const stages: AnswerStage[] = JSON.parse(rawAnswer);
 const renderable = stages.filter(s =>
   s.state === 'Response' || s.state === 'Thinking');
@@ -104,8 +103,6 @@ return renderable.map(stage =>
 
 // use-assistant-cable.ts — ActionCable channel
 const ASSISTANT_CHANNEL = 'AssistantMessageChannel';`}</pre>
-      </div>
-      <div className="demo-note">// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working.</div>
-    </>
+    </DemoPanel>
   );
 }

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import DemoPanel from './DemoPanel';
 
 const STEPS: { text: string; kind: 'ok' | 'cur' }[] = [
   { text: 'Old bridge: serialize args → JSON', kind: 'cur' },
@@ -23,20 +24,18 @@ export default function NewArchDemo() {
   }
 
   return (
-    <>
-      <p className="tab-desc">
-        Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the
-        old async, JSON-serialized bridge with direct synchronous native calls. Click to compare.
-      </p>
-      <div className="demo-grid">
-        <div className="demo-box">
-          <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={run}>Call native module: getBatteryLevel()</button>
-          <div className="bridge-log">
-            {lines.length === 0 && 'Run it on the old bridge, then on JSI →'}
-            {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
-          </div>
+    <DemoPanel
+      desc="Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare."
+      note="// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip."
+    >
+      <div className="demo-box">
+        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={run}>Call native module: getBatteryLevel()</button>
+        <div className="bridge-log">
+          {lines.length === 0 && 'Run it on the old bridge, then on JSI →'}
+          {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
         </div>
-        <pre className="code-block">{`// Old bridge — async, JSON-serialized
+      </div>
+      <pre className="code-block">{`// Old bridge — async, JSON-serialized
 NativeModules.Battery.getLevel(
   (level) => setLevel(level)
 ); // ~40ms round trip
@@ -44,8 +43,6 @@ NativeModules.Battery.getLevel(
 // TurboModule + JSI — sync, direct
 import Battery from './NativeBattery';
 const level = Battery.getLevel(); // <1ms, no bridge`}</pre>
-      </div>
-      <div className="demo-note">// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip.</div>
-    </>
+    </DemoPanel>
   );
 }

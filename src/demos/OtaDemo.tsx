@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import DemoPanel from './DemoPanel';
 
 const STAGES = [10, 50, 100];
 
@@ -18,22 +19,23 @@ export default function OtaDemo() {
   }
 
   return (
-    <>
-      <p className="tab-desc">CodePush OTA delivery at Index Group — ship JS/asset updates without an app-store review cycle, staged and reversible.</p>
-      <div className="demo-grid">
-        <div className="demo-box">
-          <div className="cta-row" style={{ marginTop: 0, marginBottom: 14 }}>
-            {STAGES.map((pct) => (
-              <button key={pct} className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => stage(pct)}>Stage {pct}%</button>
-            ))}
-            <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={rollback}>Rollback</button>
-          </div>
-          <div className="bridge-log">
-            {log.length === 0 && 'Pick a rollout stage →'}
-            {log.map((l, i) => <div key={i} className={l.kind}>{l.text}</div>)}
-          </div>
+    <DemoPanel
+      desc="CodePush OTA delivery at Index Group — ship JS/asset updates without an app-store review cycle, staged and reversible."
+      note="// Bad bundle at any stage → rollback reverts devices to the last known-good version."
+    >
+      <div className="demo-box">
+        <div className="cta-row" style={{ marginTop: 0, marginBottom: 14 }}>
+          {STAGES.map((pct) => (
+            <button key={pct} className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => stage(pct)}>Stage {pct}%</button>
+          ))}
+          <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={rollback}>Rollback</button>
         </div>
-        <pre className="code-block">{`codePush.sync({
+        <div className="bridge-log">
+          {log.length === 0 && 'Pick a rollout stage →'}
+          {log.map((l, i) => <div key={i} className={l.kind}>{l.text}</div>)}
+        </div>
+      </div>
+      <pre className="code-block">{`codePush.sync({
   deploymentKey: 'PROD-ANDROID',
   installMode: codePush.InstallMode.ON_NEXT_RESTART,
   rollbackRetryOptions: { maxRetryAttempts: 3 }
@@ -41,8 +43,6 @@ export default function OtaDemo() {
 
 // staged rollout, set server-side
 // 10% → monitor crash-free rate → 50% → 100%`}</pre>
-      </div>
-      <div className="demo-note">// Bad bundle at any stage → rollback reverts devices to the last known-good version.</div>
-    </>
+    </DemoPanel>
   );
 }
