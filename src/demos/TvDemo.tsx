@@ -3,7 +3,7 @@ import DemoPanel from './DemoPanel';
 
 const TV_LABELS = ['Home', 'Search', 'Library', 'Live', 'Settings', 'Profile', 'Downloads', 'Guide', 'Exit'];
 
-export default function MultiDeviceDemo() {
+export default function TvDemo() {
   const [focus, setFocus] = useState(4); // center tile starts focused
   const [log, setLog] = useState<{ text: string; kind: 'ok' | 'cur' } | null>(null);
 
@@ -25,7 +25,7 @@ export default function MultiDeviceDemo() {
 
   return (
     <DemoPanel
-      desc="Extending React Native beyond phones: Smart TV (tvOS, Android TV via react-native-tvos) uses D-pad focus instead of touch; wearables (watchOS, Wear OS) pair over a native companion bridge. No shipped production app yet — architecture below is how I'd approach it."
+      desc="Extending React Native to Smart TV — tvOS and Android TV via react-native-tvos — swaps touch for D-pad focus navigation. No shipped production app yet — architecture below is how I'd approach it."
       note="// Same component model, different input system — focus/spatial nav replaces touch gestures."
     >
       <div className="demo-box">
@@ -52,11 +52,12 @@ export default function MultiDeviceDemo() {
   style={({ focused }) => focused && styles.focusRing}
 />
 
-// Wearable — native companion bridge
-WCSession.sendMessage(
-  { orderStatus: 'approved' },
-  (reply) => {}, (err) => {}
-); // watchOS via WatchConnectivity / Wear OS via MessageClient`}</pre>
+// TVEventHandler for remote/D-pad input
+const tvEventHandler = new TVEventHandler();
+tvEventHandler.enable(this, (cmp, evt) => {
+  if (evt.eventType === 'right') moveFocus('right');
+  if (evt.eventType === 'select') pressFocused();
+});`}</pre>
     </DemoPanel>
   );
 }

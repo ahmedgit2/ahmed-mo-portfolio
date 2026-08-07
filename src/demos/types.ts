@@ -17,6 +17,7 @@ export const DEMO_LIST: DemoMeta[] = [
   { id: 'release', label: 'Native Binary Release' },
   { id: 'testing', label: 'Test Suite' },
   { id: 'ota', label: 'CodePush OTA' },
-  { id: 'multidevice', label: 'TV & Wearables' },
+  { id: 'tv', label: 'Smart TV' },
+  { id: 'wearables', label: 'Wearables' },
   { id: 'aiassistant', label: 'AI Assistant' },
 ];

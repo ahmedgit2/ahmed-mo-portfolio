@@ -13,7 +13,8 @@ import NewArchDemo from '../demos/NewArchDemo';
 import ReleaseDemo from '../demos/ReleaseDemo';
 import TestingDemo from '../demos/TestingDemo';
 import OtaDemo from '../demos/OtaDemo';
-import MultiDeviceDemo from '../demos/MultiDeviceDemo';
+import TvDemo from '../demos/TvDemo';
+import WearablesDemo from '../demos/WearablesDemo';
 import AiAssistantDemo from '../demos/AiAssistantDemo';
 
 const DEMO_COMPONENTS: Record<string, React.ComponentType> = {
@@ -30,7 +31,8 @@ const DEMO_COMPONENTS: Record<string, React.ComponentType> = {
   release: ReleaseDemo,
   testing: TestingDemo,
   ota: OtaDemo,
-  multidevice: MultiDeviceDemo,
+  tv: TvDemo,
+  wearables: WearablesDemo,
   aiassistant: AiAssistantDemo,
 };
 
