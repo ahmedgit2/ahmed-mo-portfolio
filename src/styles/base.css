@@ -1,0 +1,56 @@
+:root {
+  --ink: #12191A;
+  --panel: #1A2325;
+  --panel-2: #212C2E;
+  --line: #2E3B3D;
+  --copper: #C6773D;
+  --copper-dim: #8A5A34;
+  --paper: #EDEAE1;
+  --muted: #93A29E;
+  --mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--copper); outline-offset: 3px; }
+.wrap { max-width: 960px; margin: 0 auto; padding: 0 28px; }
+
+section { padding: 72px 0; border-top: 1px solid var(--line); }
+.sec-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 40px; gap: 20px; flex-wrap: wrap; }
+h2 { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--copper); }
+.sec-sub { color: var(--muted); font-size: 14px; max-width: 42ch; }
+
+.btn {
+  font-family: var(--mono); font-size: 13px; letter-spacing: 0.03em; padding: 13px 22px; border-radius: 2px;
+  text-decoration: none; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s;
+  border: 1px solid var(--line); cursor: pointer;
+}
+.btn-primary { background: var(--copper); color: var(--ink); border-color: var(--copper); font-weight: 600; }
+.btn-primary:hover { background: #D68847; }
+.btn-ghost { color: var(--paper); background: transparent; }
+.btn-ghost:hover { border-color: var(--copper); color: var(--copper); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.cta-row { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
+
+.code-block {
+  background: #0E1516; border: 1px solid var(--line); border-radius: 4px; padding: 16px 18px;
+  font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-x: auto; white-space: pre; line-height: 1.7;
+}
+.code-block .kw { color: var(--copper); }
+.code-block .str { color: #8FBF9F; }
+.code-block .cm { color: #5C6B69; font-style: italic; }
+
+@media (max-width: 640px) {
+  .job-head { flex-direction: column; }
+}

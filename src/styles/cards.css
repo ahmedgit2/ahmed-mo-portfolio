@@ -1,0 +1,11 @@
+.projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 4px; padding: 22px; transition: border-color 0.2s, transform 0.2s; }
+.card:hover { border-color: var(--copper-dim); transform: translateY(-2px); }
+.card-title { font-weight: 600; font-size: 16px; margin-bottom: 6px; }
+.card-desc { color: var(--muted); font-size: 13.5px; margin-bottom: 16px; }
+.card-links { display: flex; gap: 14px; font-family: var(--mono); font-size: 12px; }
+.card-links a { color: var(--copper); text-decoration: none; border-bottom: 1px solid transparent; }
+.card-links a:hover { border-bottom-color: var(--copper); }
+.card-links .disabled { color: var(--muted); cursor: default; }
+.card-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.card-icon { width: 44px; height: 44px; border-radius: 10px; border: 1px solid var(--line); object-fit: cover; flex-shrink: 0; }

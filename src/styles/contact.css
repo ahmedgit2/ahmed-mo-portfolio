@@ -1,0 +1,7 @@
+footer { padding: 80px 0 60px; text-align: center; }
+footer h2.big { font-family: var(--mono); font-weight: 700; font-size: clamp(26px, 4vw, 38px); margin-bottom: 18px; }
+footer .sub { color: var(--muted); margin-bottom: 32px; }
+.contact-links { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; font-family: var(--mono); font-size: 13.5px; }
+.contact-links a { text-decoration: none; padding-bottom: 2px; border-bottom: 1px solid var(--line); }
+.contact-links a:hover { color: var(--copper); border-bottom-color: var(--copper); }
+.foot-note { margin-top: 56px; font-family: var(--mono); font-size: 11px; color: var(--muted); opacity: 0.6; }
