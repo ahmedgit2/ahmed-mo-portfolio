@@ -1,0 +1,161 @@
+{
+  "nav": { "work": "Proyectos", "demos": "Demos", "experience": "Experiencia", "contact": "Contacto" },
+  "common": { "old": "Antiguo", "new": "Nuevo" },
+  "demoText": {
+    "list": { "desc": "En PlanRadar, seleccionar una fila en una lista grande re-renderizaba cada fila mediante comparación de identidad de array — O(n²). Lo cambié por una búsqueda de pertenencia a un Set, así solo se re-renderiza la fila tocada. Haz clic en las filas de abajo.", "note": "// Antes: toda la lista se re-renderiza en cada selección. Ahora: solo se actualiza la fila tocada." },
+    "storage": { "desc": "Migración de la persistencia de PlanRadar de AsyncStorage a MMKV — síncrono, cifrado, lecturas más rápidas.", "note": "// Las escrituras de MMKV son síncronas — sin await, sin parpadeo al leer." },
+    "sync": { "desc": "Uno de los módulos principales de PlanRadar es offline-first y en tiempo real vía WebSockets — las acciones se encolan sin conexión y se envían al reconectar. Alterna el modo offline abajo y haz cambios.", "note": "// Las acciones encoladas se envían en orden una vez que el socket se reconecta." },
+    "anim": { "desc": "La API Reanimated / Animated impulsa las transiciones de modales y navegación en PlanRadar. Dos ejemplos abajo.", "note": "// Los worklets de Reanimated corren en el hilo de UI — sin tirones del hilo JS bajo carga." },
+    "deeplink": { "desc": "En Index Group, las notificaciones y enlaces compartidos abrían la app directamente en una pantalla específica de pedido o conductor.", "note": "// Las rutas no coincidentes vuelven a una ruta por defecto en lugar de bloquear el navegador." },
+    "ulink": { "desc": "Universal Links (iOS) y App Links (Android) evitan por completo el aviso de esquema personalizado — un enlace https:// real abre la app directamente si está instalada, o la página web si no.", "note": "// Sin la app instalada → la misma URL abre el fallback web móvil en su lugar." },
+    "push": { "desc": "Notificaciones push vía FCM, conectadas a deep links para que al tocar una se navegue directo a la pantalla relevante.", "note": "// getInitialNotification() cubre el caso de cold start que el handler en primer plano de FCM no captura." },
+    "cicd": { "desc": "Responsabilidad completa de releases en PlanRadar e Index Group — GitLab CI/CD, EAS Build, TestFlight y Play Console. Ejecuta el pipeline abajo.", "note": "// Misma forma de pipeline en ambas apps: test → build → submit, condicionado a tests en verde." },
+    "i18n": { "desc": "Soporte multi-idioma vía i18next y react-native-localize, incluyendo RTL para árabe.", "note": "// react-native-localize detecta el idioma del dispositivo; I18nManager invierte la dirección del layout." },
+    "newarch": { "desc": "Lideró la migración de PlanRadar a React Native 0.85 — Hermes + New Architecture. JSI reemplaza el antiguo puente asíncrono serializado en JSON por llamadas nativas síncronas directas. Haz clic para comparar.", "note": "// JSI le da a JS una referencia directa a objetos nativos — sin ida y vuelta de serializar/encolar/deserializar." },
+    "release": { "desc": "Co-arquitecto del empaquetado de RN como binario nativo versionado (XCFramework + AAR) — desacoplando la capa RN de las apps host nativas, sin necesidad de toolchain Node/Yarn para equipos nativos.", "note": "// Los equipos nativos solo incrementan una cadena de versión — sin instalar toolchain de RN, sin Metro, sin Yarn." },
+    "testing": { "desc": "Más de 1.500 commits en más de 200 tickets en PlanRadar, protegidos por una suite de más de 3.500 pruebas en GitLab CI/CD. Ejecuta una suite de ejemplo.", "note": "// CI bloquea merges con pruebas en rojo — el umbral de cobertura mantiene seguros los refactors en 200+ tickets." },
+    "ota": { "desc": "Entrega OTA con CodePush en Index Group — enviar actualizaciones de JS/assets sin ciclo de revisión de app store, por etapas y reversible.", "note": "// Un bundle defectuoso en cualquier etapa → el rollback revierte los dispositivos a la última versión estable conocida." },
+    "tv": { "desc": "Extendiendo React Native a Smart TV — tvOS y Android TV vía react-native-tvos — reemplaza el táctil por navegación de foco con D-pad. Aún sin app en producción publicada — la arquitectura de abajo es cómo lo abordaría.", "note": "// Mismo modelo de componentes, distinto sistema de entrada — la navegación por foco/espacial reemplaza los gestos táctiles." },
+    "wearables": { "desc": "Los wearables (watchOS, Wear OS) se conectan vía un puente nativo complementario, no una pantalla RN reducida — en ambas direcciones. Aún sin app en producción publicada — la arquitectura de abajo es cómo lo abordaría.", "note": "// El puente es nativo a nativo — RN solo envía/recibe el payload, la app del reloj lo renderiza." },
+    "aiassistant": { "desc": "El Asistente de IA integrado de PlanRadar — construí el cliente RN: respuestas por etapas transmitidas vía WebSocket (pensando → respuesta), adjuntos de contexto de tickets/documentos, y limitación por nivel de uso. Arquitectura abajo, renombrada respecto a la implementación real. Elige un prompt.", "note": "// Transmitido vía WebSockets, no mediante polling — la etapa de pensamiento se muestra mientras el modelo sigue trabajando." },
+    "gesture": { "desc": "Una pila deslizable basada en física — retorno con spring, flick-to-dismiss sensible a la velocidad, y rotación tipo rubber-band. Arrastra la tarjeta frontal.", "note": "// Manipulación directa del DOM durante el arrastre, el estado de React solo se toca al soltar — sin re-render por frame." }
+  },
+  "demoUI": {
+    "list": { "taskItem": "Tarea #{{n}}" },
+    "storage": { "keyPlaceholder": "clave", "valuePlaceholder": "valor", "setButton": "Guardar", "noKeysYet": "aún no hay claves", "emptyValue": "(vacío)" },
+    "sync": { "online": "En línea", "offline": "Sin conexión", "queuedBadge": "{{count}} en cola", "approveButton": "Aprobar elemento", "logPlaceholder": "Las acciones aparecerán aquí →", "logReconnected": "↺ Reconectado — enviando {{count}} acción(es) en cola...", "logSent": "✓ Enviado por WebSocket — aprobado al instante", "logQueued": "⏸ Sin conexión — acción en cola ({{count}})" },
+    "anim": { "slideButton": "Transición deslizante", "popTitle": "Documento aprobado", "popSubtitle": "Aparición con spring, como una confirmación modal.", "springButton": "Aparición con spring" },
+    "deeplink": { "pickLink": "Elige un enlace para resolverlo →", "linkOrder": "→ resuelve a OrderDetails, orderId: 8842", "linkDriver": "→ resuelve a DriverProfile, driverId: 119", "linkUnknown": "→ sin coincidencia — getStateFromPath cae a Home" },
+    "ulink": { "openButton": "Abrir https://geet.app/order/8842", "placeholder": "Simula cómo iOS resuelve el enlace →", "step1": "iOS: el usuario toca https://geet.app/order/8842", "step2": "El sistema verifica apple-app-site-association en geet.app", "step3": "El App ID coincide con la app instalada → se abre nativamente, sin pasar por Safari", "step4": "La config de linking de RN resuelve a OrderDetails, orderId: 8842 ✓" },
+    "push": { "triggerButton": "Simular notificación push entrante", "notifTitle": "Nuevo pedido asignado", "notifBody": "El pedido #8842 está listo para retirar — toca para ver." },
+    "cicd": { "runButton": "Ejecutar pipeline", "step1": "Instalar dependencias", "step2": "Ejecutar pruebas (Jest)", "step3": "EAS Build (iOS + Android)", "step4": "Enviar → TestFlight", "step5": "Enviar → Play Console" },
+    "newarch": { "runButton": "Llamar módulo nativo: getScannerState()", "placeholder": "Ejecútalo primero en el puente antiguo, luego en JSI →", "step1": "Puente antiguo: serializa argumentos → JSON", "step2": "Puente antiguo: cola → hilo nativo → deserializa", "step3": "Puente antiguo: resultado ≈ 40ms de ida y vuelta", "step4": "JSI: llamada directa, sin cola, sin serializar", "step5": "JSI: resultado ≈ 0.6ms de ida y vuelta ✓" },
+    "release": { "runButton": "Cortar release v4.12.0", "step1": "Incrementar versión → 4.12.0", "step2": "Compilar XCFramework (iOS)", "step3": "Compilar AAR (Android)", "step4": "Publicar en el registro interno", "step5": "Equipos nativos consumen vía SPM/Gradle" },
+    "testing": { "runButton": "Ejecutar suite", "testsLabel": "Pruebas:", "coverageLabel": "Cobertura:", "allGreen": "✓ todo en verde" },
+    "ota": { "stageButton": "Etapa {{pct}}%", "rollbackButton": "Revertir", "placeholder": "Elige una etapa de despliegue →", "bundlePushed": "⇪ Bundle v2.3.1 enviado al {{pct}}% de los dispositivos — monitoreando tasa de fallos...", "rolloutComplete": "✓ Despliegue completo, sin picos de fallos detectados", "rolledBack": "↩ Revertido — dispositivos regresados a la última versión estable conocida" },
+    "tv": { "placeholder": "Usa el D-pad para mover el foco →", "okButton": "OK", "onFocusFired": "✓ onFocus → onPress activado en \"{{label}}\"", "focusMoved": "→ TVEventHandler: foco movido a \"{{label}}\"", "labels": ["Inicio", "Buscar", "Biblioteca", "En vivo", "Ajustes", "Perfil", "Descargas", "Guía", "Salir"] },
+    "wearables": { "sendLabel": "Enviar estado al reloj", "receiveLabel": "Recibir toque del reloj", "placeholder": "Simula el puente nativo complementario, en ambas direcciones →", "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })", "sendStep2": "watchOS: WatchConnectivity entrega el mensaje a la app complementaria", "sendStep3": "Wear OS: MessageClient entrega a la app complementaria (ruta Android)", "sendStep4": "✓ Esfera del reloj actualizada — sin ida y vuelta por la UI del teléfono", "receiveStep1": "Reloj: el usuario toca la complicación \"Aprobar\" en su muñeca", "receiveStep2": "watchOS/Wear OS: la app complementaria envía la acción de vuelta por el puente", "receiveStep3": "RN: session.onMessage se dispara con { action: \"approve\", id }", "receiveStep4": "✓ Mismo handler que usa la UI del teléfono — una única fuente de verdad" },
+    "aiassistant": { "emptyState": "Pregúntame sobre este proyecto — prueba un prompt abajo.", "usageLabel": "{{usage}} / {{max}} mensajes este ciclo", "overdueLabel": "Tickets atrasados", "overdueQuestion": "Muéstrame los tickets atrasados en este proyecto", "overdueAnswer": "Se encontraron <b>3 tickets atrasados</b> en este proyecto, todos asignados a ti.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Fuga en el techo, ala oeste</div>", "summaryLabel": "Resumir este proyecto", "summaryQuestion": "Resume este proyecto", "summaryAnswer": "<b>West Tower Renovation</b> — 42 tickets en total, 34 resueltos, 8 abiertos. 2 documentos pendientes de revisión, a tiempo para el hito del 15 de marzo.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>", "similarLabel": "Buscar problemas similares pasados", "similarQuestion": "Encuentra problemas similares pasados", "similarAnswer": "Se encontraron <b>2 problemas similares</b> de proyectos anteriores — misma causa raíz (brecha en el sellado).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · Ala este, resuelto</div>" },
+    "gesture": { "hint": "← arrastra para resolver →", "card1Sub": "Fuga en el techo, ala oeste — ¿aprobar?", "card2Sub": "Inspección eléctrica pendiente", "card3Sub": "Vaciado de concreto programado", "card4Sub": "Fotos del sitio necesitan revisión" },
+    "heroDiagramAriaLabel": "Diagrama de las capas de arquitectura de React Native: JavaScript, el puente New Architecture, y los binarios nativos."
+  },
+  "hero": {
+    "eyebrow": "Ingeniero React Native Senior · El Cairo, Egipto",
+    "h1Line1": "Construyo la capa donde",
+    "h1Pre": "JavaScript se encuentra con lo ",
+    "h1Accent": "nativo",
+    "tagline": "Desarrollador React Native senior con <0>6 años</0> de experiencia en ingeniería de software, incluyendo <0>5 años</0> desarrollando aplicaciones móviles en producción en SaaS empresarial (construcción), e-commerce y logística. Más allá de React Native, aporto experiencia práctica en <0>integración nativa de iOS y Android</0> — Swift/Kotlin, módulos nativos personalizados, binarios nativos versionados y arquitecturas de host RN embebidas. Me especializo en optimización de rendimiento, adopción de la <0>New Architecture</0> y estandarización de código base, incluyendo la arquitectura de patrones de contenedores modulares adoptados en aplicaciones empresariales. Entrego soluciones móviles de alto impacto y respaldadas por pruebas, con la aspiración a largo plazo de crecer hacia un rol de <0>Team Lead</0>.",
+    "ctaPrimary": "Verlo en acción",
+    "ctaSecondary": "Contactarme",
+    "stackLabel": "Dónde trabajo",
+    "layers": [
+      { "name": "App host nativa", "detail": "App shell de iOS/Android que embebe el módulo RN como binario versionado", "tag": "Swift · Kotlin · Xcode/Gradle" },
+      { "name": "Arquitectura de componentes en capas", "detail": "Pantallas → HOCs → Hooks/Helpers → Componentes → Estilos — el patrón estándar adoptado en modales y navegación", "tag": "HOCs · hooks · componentes · estilos" },
+      { "name": "Estructura basada en features / dominios", "detail": "Código organizado por funcionalidad, no por tipo — cada dominio posee sus pantallas, hooks y estilos para una colaboración de equipo más rápida", "tag": "orientado a dominio · carpetas por feature" },
+      { "name": "Chat de IA integrado", "detail": "Respuestas de LLM transmitidas por WebSocket con acciones de puente nativo para navegación de tickets y filtros", "tag": "WebSockets · puente nativo · streaming de LLM" },
+      { "name": "Estado y datos en tiempo real", "detail": "Contexts específicos por dominio, divididos de un RootContext monolítico; impulsa la sincronización offline-first del módulo DMS", "tag": "Context API · React Query · JSON:API" },
+      { "name": "Puente de New Architecture", "detail": "Hermes + TurboModules/Fabric — llamadas síncronas JS↔nativo, sin sobrecarga de serialización", "tag": "Fabric · TurboModules · JSI" },
+      { "name": "Binarios nativos", "detail": "XCFramework + AAR versionados, desacoplados de los toolchains del host nativo", "tag": "XCFramework · AAR" },
+      { "name": "Persistencia", "detail": "Migración de AsyncStorage a MMKV — cifrado, síncrono, con cola de acciones offline", "tag": "MMKV · Keychain/Keystore" },
+      { "name": "Pair programming con IA", "detail": "Claude Code integrado en el flujo de trabajo diario — scaffolding, refactors, generación de pruebas — aceleró la entrega de funcionalidades ~25-30% en los ciclos de sprint", "tag": "Claude Code · Cursor AI · GitHub Copilot" }
+    ]
+  },
+  "work": {
+    "heading": "Apps publicadas",
+    "subheading": "6 de más de 10 publicadas — las más destacadas. Todas activas en App Store y Google Play.",
+    "projects": {
+      "planradar": "SaaS de construcción y bienes raíces. Módulo RN embebido dentro de apps host nativas de iOS/Android, empaquetado como binario versionado.",
+      "chefRulerClient": "Plataforma de pedidos que conecta a usuarios con comidas caseras de chefs locales.",
+      "geetClient": "App de entrega para consumidores: tiendas, paquetes y solicitudes de mensajería bajo demanda.",
+      "geetProvider": "App del lado del proveedor para gestionar ofertas de entrega, rutas y entrega de pedidos.",
+      "flow": "App de gestión de inventario creada para mejorar la eficiencia operativa diaria.",
+      "sanabel": "Conecta a los usuarios con iniciativas benéficas comunitarias que necesitan apoyo."
+    }
+  },
+  "demos": {
+    "heading": "Demos de habilidades",
+    "subheading": "Interactivas en vivo, no capturas de pantalla. Cada una refleja trabajo real de mi experiencia.",
+    "labels": {
+      "list": "Rendimiento de listas",
+      "storage": "Almacenamiento offline",
+      "sync": "Sync offline-first",
+      "anim": "Animaciones",
+      "deeplink": "Deep Linking",
+      "ulink": "Universal Links",
+      "push": "Notificaciones push",
+      "cicd": "Pipeline CI/CD",
+      "i18n": "Localización",
+      "newarch": "New Architecture",
+      "release": "Release de binario nativo",
+      "testing": "Suite de pruebas",
+      "ota": "CodePush OTA",
+      "tv": "Smart TV",
+      "wearables": "Wearables",
+      "aiassistant": "Chat de IA"
+    }
+  },
+  "experience": {
+    "heading": "Experiencia",
+    "subheading": "Seis años entre móvil, e-commerce, logística y sistemas de escritorio empresariales.",
+    "jobs": [
+      {
+        "role": "Ingeniero React Native Senior — PlanRadar",
+        "period": "Sept 2024 — Presente",
+        "meta": "Remoto (Viena, Austria) · SaaS de construcción y bienes raíces",
+        "bullets": [
+          "Co-arquitecto del empaquetado de React Native como binario nativo versionado (XCFramework + AAR), eliminando la necesidad del toolchain de Node/Yarn para equipos nativos.",
+          "Lideró la migración de la plataforma a React Native 0.85, habilitando Hermes y la New Architecture (TurboModules/Fabric).",
+          "Corrigió un cuello de botella crítico de renderizado — reemplazó un camino de re-renderizado O(n²) por una búsqueda O(1).",
+          "Migró la persistencia de AsyncStorage a MMKV; dividió un contexto monolítico en contexts específicos por dominio.",
+          "Construyó el Asistente de IA integrado: respuestas por etapas transmitidas vía ActionCable (pensando/respuesta), inyección de contexto de tickets y documentos, seguimiento de estado de indexación de IA, y limitación por nivel de uso con flujo de actualización."
+        ]
+      },
+      {
+        "role": "Desarrollador React Native — Index Group",
+        "period": "Nov 2021 — Ago 2024",
+        "meta": "Presencial (Ismailia, Egipto) · E-commerce y logística",
+        "bullets": [
+          "Redujo los tiempos de respuesta de la API en un 40% bajo cargas pesadas mediante la optimización de estrategias de obtención de datos.",
+          "Diseñó una estructura de carpetas modular que redujo el tiempo de mantenimiento de código en un 30%.",
+          "Integró notificaciones push, deep linking, Universal Links y funcionalidad de chat en aplicaciones de producción."
+        ]
+      },
+      {
+        "role": "Desarrollador de aplicaciones Windows — Micro Arabs",
+        "period": "Ago 2020 — Nov 2021",
+        "meta": "Remoto (Irak) · Sistemas de escritorio empresariales",
+        "bullets": [
+          "Desarrolló aplicaciones de escritorio empresariales con C#, WinForms y DevExpress.",
+          "Optimizó consultas de SQL Server e integró comunicación en tiempo real mediante RestSharp y Twilio."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "heading": "Habilidades",
+    "subheading": "Lo que uso día a día.",
+    "groups": [
+      { "title": "Framework principal y lenguajes" },
+      { "title": "New Architecture y nativo" },
+      { "title": "Empaquetado nativo" },
+      { "title": "UI, navegación y listas" },
+      { "title": "Gestión de estado" },
+      { "title": "Datos y tiempo real" },
+      { "title": "Almacenamiento y seguridad" },
+      { "title": "Pruebas y rendimiento" },
+      { "title": "DevOps y release" },
+      { "title": "Cloud y backend" },
+      { "title": "Herramientas y desarrollo asistido por IA" },
+      { "title": "Localización" },
+      { "title": "Formas de trabajo" },
+      { "title": "Integración multi-dispositivo", "desc": "Cómodo expandiendo aplicaciones React Native a Smart TV y Wearables usando forks de plataforma (react-native-tvos), controles de foco, y arquitectura de puente nativo / app complementaria para watchOS y Wear OS." },
+      { "title": "Adicional", "desc": "Familiarizado con los fundamentos de React.js y Next.js (arquitectura de componentes, renderizado del lado del servidor, hooks, gestión de estado) gracias a mi experiencia en React Native — abierto a roles web. Este mismo portafolio está construido con React." }
+    ]
+  },
+  "contact": {
+    "heading": "Construyamos algo.",
+    "subheading": "Abierto a roles de React Native senior — remoto, con base en El Cairo, o dispuesto a reubicarme.",
+    "resumeLabel": "Mi currículum ↗",
+    "footnote": "Diseñado y construido por mí — React, TypeScript, CSS puro, desplegado en Vercel. Sin plantilla."
+  }
+}

@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 
@@ -6,6 +7,7 @@ const TOTAL = 128;
 const TARGET_COV = 94;
 
 export default function TestingDemo() {
+  const { t } = useTranslation();
   const [count, setCount] = useState(0);
   const [cov, setCov] = useState(0);
   const [done, setDone] = useState(false);
@@ -32,15 +34,15 @@ export default function TestingDemo() {
 
   return (
     <DemoPanel
-      desc="1,500+ commits across 200+ tickets at PlanRadar, guarded by a 3,500+ test suite in GitLab CI/CD. Run a sample suite."
-      note="// CI blocks merge on red tests — coverage gate keeps refactors safe across 200+ tickets."
+      desc={t('demoText.testing.desc')}
+      note={t('demoText.testing.note')}
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={run}>Run suite</button>
+        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={run}>{t('demoUI.testing.runButton')}</button>
         <div className="render-counter" style={{ marginTop: 0 }}>
-          <span>Tests: <b>{count}</b>/{TOTAL}</span>
-          <span>Coverage: <b>{cov}</b>%</span>
-          {done && <span><b style={{ color: '#7FBF8F' }}>✓ all green</b></span>}
+          <span>{t('demoUI.testing.testsLabel')} <b>{count}</b>/{TOTAL}</span>
+          <span>{t('demoUI.testing.coverageLabel')} <b>{cov}</b>%</span>
+          {done && <span><b style={{ color: '#7FBF8F' }}>{t('demoUI.testing.allGreen')}</b></span>}
         </div>
       </div>
       <CodeTabs

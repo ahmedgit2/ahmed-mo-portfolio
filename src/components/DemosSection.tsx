@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useReveal } from '../hooks/useReveal';
-import { DEMO_LIST } from '../sharedComponents/registry';
+import { DEMO_IDS, type DemoId } from '../sharedComponents/registry';
 import ListPerfDemo from '../demos/ListPerfDemo';
 import StorageDemo from '../demos/StorageDemo';
 import SyncDemo from '../demos/SyncDemo';
@@ -17,8 +18,9 @@ import OtaDemo from '../demos/OtaDemo';
 import TvDemo from '../demos/TvDemo';
 import WearablesDemo from '../demos/WearablesDemo';
 import AiAssistantDemo from '../demos/AiAssistantDemo';
+import GestureDemo from '../demos/GestureDemo';
 
-const DEMO_COMPONENTS: Record<string, React.ComponentType> = {
+const DEMO_COMPONENTS: Record<DemoId, React.ComponentType> = {
   list: ListPerfDemo,
   storage: StorageDemo,
   sync: SyncDemo,
@@ -35,12 +37,14 @@ const DEMO_COMPONENTS: Record<string, React.ComponentType> = {
   tv: TvDemo,
   wearables: WearablesDemo,
   aiassistant: AiAssistantDemo,
+  gesture: GestureDemo,
 };
 
 const DESKTOP_BREAKPOINT = 820; // matches .demos-layout single-column breakpoint in demos.css
 
 export default function DemosSection() {
-  const [activeId, setActiveId] = useState(DEMO_LIST[0].id);
+  const { t } = useTranslation();
+  const [activeId, setActiveId] = useState<DemoId>(DEMO_IDS[0]);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [panelHeight, setPanelHeight] = useState<number | undefined>(undefined);
   const ActiveDemo = DEMO_COMPONENTS[activeId];
@@ -74,21 +78,21 @@ export default function DemosSection() {
     <section id="demos">
       <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={revealRef}>
         <div className="sec-head">
-          <h2>Skill Demos</h2>
-          <p className="sec-sub">Live, interactive — not screenshots. Each one maps to real work from my experience.</p>
+          <h2>{t('demos.heading')}</h2>
+          <p className="sec-sub">{t('demos.subheading')}</p>
         </div>
 
         <div className="demos-layout">
           <div className="demo-sidebar" role="tablist" aria-orientation="vertical" ref={sidebarRef}>
-            {DEMO_LIST.map((d) => (
+            {DEMO_IDS.map((id) => (
               <button
-                key={d.id}
-                className={'demo-sidebar-btn' + (activeId === d.id ? ' active' : '')}
+                key={id}
+                className={'demo-sidebar-btn' + (activeId === id ? ' active' : '')}
                 role="tab"
-                aria-selected={activeId === d.id}
-                onClick={() => setActiveId(d.id)}
+                aria-selected={activeId === id}
+                onClick={() => setActiveId(id)}
               >
-                {d.label}
+                {t(`demos.labels.${id}`)}
               </button>
             ))}
           </div>

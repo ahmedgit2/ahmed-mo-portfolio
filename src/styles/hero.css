@@ -9,16 +9,26 @@ h1 { font-family: var(--mono); font-weight: 700; font-size: clamp(34px, 5.4vw, 5
 b.accent { font-weight: 600; }
 .tagline { font-size: 17px; color: var(--muted); max-width: 900px; margin-top: 22px; line-height: 1.75; }
 
-/* Architecture layer diagram — for technical readers */
-.stack { margin-top: 48px; border: 1px solid var(--line); border-radius: 4px; background: var(--panel); overflow: hidden; position: relative; }
-.stack-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted); padding: 12px 18px; border-bottom: 1px solid var(--line); text-transform: uppercase; }
-.layer { display: flex; align-items: center; justify-content: space-between; padding: 18px 22px; border-bottom: 1px solid var(--line); position: relative; border-left: 2px solid transparent; }
-.layer:last-child { border-bottom: none; }
-.layer:hover { border-left-color: var(--copper); background: rgba(198, 119, 61, 0.05); }
-.layer-name { font-family: var(--mono); font-size: 14px; font-weight: 600; }
-.layer-tag { font-family: var(--mono); font-size: 11px; color: var(--muted); }
-.layer-detail { font-size: 12px; color: var(--muted); margin-top: 4px; max-width: 44ch; }
+/* Architecture layer diagram — for technical readers.
+   A card grid instead of one dense bordered list — breaks the content into
+   scannable chunks instead of one heavy block, no background-tint hover. */
+.stack { margin-top: 48px; }
+.stack-label {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--muted);
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.layer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); grid-auto-rows: 1fr; gap: 10px; }
+.layer {
+  display: flex; flex-direction: column;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px 18px;
+}
+.layer-name { font-family: var(--mono); font-size: 13px; font-weight: 600; }
+.layer-detail {
+  font-size: 12px; color: var(--muted); margin-top: 6px; line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.layer-tag { display: block; font-family: var(--mono); font-size: 10.5px; color: var(--copper); margin-top: auto; padding-top: 10px; }
 
 @media (max-width: 640px) {
-  .layer { padding: 14px 18px; }
+  .layer { padding: 14px 16px; }
 }

@@ -1,18 +1,19 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import BridgeLog from '../sharedComponents/BridgeLog';
 import type { LogLine } from '../sharedComponents/useStagedLog';
 
-const TV_LABELS = ['Home', 'Search', 'Library', 'Live', 'Settings', 'Profile', 'Downloads', 'Guide', 'Exit'];
-
 export default function TvDemo() {
+  const { t } = useTranslation();
+  const TV_LABELS = t('demoUI.tv.labels', { returnObjects: true }) as string[];
   const [focus, setFocus] = useState(4); // center tile starts focused
   const [log, setLog] = useState<LogLine | null>(null);
 
   function move(dir: 'up' | 'down' | 'left' | 'right' | 'ok') {
     if (dir === 'ok') {
-      setLog({ text: `✓ onFocus → onPress fired on "${TV_LABELS[focus]}"`, kind: 'ok' });
+      setLog({ text: t('demoUI.tv.onFocusFired', { label: TV_LABELS[focus] }), kind: 'ok' });
       return;
     }
     const row = Math.floor(focus / 3);
@@ -23,13 +24,13 @@ export default function TvDemo() {
     if (dir === 'left' && col > 0) next -= 1;
     if (dir === 'right' && col < 2) next += 1;
     setFocus(next);
-    setLog({ text: `→ TVEventHandler: focus moved to "${TV_LABELS[next]}"`, kind: 'cur' });
+    setLog({ text: t('demoUI.tv.focusMoved', { label: TV_LABELS[next] }), kind: 'cur' });
   }
 
   return (
     <DemoPanel
-      desc="Extending React Native to Smart TV — tvOS and Android TV via react-native-tvos — swaps touch for D-pad focus navigation. No shipped production app yet — architecture below is how I'd approach it."
-      note="// Same component model, different input system — focus/spatial nav replaces touch gestures."
+      desc={t('demoText.tv.desc')}
+      note={t('demoText.tv.note')}
     >
       <div className="demo-box">
         <div className="tv-grid">
@@ -40,11 +41,11 @@ export default function TvDemo() {
         <div className="dpad">
           <span className="empty" /><button className="btn btn-ghost" onClick={() => move('up')}>▲</button><span className="empty" />
           <button className="btn btn-ghost" onClick={() => move('left')}>◀</button>
-          <button className="btn btn-ghost" onClick={() => move('ok')}>OK</button>
+          <button className="btn btn-ghost" onClick={() => move('ok')}>{t('demoUI.tv.okButton')}</button>
           <button className="btn btn-ghost" onClick={() => move('right')}>▶</button>
           <span className="empty" /><button className="btn btn-ghost" onClick={() => move('down')}>▼</button><span className="empty" />
         </div>
-        <BridgeLog lines={log ? [log] : []} placeholder="Use the D-pad to move focus →" />
+        <BridgeLog lines={log ? [log] : []} placeholder={t('demoUI.tv.placeholder')} />
       </div>
       <CodeTabs
         files={[

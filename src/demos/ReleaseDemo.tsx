@@ -1,19 +1,26 @@
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import PipelineSteps, { usePipeline } from '../sharedComponents/PipelineSteps';
 import CodeTabs from '../sharedComponents/CodeTabs';
 
-const STEPS = ['Bump version → 4.12.0', 'Build XCFramework (iOS)', 'Build AAR (Android)', 'Publish to internal registry', 'Native teams consume via SPM/Gradle'];
-
 export default function ReleaseDemo() {
+  const { t } = useTranslation();
+  const STEPS = [
+    t('demoUI.release.step1'),
+    t('demoUI.release.step2'),
+    t('demoUI.release.step3'),
+    t('demoUI.release.step4'),
+    t('demoUI.release.step5'),
+  ];
   const { states, run } = usePipeline(STEPS, 550);
 
   return (
     <DemoPanel
-      desc="Co-architected RN's packaging as a versioned native binary (XCFramework + AAR) — decoupling the RN layer from native host apps, no Node/Yarn toolchain required for native teams."
-      note="// Native teams bump one version string — no RN toolchain install, no Metro, no Yarn."
+      desc={t('demoText.release.desc')}
+      note={t('demoText.release.note')}
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 16 }} onClick={run}>Cut release v4.12.0</button>
+        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 16 }} onClick={run}>{t('demoUI.release.runButton')}</button>
         <PipelineSteps steps={STEPS} states={states} />
       </div>
       <CodeTabs

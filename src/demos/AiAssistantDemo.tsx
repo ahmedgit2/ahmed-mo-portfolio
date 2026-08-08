@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 
@@ -9,37 +10,31 @@ type ChatMessage =
 
 type PromptKey = 'overdue' | 'summary' | 'similar';
 
-const PROMPTS: Record<PromptKey, { question: string; answerHtml: string; label: string }> = {
-  overdue: {
-    label: 'Overdue tickets',
-    question: 'Show me overdue tickets on this project',
-    answerHtml:
-      'Found <b>3 overdue tickets</b> on this project, all assigned to you.' +
-      '<div class="chat-ticket-chip">🎫 TICKET-4821 · Roof leak, west wing</div>',
-  },
-  summary: {
-    label: 'Summarize this project',
-    question: 'Summarize this project',
-    answerHtml:
-      '<b>West Tower Renovation</b> — 42 tickets total, 34 resolved, 8 open. ' +
-      '2 documents pending review, on track for the March 15 milestone.' +
-      '<div class="chat-ticket-chip">📄 site-inspection-report.pdf</div>',
-  },
-  similar: {
-    label: 'Find similar past issues',
-    question: 'Find similar past issues',
-    answerHtml:
-      'Found <b>2 similar issues</b> from past projects — same root cause (flashing gap).' +
-      '<div class="chat-ticket-chip">🎫 TICKET-2210 · East wing, resolved</div>',
-  },
-};
-
 const MAX_USAGE = 50;
 
 export default function AiAssistantDemo() {
+  const { t } = useTranslation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [busy, setBusy] = useState(false);
   const [usage, setUsage] = useState(12);
+
+  const PROMPTS: Record<PromptKey, { question: string; answerHtml: string; label: string }> = {
+    overdue: {
+      label: t('demoUI.aiassistant.overdueLabel'),
+      question: t('demoUI.aiassistant.overdueQuestion'),
+      answerHtml: t('demoUI.aiassistant.overdueAnswer'),
+    },
+    summary: {
+      label: t('demoUI.aiassistant.summaryLabel'),
+      question: t('demoUI.aiassistant.summaryQuestion'),
+      answerHtml: t('demoUI.aiassistant.summaryAnswer'),
+    },
+    similar: {
+      label: t('demoUI.aiassistant.similarLabel'),
+      question: t('demoUI.aiassistant.similarQuestion'),
+      answerHtml: t('demoUI.aiassistant.similarAnswer'),
+    },
+  };
 
   function ask(key: PromptKey) {
     if (busy) return;
@@ -55,13 +50,13 @@ export default function AiAssistantDemo() {
 
   return (
     <DemoPanel
-      desc="PlanRadar's in-app AI Assistant — I built the RN client: WebSocket-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Architecture below, renamed from the real implementation. Pick a prompt below."
-      note="// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working."
+      desc={t('demoText.aiassistant.desc')}
+      note={t('demoText.aiassistant.note')}
     >
       <div className="demo-box">
         <div className="chat-box">
           {messages.length === 0 && (
-            <div className="chat-msg ai" style={{ opacity: 0.7 }}>Ask me about this project — try a prompt below.</div>
+            <div className="chat-msg ai" style={{ opacity: 0.7 }}>{t('demoUI.aiassistant.emptyState')}</div>
           )}
           {messages.map((m, i) => {
             if (m.role === 'user') return <div className="chat-msg user" key={i}>{m.text}</div>;
@@ -89,7 +84,7 @@ export default function AiAssistantDemo() {
           ))}
         </div>
         <div className="ai-usage-bar"><div className="ai-usage-fill" style={{ width: `${Math.round((usage / MAX_USAGE) * 100)}%` }} /></div>
-        <div className="ai-usage-label">{usage} / {MAX_USAGE} messages this cycle</div>
+        <div className="ai-usage-label">{t('demoUI.aiassistant.usageLabel', { usage, max: MAX_USAGE })}</div>
       </div>
       <CodeTabs
         files={[

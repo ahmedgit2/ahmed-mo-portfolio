@@ -1,27 +1,29 @@
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import BridgeLog from '../sharedComponents/BridgeLog';
 import { useStagedLog, type LogLine } from '../sharedComponents/useStagedLog';
 
-const STEPS: LogLine[] = [
-  { text: 'Old bridge: serialize args → JSON', kind: 'cur' },
-  { text: 'Old bridge: queue → native thread → deserialize', kind: 'cur' },
-  { text: 'Old bridge: result ≈ 40ms round trip', kind: 'cur' },
-  { text: 'JSI: direct call, no queue, no serialize', kind: 'cur' },
-  { text: 'JSI: result ≈ 0.6ms round trip ✓', kind: 'ok' },
-];
-
 export default function NewArchDemo() {
+  const { t } = useTranslation();
   const { lines, run } = useStagedLog(450);
+
+  const STEPS: LogLine[] = [
+    { text: t('demoUI.newarch.step1'), kind: 'cur' },
+    { text: t('demoUI.newarch.step2'), kind: 'cur' },
+    { text: t('demoUI.newarch.step3'), kind: 'cur' },
+    { text: t('demoUI.newarch.step4'), kind: 'cur' },
+    { text: t('demoUI.newarch.step5'), kind: 'ok' },
+  ];
 
   return (
     <DemoPanel
-      desc="Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare."
-      note="// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip."
+      desc={t('demoText.newarch.desc')}
+      note={t('demoText.newarch.note')}
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={() => run(STEPS)}>Call native module: getScannerState()</button>
-        <BridgeLog lines={lines} placeholder="Run it on the old bridge, then on JSI →" minHeight={STEPS.length * 23} />
+        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={() => run(STEPS)}>{t('demoUI.newarch.runButton')}</button>
+        <BridgeLog lines={lines} placeholder={t('demoUI.newarch.placeholder')} minHeight={STEPS.length * 23} />
       </div>
       <CodeTabs
         files={[

@@ -1,47 +1,49 @@
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import BridgeLog from '../sharedComponents/BridgeLog';
 import { useStagedLog, type LogLine } from '../sharedComponents/useStagedLog';
 
-const FLOWS: Record<'send' | 'receive', { label: string; steps: LogLine[] }> = {
-  send: {
-    label: 'Send status to watch',
-    steps: [
-      { text: 'RN: WCSession.sendMessage({ orderStatus: "approved" })', kind: 'cur' },
-      { text: 'watchOS: WatchConnectivity delivers message to companion app', kind: 'cur' },
-      { text: 'Wear OS: MessageClient delivers to companion app (Android path)', kind: 'cur' },
-      { text: '✓ Watch face updated — no round trip through the phone UI', kind: 'ok' },
-    ],
-  },
-  receive: {
-    label: 'Receive tap from watch',
-    steps: [
-      { text: 'Watch: user taps "Approve" complication on their wrist', kind: 'cur' },
-      { text: 'watchOS/Wear OS: companion app sends action back over the bridge', kind: 'cur' },
-      { text: 'RN: session.onMessage fires with { action: "approve", id }', kind: 'cur' },
-      { text: '✓ Same handler the phone UI uses — one source of truth', kind: 'ok' },
-    ],
-  },
-};
-
-// Sized to the longer flow's line count so the box never jumps between examples.
-const MAX_STEPS = Math.max(...Object.values(FLOWS).map((f) => f.steps.length));
+// Sized to the longer flow's line count (4) so the box never jumps between examples.
+const MAX_STEPS = 4;
 const LOG_MIN_HEIGHT = MAX_STEPS * 23;
 
 export default function WearablesDemo() {
+  const { t } = useTranslation();
   const { lines, run } = useStagedLog(450);
+
+  const FLOWS: Record<'send' | 'receive', { label: string; steps: LogLine[] }> = {
+    send: {
+      label: t('demoUI.wearables.sendLabel'),
+      steps: [
+        { text: t('demoUI.wearables.sendStep1'), kind: 'cur' },
+        { text: t('demoUI.wearables.sendStep2'), kind: 'cur' },
+        { text: t('demoUI.wearables.sendStep3'), kind: 'cur' },
+        { text: t('demoUI.wearables.sendStep4'), kind: 'ok' },
+      ],
+    },
+    receive: {
+      label: t('demoUI.wearables.receiveLabel'),
+      steps: [
+        { text: t('demoUI.wearables.receiveStep1'), kind: 'cur' },
+        { text: t('demoUI.wearables.receiveStep2'), kind: 'cur' },
+        { text: t('demoUI.wearables.receiveStep3'), kind: 'cur' },
+        { text: t('demoUI.wearables.receiveStep4'), kind: 'ok' },
+      ],
+    },
+  };
 
   return (
     <DemoPanel
-      desc="Wearables (watchOS, Wear OS) pair over a native companion bridge, not a shrunk-down RN screen — both directions. No shipped production app yet — architecture below is how I'd approach it."
-      note="// The bridge is native-to-native — RN only sends/receives the payload, the watch app renders it."
+      desc={t('demoText.wearables.desc')}
+      note={t('demoText.wearables.note')}
     >
       <div className="demo-box" style={{ alignSelf: 'stretch' }}>
         <div className="cta-row" style={{ marginTop: 0, marginBottom: 14 }}>
           <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run(FLOWS.send.steps)}>{FLOWS.send.label}</button>
           <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => run(FLOWS.receive.steps)}>{FLOWS.receive.label}</button>
         </div>
-        <BridgeLog lines={lines} placeholder="Simulates the native companion bridge, either direction →" minHeight={LOG_MIN_HEIGHT} />
+        <BridgeLog lines={lines} placeholder={t('demoUI.wearables.placeholder')} minHeight={LOG_MIN_HEIGHT} />
       </div>
       <CodeTabs
         files={[

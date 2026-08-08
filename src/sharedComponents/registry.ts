@@ -1,23 +1,28 @@
-export type DemoMeta = {
-  id: string;
-  label: string;
-};
+// Order of the demo sidebar. Labels live in the i18n translation files
+// (demos.labels.<id>) so the sidebar stays localized.
+//
+// Ordered deliberately, not alphabetically: lead with the two most visually
+// striking demos to hook attention, then group by theme (core RN skills →
+// data layer → architecture → navigation → engagement → i18n → release
+// tooling), ending with the experimental no-shipped-app demos.
+export const DEMO_IDS = [
+  'gesture',
+  'aiassistant',
+  'list',
+  'anim',
+  'sync',
+  'storage',
+  'newarch',
+  'deeplink',
+  'ulink',
+  'push',
+  'i18n',
+  'cicd',
+  'release',
+  'testing',
+  'ota',
+  'tv',
+  'wearables',
+] as const;
 
-export const DEMO_LIST: DemoMeta[] = [
-  { id: 'list', label: 'List Perf' },
-  { id: 'storage', label: 'Offline Storage' },
-  { id: 'sync', label: 'Offline-First Sync' },
-  { id: 'anim', label: 'Animations' },
-  { id: 'deeplink', label: 'Deep Linking' },
-  { id: 'ulink', label: 'Universal Links' },
-  { id: 'push', label: 'Push Notifications' },
-  { id: 'cicd', label: 'CI/CD Pipeline' },
-  { id: 'i18n', label: 'Localization' },
-  { id: 'newarch', label: 'New Architecture' },
-  { id: 'release', label: 'Native Binary Release' },
-  { id: 'testing', label: 'Test Suite' },
-  { id: 'ota', label: 'CodePush OTA' },
-  { id: 'tv', label: 'Smart TV' },
-  { id: 'wearables', label: 'Wearables' },
-  { id: 'aiassistant', label: 'AI Assistant' },
-];
+export type DemoId = (typeof DEMO_IDS)[number];

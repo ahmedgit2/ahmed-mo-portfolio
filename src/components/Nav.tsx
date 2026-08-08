@@ -1,25 +1,26 @@
+import { useTranslation } from 'react-i18next';
 import { useScrollSpy } from '../hooks/useScrollSpy';
+import LanguageSwitcher from '../sharedComponents/LanguageSwitcher';
 
-const SECTIONS = [
-  { id: 'work', label: 'Work' },
-  { id: 'demos', label: 'Demos' },
-  { id: 'experience', label: 'Experience' },
-  { id: 'contact', label: 'Contact' },
-];
+const SECTION_IDS = ['work', 'demos', 'experience', 'contact'] as const;
 
 export default function Nav() {
-  const activeId = useScrollSpy(SECTIONS.map((s) => s.id));
+  const { t } = useTranslation();
+  const activeId = useScrollSpy([...SECTION_IDS]);
 
   return (
     <nav>
       <div className="wrap">
         <div className="brand">AHMED<span>.</span>MOHAMED</div>
-        <div className="links">
-          {SECTIONS.map((s) => (
-            <a key={s.id} href={`#${s.id}`} className={activeId === s.id ? 'active' : ''}>
-              {s.label}
-            </a>
-          ))}
+        <div className="nav-right">
+          <div className="links">
+            {SECTION_IDS.map((id) => (
+              <a key={id} href={`#${id}`} className={activeId === id ? 'active' : ''}>
+                {t(`nav.${id}`)}
+              </a>
+            ))}
+          </div>
+          <LanguageSwitcher />
         </div>
       </div>
     </nav>

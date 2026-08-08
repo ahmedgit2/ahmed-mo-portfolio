@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import InteractiveList from '../sharedComponents/InteractiveList';
 
-const ITEMS = Array.from({ length: 14 }, (_, i) => `Task item #${i + 1}`);
-
 export default function ListPerfDemo() {
+  const { t } = useTranslation();
+  const ITEMS = Array.from({ length: 14 }, (_, i) => t('demoUI.list.taskItem', { n: i + 1 }));
   const [selected, setSelected] = useState(0);
   const [oldCount, setOldCount] = useState(0);
 
@@ -15,10 +16,7 @@ export default function ListPerfDemo() {
   }
 
   return (
-    <DemoPanel
-      desc="At PlanRadar, selecting a row in a large list re-rendered every row via array-identity comparison — O(n²). I swapped it for a Set-membership lookup, so only the touched row re-renders. Click rows below."
-      note="// Old: full list re-renders on every selection. New: only the touched row updates."
-    >
+    <DemoPanel desc={t('demoText.list.desc')} note={t('demoText.list.note')}>
       <div className="demo-box">
         <InteractiveList
           items={ITEMS}
@@ -27,8 +25,8 @@ export default function ListPerfDemo() {
           renderLabel={(label) => label}
         />
         <div className="render-counter">
-          <span>Old: <b>{oldCount}</b></span>
-          <span>New: <b>1</b></span>
+          <span>{t('common.old')}: <b>{oldCount}</b></span>
+          <span>{t('common.new')}: <b>1</b></span>
         </div>
       </div>
       <CodeTabs

@@ -1,8 +1,10 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 
 export default function PushDemo() {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
 
   function trigger() {
@@ -13,16 +15,16 @@ export default function PushDemo() {
 
   return (
     <DemoPanel
-      desc="Push notifications via FCM, wired to deep links so tapping one routes straight to the relevant screen."
-      note="// getInitialNotification() covers the cold-start case FCM's foreground handler misses."
+      desc={t('demoText.push.desc')}
+      note={t('demoText.push.note')}
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={trigger}>Simulate incoming push</button>
+        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={trigger}>{t('demoUI.push.triggerButton')}</button>
         <div className={'notif-toast' + (show ? ' show' : '')}>
           <div className="notif-dot" />
           <div>
-            <div className="notif-title">New order assigned</div>
-            <div className="notif-body">Order #8842 is ready for pickup — tap to view.</div>
+            <div className="notif-title">{t('demoUI.push.notifTitle')}</div>
+            <div className="notif-body">{t('demoUI.push.notifBody')}</div>
           </div>
         </div>
       </div>

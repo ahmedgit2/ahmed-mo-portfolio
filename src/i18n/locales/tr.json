@@ -1,0 +1,161 @@
+{
+  "nav": { "work": "Projeler", "demos": "Demolar", "experience": "Deneyim", "contact": "İletişim" },
+  "common": { "old": "Eski", "new": "Yeni" },
+  "demoText": {
+    "list": { "desc": "PlanRadar'da, büyük bir listede bir satırı seçmek, array-identity karşılaştırması nedeniyle her satırı yeniden render ediyordu — O(n²). Bunu bir Set-üyelik aramasıyla değiştirdim, böylece yalnızca dokunulan satır yeniden render edilir. Aşağıdaki satırlara tıklayın.", "note": "// Eski: her seçimde tüm liste yeniden render olur. Yeni: yalnızca dokunulan satır güncellenir." },
+    "storage": { "desc": "PlanRadar'ın kalıcılığını AsyncStorage'dan MMKV'ye taşıdım — senkron, şifreli, daha hızlı okumalar.", "note": "// MMKV yazmaları senkrondur — await yok, okumada titreme yok." },
+    "sync": { "desc": "PlanRadar'ın temel modüllerinden biri offline-first ve WebSocket üzerinden gerçek zamanlıdır — işlemler çevrimdışıyken kuyruğa alınır ve yeniden bağlanınca gönderilir. Aşağıda çevrimdışını açıp değişiklik yapın.", "note": "// Kuyruğa alınan işlemler soket yeniden bağlandığında sırayla gönderilir." },
+    "anim": { "desc": "Reanimated / Animated API, PlanRadar'da modal ve navigasyon geçişlerini yönetir. Aşağıda iki örnek.", "note": "// Reanimated worklet'leri UI thread'inde çalışır — yük altında JS thread takılması olmaz." },
+    "deeplink": { "desc": "Index Group'ta, bildirimler ve paylaşılan bağlantılar uygulamayı doğrudan belirli bir sipariş veya sürücü ekranında açıyordu.", "note": "// Eşleşmeyen yollar, navigator'ı çökertmek yerine varsayılan bir rotaya döner." },
+    "ulink": { "desc": "Universal Links (iOS) ve App Links (Android), özel şema istemini tamamen atlar — gerçek bir https:// bağlantısı, yüklüyse uygulamayı doğrudan açar, değilse web sayfasını açar.", "note": "// Yüklü uygulama yoksa → aynı URL bunun yerine mobil web yedeğini açar." },
+    "push": { "desc": "FCM üzerinden push bildirimleri, dokunulduğunda doğrudan ilgili ekrana yönlendirmek için deep link'lere bağlı.", "note": "// getInitialNotification(), FCM'nin foreground handler'ının kaçırdığı cold start durumunu kapsar." },
+    "cicd": { "desc": "PlanRadar ve Index Group'ta tam release sorumluluğu — GitLab CI/CD, EAS Build, TestFlight ve Play Console. Aşağıdaki pipeline'ı çalıştırın.", "note": "// Her iki uygulamada da aynı pipeline yapısı: test → build → submit, yeşil testlerle koşullu." },
+    "i18n": { "desc": "i18next ve react-native-localize aracılığıyla çoklu dil desteği, Arapça için RTL dahil.", "note": "// react-native-localize cihaz dilini algılar; I18nManager layout yönünü tersine çevirir." },
+    "newarch": { "desc": "PlanRadar'ın React Native 0.85'e göçünü yönetti — Hermes + New Architecture. JSI, eski asenkron, JSON serileştirilmiş köprüyü doğrudan senkron native çağrılarla değiştirir. Karşılaştırmak için tıklayın.", "note": "// JSI, JS'ye native nesnelere doğrudan bir referans verir — serileştirme/kuyruklama/serileştirmeyi geri alma gidiş-dönüşü yok." },
+    "release": { "desc": "RN'nin paketlenmesinin sürümlenmiş bir native binary (XCFramework + AAR) olarak mimarisinde ortak rol aldı — RN katmanını native host uygulamalarından ayırarak, native ekipler için Node/Yarn araç zinciri ihtiyacını ortadan kaldırdı.", "note": "// Native ekipler sadece bir sürüm dizesini artırır — RN araç zinciri kurulumu yok, Metro yok, Yarn yok." },
+    "testing": { "desc": "PlanRadar'da 200'den fazla bilette 1.500'den fazla commit, GitLab CI/CD'de 3.500'den fazla testlik bir paketle korunuyor. Örnek bir paket çalıştırın.", "note": "// CI, kırmızı testlerde birleştirmeyi engeller — kapsama eşiği, 200+ bilette refactor'ları güvenli tutar." },
+    "ota": { "desc": "Index Group'ta CodePush OTA teslimatı — app store inceleme döngüsü olmadan, aşamalı ve geri alınabilir şekilde JS/asset güncellemeleri gönderme.", "note": "// Herhangi bir aşamada kötü bir bundle → rollback, cihazları bilinen en son iyi sürüme geri döndürür." },
+    "tv": { "desc": "React Native'i Akıllı TV'ye genişletme — react-native-tvos aracılığıyla tvOS ve Android TV — dokunmayı D-pad odak navigasyonuyla değiştirir. Henüz yayınlanmış bir üretim uygulaması yok — aşağıdaki mimari bunu nasıl ele alacağımı gösteriyor.", "note": "// Aynı bileşen modeli, farklı giriş sistemi — odak/uzamsal navigasyon dokunma hareketlerinin yerini alır." },
+    "wearables": { "desc": "Giyilebilirler (watchOS, Wear OS), küçültülmüş bir RN ekranı değil, native bir companion köprü üzerinden eşleşir — her iki yönde de. Henüz yayınlanmış bir üretim uygulaması yok — aşağıdaki mimari bunu nasıl ele alacağımı gösteriyor.", "note": "// Köprü native-native'dir — RN yalnızca payload'ı gönderir/alır, watch uygulaması onu render eder." },
+    "aiassistant": { "desc": "PlanRadar'ın uygulama içi Yapay Zeka Asistanı — RN istemcisini oluşturdum: WebSocket üzerinden akan aşamalı yanıtlar (düşünme → yanıt), bilet/doküman bağlam ekleri, ve kullanım seviyesi sınırlaması. Aşağıdaki mimari, gerçek uygulamaya göre yeniden adlandırıldı. Bir prompt seçin.", "note": "// Polling değil, WebSocket üzerinden akış — model hâlâ çalışırken düşünme aşaması render edilir." },
+    "gesture": { "desc": "Fizik tabanlı bir kaydırma yığını — spring dönüşü, hıza duyarlı flick-to-dismiss, ve rubber-band rotasyonu. Ön kartı sürükleyin.", "note": "// Sürükleme sırasında doğrudan DOM manipülasyonu, React state yalnızca bırakıldığında dokunulur — frame başına yeniden render yok." }
+  },
+  "demoUI": {
+    "list": { "taskItem": "Görev #{{n}}" },
+    "storage": { "keyPlaceholder": "anahtar", "valuePlaceholder": "değer", "setButton": "Ayarla", "noKeysYet": "henüz anahtar yok", "emptyValue": "(boş)" },
+    "sync": { "online": "Çevrimiçi", "offline": "Çevrimdışı", "queuedBadge": "{{count}} sırada", "approveButton": "Öğeyi onayla", "logPlaceholder": "İşlemler burada görünecek →", "logReconnected": "↺ Yeniden bağlanıldı — {{count}} sıradaki işlem gönderiliyor...", "logSent": "✓ WebSocket üzerinden gönderildi — anında onaylandı", "logQueued": "⏸ Çevrimdışı — işlem sıraya alındı ({{count}})" },
+    "anim": { "slideButton": "Kaydırma geçişi", "popTitle": "Belge onaylandı", "popSubtitle": "Spring pop-in, modal onayı gibi.", "springButton": "Spring pop-in" },
+    "deeplink": { "pickLink": "Çözümlemek için bir bağlantı seçin →", "linkOrder": "→ OrderDetails'e çözümlenir, orderId: 8842", "linkDriver": "→ DriverProfile'a çözümlenir, driverId: 119", "linkUnknown": "→ eşleşme yok — getStateFromPath Home'a döner" },
+    "ulink": { "openButton": "https://geet.app/order/8842 aç", "placeholder": "iOS'in bağlantıyı nasıl çözümlediğini simüle eder →", "step1": "iOS: kullanıcı https://geet.app/order/8842 adresine dokunur", "step2": "Sistem geet.app üzerinde apple-app-site-association'ı kontrol eder", "step3": "App ID yüklü uygulamayla eşleşir → Safari'ye gitmeden doğrudan native açılır", "step4": "RN linking yapılandırması OrderDetails'e çözümlenir, orderId: 8842 ✓" },
+    "push": { "triggerButton": "Gelen push bildirimini simüle et", "notifTitle": "Yeni sipariş atandı", "notifBody": "Sipariş #8842 teslim almaya hazır — görüntülemek için dokunun." },
+    "cicd": { "runButton": "Pipeline'ı çalıştır", "step1": "Bağımlılıkları yükle", "step2": "Testleri çalıştır (Jest)", "step3": "EAS Build (iOS + Android)", "step4": "Gönder → TestFlight", "step5": "Gönder → Play Console" },
+    "newarch": { "runButton": "Native modülü çağır: getScannerState()", "placeholder": "Önce eski köprüde, sonra JSI'da çalıştırın →", "step1": "Eski köprü: argümanları serileştir → JSON", "step2": "Eski köprü: kuyruk → native thread → serileştirmeyi geri al", "step3": "Eski köprü: sonuç ≈ 40ms gidiş-dönüş", "step4": "JSI: doğrudan çağrı, kuyruk yok, serileştirme yok", "step5": "JSI: sonuç ≈ 0,6ms gidiş-dönüş ✓" },
+    "release": { "runButton": "v4.12.0 sürümünü kes", "step1": "Sürümü artır → 4.12.0", "step2": "XCFramework derle (iOS)", "step3": "AAR derle (Android)", "step4": "Dahili kayıt defterine yayımla", "step5": "Native ekipler SPM/Gradle üzerinden tüketir" },
+    "testing": { "runButton": "Paketi çalıştır", "testsLabel": "Testler:", "coverageLabel": "Kapsam:", "allGreen": "✓ hepsi yeşil" },
+    "ota": { "stageButton": "Aşama %{{pct}}", "rollbackButton": "Geri al", "placeholder": "Bir dağıtım aşaması seçin →", "bundlePushed": "⇪ Bundle v2.3.1 cihazların %{{pct}}'ine gönderildi — çökme oranı izleniyor...", "rolloutComplete": "✓ Dağıtım tamamlandı, çökme artışı tespit edilmedi", "rolledBack": "↩ Geri alındı — cihazlar bilinen en son iyi sürüme döndürüldü" },
+    "tv": { "placeholder": "Odağı taşımak için D-pad'i kullanın →", "okButton": "Tamam", "onFocusFired": "✓ onFocus → onPress \"{{label}}\" üzerinde tetiklendi", "focusMoved": "→ TVEventHandler: odak \"{{label}}\" konumuna taşındı", "labels": ["Ana Sayfa", "Ara", "Kitaplık", "Canlı", "Ayarlar", "Profil", "İndirilenler", "Rehber", "Çıkış"] },
+    "wearables": { "sendLabel": "Durumu saate gönder", "receiveLabel": "Saatten dokunuşu al", "placeholder": "Native companion köprüsünü, her iki yönde de simüle eder →", "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })", "sendStep2": "watchOS: WatchConnectivity mesajı companion uygulamaya iletir", "sendStep3": "Wear OS: MessageClient companion uygulamaya iletir (Android yolu)", "sendStep4": "✓ Kadran güncellendi — telefon arayüzü üzerinden gidiş-dönüş yok", "receiveStep1": "Saat: kullanıcı bileğindeki \"Onayla\" komplikasyonuna dokunur", "receiveStep2": "watchOS/Wear OS: companion uygulama aksiyonu köprü üzerinden geri gönderir", "receiveStep3": "RN: session.onMessage { action: \"approve\", id } ile tetiklenir", "receiveStep4": "✓ Telefon arayüzünün kullandığı aynı handler — tek doğruluk kaynağı" },
+    "aiassistant": { "emptyState": "Bu proje hakkında bana soru sor — aşağıdan bir prompt dene.", "usageLabel": "Bu döngüde {{usage}} / {{max}} mesaj", "overdueLabel": "Gecikmiş biletler", "overdueQuestion": "Bu projedeki gecikmiş biletleri göster", "overdueAnswer": "Bu projede sana atanmış <b>3 gecikmiş bilet</b> bulundu.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Çatı sızıntısı, batı kanat</div>", "summaryLabel": "Bu projeyi özetle", "summaryQuestion": "Bu projeyi özetle", "summaryAnswer": "<b>West Tower Renovation</b> — toplam 42 bilet, 34 çözüldü, 8 açık. 2 belge inceleme bekliyor, 15 Mart kilometre taşı için zamanında.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>", "similarLabel": "Benzer geçmiş sorunları bul", "similarQuestion": "Benzer geçmiş sorunları bul", "similarAnswer": "Geçmiş projelerden <b>2 benzer sorun</b> bulundu — aynı kök neden (dere kenarı sızdırmazlığı).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · Doğu kanat, çözüldü</div>" },
+    "gesture": { "hint": "← çözmek için sürükle →", "card1Sub": "Çatı sızıntısı, batı kanat — onaylansın mı?", "card2Sub": "Elektrik denetimi gerekiyor", "card3Sub": "Beton dökümü planlandı", "card4Sub": "Saha fotoğrafları incelenmeli" },
+    "heroDiagramAriaLabel": "React Native mimari katmanları diyagramı: JavaScript, New Architecture köprüsü ve native binary'ler."
+  },
+  "hero": {
+    "eyebrow": "Kıdemli React Native Mühendisi · Kahire, Mısır",
+    "h1Line1": "JavaScript'in native koda",
+    "h1Pre": "dokunduğu katmanı ",
+    "h1Accent": "kuruyorum",
+    "tagline": "Kurumsal SaaS (inşaat), e-ticaret ve lojistik alanlarında üretim mobil uygulamalar geliştirmiş <0>5 yılı</0> da içeren, toplam <0>6 yıllık</0> yazılım mühendisliği deneyimine sahip kıdemli React Native geliştiricisiyim. Temel React Native'in ötesinde, <0>native iOS ve Android entegrasyonu</0> konusunda uygulamalı uzmanlık getiriyorum — Swift/Kotlin, özel native modüller, sürümlenmiş native binary'ler ve gömülü RN host mimarileri. Performans optimizasyonu, <0>New Architecture</0> benimsenmesi ve kurumsal uygulamalarda benimsenen modüler container desenleri mimarisi dahil kod tabanı standardizasyonunda uzmanım. Uzun vadeli hedefim bir <0>Team Lead</0> rolüne büyümek olan, yüksek etkili ve test destekli mobil çözümler sunuyorum.",
+    "ctaPrimary": "Canlı gör",
+    "ctaSecondary": "İletişime geç",
+    "stackLabel": "Nerede çalışıyorum",
+    "layers": [
+      { "name": "Native host uygulaması", "detail": "RN modülünü sürümlenmiş bir binary olarak barındıran iOS/Android kabuk uygulaması", "tag": "Swift · Kotlin · Xcode/Gradle" },
+      { "name": "Katmanlı Bileşen Mimarisi", "detail": "Ekranlar → HOC'ler → Hook/Helper → Bileşenler → Stiller — modallerde ve navigasyonda benimsenen standart desen", "tag": "HOC'ler · hook'lar · bileşenler · stiller" },
+      { "name": "Özellik Bazlı / Domain-Driven Yapı", "detail": "Kod türe göre değil özelliğe göre organize edilir — her domain kendi ekranlarına, hook'larına ve stillerine sahiptir, daha hızlı takım işbirliği sağlar", "tag": "domain-driven · özellik klasörleri" },
+      { "name": "Uygulama İçi Yapay Zeka Sohbeti", "detail": "Bilet navigasyonu ve filtreler için native bridge aksiyonlarıyla WebSocket üzerinden akan LLM yanıtları", "tag": "WebSocket · native bridge · LLM streaming" },
+      { "name": "Durum ve gerçek zamanlı veri", "detail": "Monolitik bir RootContext'ten ayrılan domain'e özgü context'ler; DMS modülünün offline-first senkronizasyonunu besler", "tag": "Context API · React Query · JSON:API" },
+      { "name": "New Architecture köprüsü", "detail": "Hermes + TurboModules/Fabric — serileştirme yükü olmadan senkron JS↔native çağrıları", "tag": "Fabric · TurboModules · JSI" },
+      { "name": "Native binary'ler", "detail": "Native host araç zincirlerinden ayrıştırılmış, sürümlenmiş XCFramework + AAR", "tag": "XCFramework · AAR" },
+      { "name": "Kalıcılık", "detail": "AsyncStorage'dan MMKV'ye geçiş — şifreli, senkron, offline kuyruklama", "tag": "MMKV · Keychain/Keystore" },
+      { "name": "AI ile Pair Programming", "detail": "Claude Code günlük iş akışına entegre edildi — scaffolding, refactor, test üretimi — sprint döngülerinde özellik teslimatını ~%25-30 hızlandırdı", "tag": "Claude Code · Cursor AI · GitHub Copilot" }
+    ]
+  },
+  "work": {
+    "heading": "Yayınlanan Uygulamalar",
+    "subheading": "10'dan fazla yayınlanan uygulamadan gösterilmeye en değer 6'sı. Hepsi App Store ve Google Play'de yayında.",
+    "projects": {
+      "planradar": "İnşaat ve gayrimenkul SaaS'ı. Native iOS/Android host uygulamaları içine gömülü, sürümlenmiş binary olarak paketlenmiş RN modülü.",
+      "chefRulerClient": "Kullanıcıları yerel şeflerin ev yemekleriyle buluşturan sipariş platformu.",
+      "geetClient": "Mağazalar, paketler ve talep üzerine kurye istekleri için tüketici teslimat uygulaması.",
+      "geetProvider": "Teslimat tekliflerini, rotaları ve sipariş devrini yönetmek için sağlayıcı tarafı uygulaması.",
+      "flow": "Günlük operasyonel verimliliği artırmak için oluşturulmuş envanter yönetim uygulaması.",
+      "sanabel": "Kullanıcıları desteğe ihtiyaç duyan topluluk yardım girişimleriyle dijital olarak buluşturur."
+    }
+  },
+  "demos": {
+    "heading": "Yetenek Demoları",
+    "subheading": "Canlı, etkileşimli — ekran görüntüsü değil. Her biri deneyimimden gerçek bir işi yansıtır.",
+    "labels": {
+      "list": "Liste Performansı",
+      "storage": "Offline Depolama",
+      "sync": "Offline-First Senkron",
+      "anim": "Animasyonlar",
+      "deeplink": "Deep Linking",
+      "ulink": "Universal Links",
+      "push": "Push Bildirimleri",
+      "cicd": "CI/CD Pipeline",
+      "i18n": "Yerelleştirme",
+      "newarch": "New Architecture",
+      "release": "Native Binary Sürümü",
+      "testing": "Test Paketi",
+      "ota": "CodePush OTA",
+      "tv": "Akıllı TV",
+      "wearables": "Giyilebilirler",
+      "aiassistant": "Yapay Zeka Sohbeti"
+    }
+  },
+  "experience": {
+    "heading": "Deneyim",
+    "subheading": "Mobil, e-ticaret, lojistik ve kurumsal masaüstü sistemlerinde altı yıl.",
+    "jobs": [
+      {
+        "role": "Kıdemli React Native Mühendisi — PlanRadar",
+        "period": "Eyl 2024 — Devam ediyor",
+        "meta": "Uzaktan (Viyana, Avusturya) · İnşaat ve gayrimenkul SaaS'ı",
+        "bullets": [
+          "React Native'in sürümlenmiş bir native binary (XCFramework + AAR) olarak paketlenmesinin mimarisinde ortak rol aldı, native ekipler için Node/Yarn araç zinciri gereksinimini ortadan kaldırdı.",
+          "React Native 0.85'e platform göçünü yönetti, Hermes ve New Architecture'ı (TurboModules/Fabric) etkinleştirdi.",
+          "Kritik bir render darboğazını düzeltti — O(n²) yeniden render yolunu O(1) aramayla değiştirdi.",
+          "Kalıcılığı AsyncStorage'dan MMKV'ye taşıdı; monolitik bir context'i domain'e özgü context'lere ayırdı.",
+          "Uygulama içi Yapay Zeka Asistanını oluşturdu: ActionCable üzerinden akan aşamalı yanıtlar (düşünme/yanıt), bilet ve doküman bağlam enjeksiyonu, yapay zeka indeksleme durumu takibi, ve yükseltme akışıyla kullanım seviyesi sınırlaması."
+        ]
+      },
+      {
+        "role": "React Native Geliştiricisi — Index Group",
+        "period": "Kas 2021 — Ağu 2024",
+        "meta": "Ofiste (İsmailia, Mısır) · E-ticaret ve lojistik",
+        "bullets": [
+          "Veri çekme stratejilerini optimize ederek yoğun yük altında API yanıt sürelerini %40 azalttı.",
+          "Kod bakım süresini %30 azaltan modüler bir klasör yapısı tasarladı.",
+          "Üretim uygulamalarında push bildirimleri, deep linking, Universal Links ve sohbet işlevselliğini entegre etti."
+        ]
+      },
+      {
+        "role": "Windows Uygulama Geliştiricisi — Micro Arabs",
+        "period": "Ağu 2020 — Kas 2021",
+        "meta": "Uzaktan (Irak) · Kurumsal masaüstü sistemleri",
+        "bullets": [
+          "C#, WinForms ve DevExpress ile kurumsal masaüstü uygulamaları geliştirdi.",
+          "SQL Server sorgularını optimize etti ve RestSharp ile Twilio üzerinden gerçek zamanlı iletişim entegre etti."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "heading": "Yetenekler",
+    "subheading": "Günlük olarak kullandıklarım.",
+    "groups": [
+      { "title": "Temel Framework & Diller" },
+      { "title": "New Architecture & Native" },
+      { "title": "Native Paketleme" },
+      { "title": "UI, Navigasyon & Listeler" },
+      { "title": "Durum Yönetimi" },
+      { "title": "Veri & Gerçek Zamanlı" },
+      { "title": "Depolama & Güvenlik" },
+      { "title": "Test & Performans" },
+      { "title": "DevOps & Release" },
+      { "title": "Bulut & Backend" },
+      { "title": "Araçlar & Yapay Zeka Destekli Geliştirme" },
+      { "title": "Yerelleştirme" },
+      { "title": "Çalışma Şekli" },
+      { "title": "Çoklu Cihaz Entegrasyonu", "desc": "Platform fork'ları (react-native-tvos), odak kontrolleri ve watchOS & Wear OS için native bridge / companion app mimarisi kullanarak React Native uygulamalarını Akıllı TV ve Giyilebilirlere genişletme konusunda rahat." },
+      { "title": "Ek", "desc": "React Native geçmişim sayesinde React.js ve Next.js temellerine (bileşen mimarisi, sunucu taraflı render, hook'lar, durum yönetimi) aşinayım — web rollerine açığım. Bu portfolyonun kendisi React ile inşa edildi." }
+    ]
+  },
+  "contact": {
+    "heading": "Birlikte bir şeyler inşa edelim.",
+    "subheading": "Kıdemli React Native rollerine açığım — uzaktan, Kahire merkezli veya taşınmaya açık.",
+    "resumeLabel": "Özgeçmişim ↗",
+    "footnote": "Tarafımdan tasarlandı ve geliştirildi — React, TypeScript, sade CSS, Vercel'de yayınlandı. Şablon kullanılmadı."
+  }
+}

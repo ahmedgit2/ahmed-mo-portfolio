@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 
@@ -15,13 +16,14 @@ const LANGS = [
 ];
 
 export default function I18nDemo() {
+  const { t } = useTranslation();
   const [lang, setLang] = useState('en');
   const isRtl = lang === 'ar';
 
   return (
     <DemoPanel
-      desc="Multi-locale support via i18next and react-native-localize, including RTL for Arabic."
-      note="// react-native-localize detects device locale; I18nManager flips layout direction."
+      desc={t('demoText.i18n.desc')}
+      note={t('demoText.i18n.note')}
     >
       <div className="demo-box">
         <div className="cta-row" style={{ marginTop: 0 }}>

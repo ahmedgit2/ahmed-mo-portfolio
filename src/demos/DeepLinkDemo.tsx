@@ -1,21 +1,23 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import InteractiveList from '../sharedComponents/InteractiveList';
 
-const LINKS = [
-  { label: 'geet://order/8842', route: '→ resolves to OrderDetails, orderId: 8842' },
-  { label: 'geet://driver/119', route: '→ resolves to DriverProfile, driverId: 119' },
-  { label: 'geet://unknown/xyz', route: '→ no match — getStateFromPath falls back to Home' },
-];
-
 export default function DeepLinkDemo() {
+  const { t } = useTranslation();
   const [selected, setSelected] = useState<number | null>(null);
+
+  const LINKS = [
+    { label: 'geet://order/8842', route: t('demoUI.deeplink.linkOrder') },
+    { label: 'geet://driver/119', route: t('demoUI.deeplink.linkDriver') },
+    { label: 'geet://unknown/xyz', route: t('demoUI.deeplink.linkUnknown') },
+  ];
 
   return (
     <DemoPanel
-      desc="At Index Group, notifications and shared links opened the app directly to a specific order or driver screen."
-      note="// Unmatched paths fall back to a default route instead of crashing the navigator."
+      desc={t('demoText.deeplink.desc')}
+      note={t('demoText.deeplink.note')}
     >
       <div className="demo-box">
         <InteractiveList
@@ -25,7 +27,7 @@ export default function DeepLinkDemo() {
           renderLabel={(l) => l.label}
         />
         <div className="demo-note" style={{ marginTop: 14 }}>
-          {selected === null ? 'Pick a link to resolve it →' : LINKS[selected].route}
+          {selected === null ? t('demoUI.deeplink.pickLink') : LINKS[selected].route}
         </div>
       </div>
       <CodeTabs files={[{ name: 'linking.ts', code: `const linking: LinkingOptions<RootStackParamList> = {

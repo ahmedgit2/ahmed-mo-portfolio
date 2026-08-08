@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import BridgeLog from '../sharedComponents/BridgeLog';
@@ -7,33 +8,34 @@ import type { LogLine } from '../sharedComponents/useStagedLog';
 const STAGES = [10, 50, 100];
 
 export default function OtaDemo() {
+  const { t } = useTranslation();
   const [log, setLog] = useState<LogLine[]>([]);
 
   function stage(pct: number) {
     const lines: LogLine[] = [
-      { text: `⇪ Bundle v2.3.1 pushed to ${pct}% of devices — monitoring crash-free rate...`, kind: 'cur' },
+      { text: t('demoUI.ota.bundlePushed', { pct }), kind: 'cur' },
     ];
-    if (pct === 100) lines.push({ text: '✓ Rollout complete, no crash spike detected', kind: 'ok' });
+    if (pct === 100) lines.push({ text: t('demoUI.ota.rolloutComplete'), kind: 'ok' });
     setLog(lines);
   }
 
   function rollback() {
-    setLog([{ text: '↩ Rolled back — devices reverted to last known-good bundle', kind: 'cur' }]);
+    setLog([{ text: t('demoUI.ota.rolledBack'), kind: 'cur' }]);
   }
 
   return (
     <DemoPanel
-      desc="CodePush OTA delivery at Index Group — ship JS/asset updates without an app-store review cycle, staged and reversible."
-      note="// Bad bundle at any stage → rollback reverts devices to the last known-good version."
+      desc={t('demoText.ota.desc')}
+      note={t('demoText.ota.note')}
     >
       <div className="demo-box">
         <div className="cta-row" style={{ marginTop: 0, marginBottom: 14 }}>
           {STAGES.map((pct) => (
-            <button key={pct} className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => stage(pct)}>Stage {pct}%</button>
+            <button key={pct} className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => stage(pct)}>{t('demoUI.ota.stageButton', { pct })}</button>
           ))}
-          <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={rollback}>Rollback</button>
+          <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={rollback}>{t('demoUI.ota.rollbackButton')}</button>
         </div>
-        <BridgeLog lines={log} placeholder="Pick a rollout stage →" minHeight={46} />
+        <BridgeLog lines={log} placeholder={t('demoUI.ota.placeholder')} minHeight={46} />
       </div>
       <CodeTabs
         files={[

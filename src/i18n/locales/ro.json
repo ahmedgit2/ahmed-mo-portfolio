@@ -1,0 +1,161 @@
+{
+  "nav": { "work": "Proiecte", "demos": "Demo-uri", "experience": "Experiență", "contact": "Contact" },
+  "common": { "old": "Vechi", "new": "Nou" },
+  "demoText": {
+    "list": { "desc": "La PlanRadar, selectarea unui rând într-o listă mare re-randa fiecare rând prin comparație de identitate a array-ului — O(n²). Am înlocuit cu o căutare de apartenență la un Set, deci doar rândul atins se re-randează. Dă clic pe rândurile de mai jos.", "note": "// Înainte: toată lista se re-randează la fiecare selecție. Acum: se actualizează doar rândul atins." },
+    "storage": { "desc": "Migrarea persistenței PlanRadar de la AsyncStorage la MMKV — sincron, criptat, citiri mai rapide.", "note": "// Scrierile MMKV sunt sincrone — fără await, fără pâlpâire la citire." },
+    "sync": { "desc": "Unul dintre modulele de bază ale PlanRadar este offline-first și în timp real prin WebSockets — acțiunile se pun în coadă offline și se trimit la reconectare. Comută offline mai jos și fă modificări.", "note": "// Acțiunile din coadă se trimit în ordine odată ce socket-ul se reconectează." },
+    "anim": { "desc": "API-ul Reanimated / Animated conduce tranzițiile de modale și navigare la PlanRadar. Două exemple mai jos.", "note": "// Worklet-urile Reanimated rulează pe thread-ul UI — fără sacadări din cauza thread-ului JS sub sarcină." },
+    "deeplink": { "desc": "La Index Group, notificările și link-urile partajate deschideau aplicația direct pe un ecran specific de comandă sau șofer.", "note": "// Căile nepotrivite revin la o rută implicită în loc să blocheze navigatorul." },
+    "ulink": { "desc": "Universal Links (iOS) și App Links (Android) sar complet peste prompt-ul de schemă personalizată — un link https:// real deschide aplicația direct dacă e instalată, altfel pagina web.", "note": "// Fără aplicația instalată → același URL deschide în schimb fallback-ul web mobil." },
+    "push": { "desc": "Notificări push prin FCM, conectate la deep links, astfel încât atingerea uneia să navigheze direct la ecranul relevant.", "note": "// getInitialNotification() acoperă cazul de cold start pe care handler-ul foreground al FCM îl ratează." },
+    "cicd": { "desc": "Responsabilitate completă pentru release la PlanRadar și Index Group — GitLab CI/CD, EAS Build, TestFlight și Play Console. Rulează pipeline-ul mai jos.", "note": "// Aceeași formă de pipeline în ambele aplicații: test → build → submit, condiționat de teste verzi." },
+    "i18n": { "desc": "Suport multi-limbă prin i18next și react-native-localize, inclusiv RTL pentru arabă.", "note": "// react-native-localize detectează limba dispozitivului; I18nManager inversează direcția layout-ului." },
+    "newarch": { "desc": "A condus migrarea PlanRadar la React Native 0.85 — Hermes + New Architecture. JSI înlocuiește vechiul bridge asincron serializat JSON cu apeluri native sincrone directe. Dă clic pentru comparație.", "note": "// JSI oferă lui JS o referință directă la obiecte native — fără dus-întors de serializare/coadă/deserializare." },
+    "release": { "desc": "Co-arhitect al împachetării RN ca binar nativ versionat (XCFramework + AAR) — decuplând stratul RN de aplicațiile host native, fără a fi nevoie de toolchain Node/Yarn pentru echipele native.", "note": "// Echipele native doar incrementează un șir de versiune — fără instalare toolchain RN, fără Metro, fără Yarn." },
+    "testing": { "desc": "Peste 1.500 de commit-uri pe peste 200 de tichete la PlanRadar, protejate de o suită de peste 3.500 de teste în GitLab CI/CD. Rulează o suită exemplu.", "note": "// CI blochează merge-urile la teste roșii — pragul de acoperire păstrează refactorizările sigure pe 200+ tichete." },
+    "ota": { "desc": "Livrare OTA CodePush la Index Group — livrarea actualizărilor JS/assets fără ciclu de review în app store, în etape și reversibil.", "note": "// Un bundle defect în orice etapă → rollback-ul readuce dispozitivele la ultima versiune stabilă cunoscută." },
+    "tv": { "desc": "Extinderea React Native către Smart TV — tvOS și Android TV prin react-native-tvos — înlocuiește atingerea cu navigare pe focus prin D-pad. Încă nicio aplicație în producție lansată — arhitectura de mai jos este cum aș aborda-o.", "note": "// Același model de componente, sistem de input diferit — navigarea pe focus/spațială înlocuiește gesturile tactile." },
+    "wearables": { "desc": "Dispozitivele wearable (watchOS, Wear OS) se conectează printr-un bridge companion nativ, nu un ecran RN micșorat — în ambele direcții. Încă nicio aplicație în producție lansată — arhitectura de mai jos este cum aș aborda-o.", "note": "// Bridge-ul este nativ-la-nativ — RN doar trimite/primește payload-ul, aplicația de ceas îl randează." },
+    "aiassistant": { "desc": "Asistentul AI din aplicația PlanRadar — am construit clientul RN: răspunsuri în etape transmise prin WebSocket (gândire → răspuns), atașamente de context pentru tichete/documente, și limitare pe niveluri de utilizare. Arhitectura de mai jos, redenumită față de implementarea reală. Alege un prompt.", "note": "// Transmis prin WebSockets, nu prin polling — etapa de gândire se afișează cât timp modelul încă lucrează." },
+    "gesture": { "desc": "O stivă de swipe bazată pe fizică — revenire cu spring, flick-to-dismiss sensibil la viteză, și rotație tip rubber-band. Trage cardul din față.", "note": "// Manipulare directă a DOM-ului în timpul tragerii, starea React este atinsă doar la eliberare — fără re-render per cadru." }
+  },
+  "demoUI": {
+    "list": { "taskItem": "Sarcină #{{n}}" },
+    "storage": { "keyPlaceholder": "cheie", "valuePlaceholder": "valoare", "setButton": "Setează", "noKeysYet": "încă nicio cheie", "emptyValue": "(gol)" },
+    "sync": { "online": "Online", "offline": "Offline", "queuedBadge": "{{count}} în coadă", "approveButton": "Aprobă elementul", "logPlaceholder": "Acțiunile vor apărea aici →", "logReconnected": "↺ Reconectat — se trimit {{count}} acțiune(i) din coadă...", "logSent": "✓ Trimis prin WebSocket — aprobat instantaneu", "logQueued": "⏸ Offline — acțiune pusă în coadă ({{count}})" },
+    "anim": { "slideButton": "Tranziție glisantă", "popTitle": "Document aprobat", "popSubtitle": "Apariție cu spring, ca o confirmare modală.", "springButton": "Apariție cu spring" },
+    "deeplink": { "pickLink": "Alege un link de rezolvat →", "linkOrder": "→ rezolvă către OrderDetails, orderId: 8842", "linkDriver": "→ rezolvă către DriverProfile, driverId: 119", "linkUnknown": "→ nicio potrivire — getStateFromPath revine la Home" },
+    "ulink": { "openButton": "Deschide https://geet.app/order/8842", "placeholder": "Simulează cum rezolvă iOS link-ul →", "step1": "iOS: utilizatorul atinge https://geet.app/order/8842", "step2": "Sistemul verifică apple-app-site-association pe geet.app", "step3": "App ID-ul se potrivește cu aplicația instalată → se deschide nativ, fără ocolire prin Safari", "step4": "Configurația linking din RN rezolvă către OrderDetails, orderId: 8842 ✓" },
+    "push": { "triggerButton": "Simulează push primit", "notifTitle": "Comandă nouă atribuită", "notifBody": "Comanda #8842 este gata de ridicare — atinge pentru a vedea." },
+    "cicd": { "runButton": "Rulează pipeline-ul", "step1": "Instalează dependințele", "step2": "Rulează testele (Jest)", "step3": "EAS Build (iOS + Android)", "step4": "Trimite → TestFlight", "step5": "Trimite → Play Console" },
+    "newarch": { "runButton": "Apelează modulul nativ: getScannerState()", "placeholder": "Rulează-l întâi pe bridge-ul vechi, apoi pe JSI →", "step1": "Bridge vechi: serializează argumentele → JSON", "step2": "Bridge vechi: coadă → thread nativ → deserializează", "step3": "Bridge vechi: rezultat ≈ 40ms dus-întors", "step4": "JSI: apel direct, fără coadă, fără serializare", "step5": "JSI: rezultat ≈ 0,6ms dus-întors ✓" },
+    "release": { "runButton": "Taie release v4.12.0", "step1": "Incrementează versiunea → 4.12.0", "step2": "Build XCFramework (iOS)", "step3": "Build AAR (Android)", "step4": "Publică în registrul intern", "step5": "Echipele native consumă via SPM/Gradle" },
+    "testing": { "runButton": "Rulează suita", "testsLabel": "Teste:", "coverageLabel": "Acoperire:", "allGreen": "✓ totul verde" },
+    "ota": { "stageButton": "Etapa {{pct}}%", "rollbackButton": "Rollback", "placeholder": "Alege o etapă de rollout →", "bundlePushed": "⇪ Bundle v2.3.1 trimis la {{pct}}% din dispozitive — se monitorizează rata de crash...", "rolloutComplete": "✓ Rollout finalizat, niciun vârf de crash detectat", "rolledBack": "↩ Rollback efectuat — dispozitivele au revenit la ultima versiune stabilă cunoscută" },
+    "tv": { "placeholder": "Folosește D-pad-ul pentru a muta focusul →", "okButton": "OK", "onFocusFired": "✓ onFocus → onPress declanșat pe „{{label}}”", "focusMoved": "→ TVEventHandler: focus mutat pe „{{label}}”", "labels": ["Acasă", "Căutare", "Bibliotecă", "Live", "Setări", "Profil", "Descărcări", "Ghid", "Ieșire"] },
+    "wearables": { "sendLabel": "Trimite starea către ceas", "receiveLabel": "Primește atingere de la ceas", "placeholder": "Simulează bridge-ul companion nativ, în ambele direcții →", "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })", "sendStep2": "watchOS: WatchConnectivity livrează mesajul către aplicația companion", "sendStep3": "Wear OS: MessageClient livrează către aplicația companion (calea Android)", "sendStep4": "✓ Cadranul actualizat — fără dus-întors prin UI-ul telefonului", "receiveStep1": "Ceas: utilizatorul atinge complicația „Aprobă” de pe încheietură", "receiveStep2": "watchOS/Wear OS: aplicația companion trimite acțiunea înapoi prin bridge", "receiveStep3": "RN: session.onMessage se declanșează cu { action: \"approve\", id }", "receiveStep4": "✓ Același handler folosit de UI-ul telefonului — o singură sursă de adevăr" },
+    "aiassistant": { "emptyState": "Întreabă-mă despre acest proiect — încearcă un prompt mai jos.", "usageLabel": "{{usage}} / {{max}} mesaje în acest ciclu", "overdueLabel": "Tichete restante", "overdueQuestion": "Arată-mi tichetele restante din acest proiect", "overdueAnswer": "Am găsit <b>3 tichete restante</b> în acest proiect, toate atribuite ție.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Scurgere de la acoperiș, aripa de vest</div>", "summaryLabel": "Rezumă acest proiect", "summaryQuestion": "Rezumă acest proiect", "summaryAnswer": "<b>West Tower Renovation</b> — 42 de tichete în total, 34 rezolvate, 8 deschise. 2 documente în așteptarea revizuirii, conform planificării pentru reperul din 15 martie.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>", "similarLabel": "Găsește probleme similare anterioare", "similarQuestion": "Găsește probleme similare anterioare", "similarAnswer": "Am găsit <b>2 probleme similare</b> din proiecte anterioare — aceeași cauză principală (rost defect).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · Aripa de est, rezolvat</div>" },
+    "gesture": { "hint": "← trage pentru a rezolva →", "card1Sub": "Scurgere de la acoperiș, aripa de vest — aprobi?", "card2Sub": "Inspecție electrică scadentă", "card3Sub": "Turnare de beton programată", "card4Sub": "Fotografiile de pe șantier necesită revizuire" },
+    "heroDiagramAriaLabel": "Diagrama straturilor de arhitectură React Native: JavaScript, bridge-ul New Architecture, și binarele native."
+  },
+  "hero": {
+    "eyebrow": "Inginer React Native Senior · Cairo, Egipt",
+    "h1Line1": "Construiesc stratul unde",
+    "h1Pre": "JavaScript întâlnește codul ",
+    "h1Accent": "nativ",
+    "tagline": "Dezvoltator React Native senior cu <0>6 ani</0> de experiență în inginerie software, dintre care <0>5 ani</0> dedicați construirii de aplicații mobile în producție pentru SaaS enterprise (construcții), e-commerce și logistică. Pe lângă React Native, aduc experiență practică în <0>integrarea nativă iOS și Android</0> — Swift/Kotlin, module native personalizate, binare native versionate și arhitecturi de host RN încorporate. Sunt specializat în optimizarea performanței, adoptarea <0>New Architecture</0> și standardizarea codebase-ului, inclusiv arhitectura unor tipare de containere modulare adoptate în aplicații enterprise. Livrez soluții mobile cu impact ridicat și acoperite de teste, cu aspirația pe termen lung de a evolua către un rol de <0>Team Lead</0>.",
+    "ctaPrimary": "Vezi-o în acțiune",
+    "ctaSecondary": "Contactează-mă",
+    "stackLabel": "Unde lucrez",
+    "layers": [
+      { "name": "Aplicație host nativă", "detail": "Aplicație shell iOS/Android care încorporează modulul RN ca binar versionat", "tag": "Swift · Kotlin · Xcode/Gradle" },
+      { "name": "Arhitectură de componente stratificată", "detail": "Ecrane → HOC-uri → Hooks/Helpers → Componente → Stiluri — tiparul standard adoptat pentru modale și navigare", "tag": "HOC-uri · hooks · componente · stiluri" },
+      { "name": "Structură bazată pe feature / domain-driven", "detail": "Cod organizat pe funcționalitate, nu pe tip — fiecare domeniu deține propriile ecrane, hooks și stiluri pentru colaborare mai rapidă în echipă", "tag": "domain-driven · foldere pe feature" },
+      { "name": "Chat AI în aplicație", "detail": "Răspunsuri LLM transmise prin WebSocket cu acțiuni de bridge nativ pentru navigarea tichetelor și filtre", "tag": "WebSockets · bridge nativ · streaming LLM" },
+      { "name": "Stare și date în timp real", "detail": "Contexts specifice pe domeniu, separate dintr-un RootContext monolitic; alimentează sincronizarea offline-first a modulului DMS", "tag": "Context API · React Query · JSON:API" },
+      { "name": "Bridge New Architecture", "detail": "Hermes + TurboModules/Fabric — apeluri JS↔nativ sincrone, fără overhead de serializare", "tag": "Fabric · TurboModules · JSI" },
+      { "name": "Binare native", "detail": "XCFramework + AAR versionate, decuplate de toolchain-urile host native", "tag": "XCFramework · AAR" },
+      { "name": "Persistență", "detail": "Migrare de la AsyncStorage la MMKV — criptat, sincron, cu coadă offline", "tag": "MMKV · Keychain/Keystore" },
+      { "name": "Pair programming cu AI", "detail": "Claude Code integrat în workflow-ul zilnic — scaffolding, refactorizări, generare de teste — a accelerat livrarea funcționalităților cu ~25-30% pe parcursul ciclurilor de sprint", "tag": "Claude Code · Cursor AI · GitHub Copilot" }
+    ]
+  },
+  "work": {
+    "heading": "Aplicații lansate",
+    "subheading": "6 din peste 10 lansate — cele mai relevante de arătat. Toate live pe App Store și Google Play.",
+    "projects": {
+      "planradar": "SaaS pentru construcții și imobiliare. Modul RN încorporat în aplicații host native iOS/Android, împachetat ca binar versionat.",
+      "chefRulerClient": "Platformă de comenzi care conectează utilizatorii cu mâncare gătită în casă de la bucătari locali.",
+      "geetClient": "Aplicație de livrare pentru consumatori — magazine, colete și cereri de curierat la cerere.",
+      "geetProvider": "Aplicație pentru furnizori pentru gestionarea ofertelor de livrare, rutelor și predarea comenzilor.",
+      "flow": "Aplicație de gestionare a inventarului creată pentru a îmbunătăți eficiența operațională zilnică.",
+      "sanabel": "Conectează utilizatorii cu inițiative caritabile comunitare care au nevoie de sprijin."
+    }
+  },
+  "demos": {
+    "heading": "Demo-uri de competențe",
+    "subheading": "Interactive, live — nu capturi de ecran. Fiecare reflectă muncă reală din experiența mea.",
+    "labels": {
+      "list": "Performanță liste",
+      "storage": "Stocare offline",
+      "sync": "Sincronizare offline-first",
+      "anim": "Animații",
+      "deeplink": "Deep Linking",
+      "ulink": "Universal Links",
+      "push": "Notificări push",
+      "cicd": "Pipeline CI/CD",
+      "i18n": "Localizare",
+      "newarch": "New Architecture",
+      "release": "Lansare binar nativ",
+      "testing": "Suită de teste",
+      "ota": "CodePush OTA",
+      "tv": "Smart TV",
+      "wearables": "Wearables",
+      "aiassistant": "Chat AI"
+    }
+  },
+  "experience": {
+    "heading": "Experiență",
+    "subheading": "Șase ani în mobile, e-commerce, logistică și sisteme desktop enterprise.",
+    "jobs": [
+      {
+        "role": "Inginer React Native Senior — PlanRadar",
+        "period": "Sept 2024 — Prezent",
+        "meta": "Remote (Viena, Austria) · SaaS pentru construcții și imobiliare",
+        "bullets": [
+          "Co-arhitect al împachetării React Native ca binar nativ versionat (XCFramework + AAR), eliminând necesitatea toolchain-ului Node/Yarn pentru echipele native.",
+          "A condus migrarea platformei la React Native 0.85, activând Hermes și New Architecture (TurboModules/Fabric).",
+          "A remediat un blocaj critic de randare — a înlocuit un traseu de re-randare O(n²) cu o căutare O(1).",
+          "A migrat persistența de la AsyncStorage la MMKV; a împărțit un context monolitic în contexts specifice pe domeniu.",
+          "A construit Asistentul AI din aplicație: răspunsuri în etape transmise prin ActionCable (gândire/răspuns), injectare de context pentru tichete și documente, urmărirea stării de indexare AI și limitare pe niveluri de utilizare cu flux de upgrade."
+        ]
+      },
+      {
+        "role": "Dezvoltator React Native — Index Group",
+        "period": "Nov 2021 — Aug 2024",
+        "meta": "La sediu (Ismailia, Egipt) · E-commerce și logistică",
+        "bullets": [
+          "A redus timpii de răspuns API cu 40% sub sarcini mari prin optimizarea strategiilor de preluare a datelor.",
+          "A proiectat o structură modulară de foldere care a redus timpul de întreținere a codului cu 30%.",
+          "A integrat notificări push, deep linking, Universal Links și funcționalitate de chat în aplicații de producție."
+        ]
+      },
+      {
+        "role": "Dezvoltator de aplicații Windows — Micro Arabs",
+        "period": "Aug 2020 — Nov 2021",
+        "meta": "Remote (Irak) · Sisteme desktop enterprise",
+        "bullets": [
+          "A construit aplicații desktop enterprise cu C#, WinForms și DevExpress.",
+          "A optimizat interogări SQL Server și a integrat comunicare în timp real prin RestSharp și Twilio."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "heading": "Competențe",
+    "subheading": "Ce folosesc zi de zi.",
+    "groups": [
+      { "title": "Framework de bază și limbaje" },
+      { "title": "New Architecture și nativ" },
+      { "title": "Împachetare nativă" },
+      { "title": "UI, navigare și liste" },
+      { "title": "Gestionarea stării" },
+      { "title": "Date și timp real" },
+      { "title": "Stocare și securitate" },
+      { "title": "Testare și performanță" },
+      { "title": "DevOps și release" },
+      { "title": "Cloud și backend" },
+      { "title": "Unelte și dezvoltare asistată de AI" },
+      { "title": "Localizare" },
+      { "title": "Mod de lucru" },
+      { "title": "Integrare multi-dispozitiv", "desc": "Confortabil în extinderea aplicațiilor React Native către Smart TV și Wearables folosind fork-uri de platformă (react-native-tvos), controale de focus, și arhitectură bridge nativ / aplicație companion pentru watchOS și Wear OS." },
+      { "title": "Suplimentar", "desc": "Familiarizat cu elementele fundamentale React.js și Next.js (arhitectură de componente, server-side rendering, hooks, gestionarea stării) datorită experienței în React Native — deschis către roluri web. Acest portofoliu este construit chiar cu React." }
+    ]
+  },
+  "contact": {
+    "heading": "Hai să construim ceva.",
+    "subheading": "Deschis către roluri React Native senior — remote, cu bază în Cairo, sau dispus să mă relochez.",
+    "resumeLabel": "CV-ul meu ↗",
+    "footnote": "Proiectat și construit de mine — React, TypeScript, CSS simplu, publicat pe Vercel. Fără template."
+  }
+}

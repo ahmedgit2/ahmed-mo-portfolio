@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 
 export default function AnimDemo() {
+  const { t } = useTranslation();
   const stageRef = useRef<HTMLDivElement>(null);
   const chipRef = useRef<HTMLDivElement>(null);
   const [atEnd, setAtEnd] = useState(false);
@@ -14,8 +16,8 @@ export default function AnimDemo() {
 
   return (
     <DemoPanel
-      desc="Reanimated / Animated API drives modal and navigation transitions at PlanRadar. Two examples below."
-      note="// Reanimated worklets run on the UI thread — no JS-thread jank under load."
+      desc={t('demoText.anim.desc')}
+      note={t('demoText.anim.note')}
     >
       <div className="demo-box">
         <div className="anim-stage" ref={stageRef}>
@@ -27,12 +29,12 @@ export default function AnimDemo() {
             RN
           </div>
         </div>
-        <button className="btn btn-ghost" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={() => setAtEnd((v) => !v)}>Slide transition</button>
+        <button className="btn btn-ghost" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={() => setAtEnd((v) => !v)}>{t('demoUI.anim.slideButton')}</button>
         <div className={'pop-card' + (popShown ? ' shown' : '')}>
-          <div className="pc-title">Document approved</div>
-          <div className="pc-sub">Spring pop-in, like a modal confirmation.</div>
+          <div className="pc-title">{t('demoUI.anim.popTitle')}</div>
+          <div className="pc-sub">{t('demoUI.anim.popSubtitle')}</div>
         </div>
-        <button className="btn btn-ghost" style={{ padding: '9px 16px', marginTop: 12 }} onClick={() => setPopShown((v) => !v)}>Spring pop-in</button>
+        <button className="btn btn-ghost" style={{ padding: '9px 16px', marginTop: 12 }} onClick={() => setPopShown((v) => !v)}>{t('demoUI.anim.springButton')}</button>
       </div>
       <CodeTabs
         files={[

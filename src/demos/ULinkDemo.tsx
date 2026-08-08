@@ -1,28 +1,30 @@
+import { useTranslation } from 'react-i18next';
 import DemoPanel from '../sharedComponents/DemoPanel';
 import CodeTabs from '../sharedComponents/CodeTabs';
 import BridgeLog from '../sharedComponents/BridgeLog';
 import { useStagedLog, type LogLine } from '../sharedComponents/useStagedLog';
 
-const STEPS: LogLine[] = [
-  { text: 'iOS: user taps https://geet.app/order/8842', kind: 'cur' },
-  { text: 'System checks apple-app-site-association on geet.app', kind: 'cur' },
-  { text: 'App ID matches installed app → opens natively, no Safari hop', kind: 'cur' },
-  { text: 'RN linking config resolves to OrderDetails, orderId: 8842 ✓', kind: 'ok' },
-];
-
 export default function ULinkDemo() {
+  const { t } = useTranslation();
   const { lines, run } = useStagedLog(450);
+
+  const STEPS: LogLine[] = [
+    { text: t('demoUI.ulink.step1'), kind: 'cur' },
+    { text: t('demoUI.ulink.step2'), kind: 'cur' },
+    { text: t('demoUI.ulink.step3'), kind: 'cur' },
+    { text: t('demoUI.ulink.step4'), kind: 'ok' },
+  ];
 
   return (
     <DemoPanel
-      desc="Universal Links (iOS) and App Links (Android) skip the custom-scheme prompt entirely — a real https:// link opens the app directly if it's installed, or the web page if not."
-      note="// No installed app → same URL opens the mobile web fallback instead."
+      desc={t('demoText.ulink.desc')}
+      note={t('demoText.ulink.note')}
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run(STEPS)}>Open https://geet.app/order/8842</button>
+        <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run(STEPS)}>{t('demoUI.ulink.openButton')}</button>
         <BridgeLog
           lines={lines}
-          placeholder="Simulates iOS resolving the link →"
+          placeholder={t('demoUI.ulink.placeholder')}
           minHeight={STEPS.length * 23}
           style={{ marginTop: 14 }}
         />
