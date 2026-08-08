@@ -126,7 +126,7 @@ export default function GestureDemo() {
           springTokens.current,
           id,
           myToken,
-          () => setCards((prev) => [...prev.slice(1), prev[0]]),
+          () => setCards((prev) => prev.slice(1)),
         );
       } else {
         animateSpring(el, { x: dx, rotate: dx / 18 }, { x: 0, rotate: 0 }, v * 16, springTokens.current, id, myToken);
@@ -152,6 +152,12 @@ export default function GestureDemo() {
     document.body.style.cursor = 'grabbing';
   }
 
+  function reset() {
+    cardRefs.current = {};
+    springTokens.current = {};
+    setCards(INITIAL_CARDS);
+  }
+
   return (
     <DemoPanel
       desc={t('demoText.gesture.desc')}
@@ -159,22 +165,29 @@ export default function GestureDemo() {
     >
       <div className="demo-box">
         <div className="gesture-stack">
-          {cards.map((card, i) => (
-            <div
-              key={card.id}
-              ref={(el) => { cardRefs.current[card.id] = el; }}
-              className="gesture-card"
-              style={{
-                zIndex: cards.length - i,
-                transform: `translateX(0) rotate(0deg) scale(${1 - i * 0.04}) translateY(${i * 8}px)`,
-              }}
-              onPointerDown={(e) => onPointerDown(e, card.id)}
-            >
-              <div className="gesture-card-title">{card.title}</div>
-              <div className="gesture-card-sub">{t(CARD_SUB_KEY[card.id])}</div>
-              <div className="gesture-card-hint">{t('demoUI.gesture.hint')}</div>
+          {cards.length === 0 ? (
+            <div className="gesture-empty">
+              <div className="gesture-empty-text">{t('demoUI.gesture.allDismissed')}</div>
+              <button className="btn btn-ghost" onClick={reset}>{t('demoUI.gesture.resetButton')}</button>
             </div>
-          ))}
+          ) : (
+            cards.map((card, i) => (
+              <div
+                key={card.id}
+                ref={(el) => { cardRefs.current[card.id] = el; }}
+                className="gesture-card"
+                style={{
+                  zIndex: cards.length - i,
+                  transform: `translateX(0) rotate(0deg) scale(${1 - i * 0.04}) translateY(${i * 8}px)`,
+                }}
+                onPointerDown={(e) => onPointerDown(e, card.id)}
+              >
+                <div className="gesture-card-title">{card.title}</div>
+                <div className="gesture-card-sub">{t(CARD_SUB_KEY[card.id])}</div>
+                <div className="gesture-card-hint">{t('demoUI.gesture.hint')}</div>
+              </div>
+            ))
+          )}
         </div>
       </div>
       <CodeTabs
