@@ -1,13 +1,17 @@
+import { useReveal } from '../hooks/useReveal';
+
 const LAYERS = [
-  { name: 'Native host app', detail: 'iOS/Android shell app that embeds the RN module', tag: 'Swift · Kotlin · Xcode/Gradle' },
-  { name: 'JS / TypeScript layer', detail: 'Screens, hooks, navigation — where features actually get built', tag: 'screens · hooks · navigation' },
-  { name: 'State & data', detail: 'Client state, server cache, and real-time sync', tag: 'Redux Toolkit · React Query · WebSockets' },
-  { name: 'New Architecture bridge', detail: 'Synchronous JS↔native calls, no serialization overhead', tag: 'Fabric · TurboModules · JSI' },
-  { name: 'Native binaries', detail: 'Versioned, decoupled from host app toolchains', tag: 'XCFramework · AAR' },
-  { name: 'Persistence', detail: 'Encrypted local storage, offline-first queueing', tag: 'MMKV · Keychain/Keystore' },
+  { name: 'Native host app', detail: 'iOS/Android shell app that embeds the RN module as a versioned binary', tag: 'Swift · Kotlin · Xcode/Gradle' },
+  { name: 'Container architecture', detail: 'Screens → HOCs → hooks/helpers — the reusable pattern I established, adopted across modals and navigation', tag: 'HOCs · hooks · Animated API' },
+  { name: 'AI Assistant', detail: 'WebSocket-streamed LLM responses with native-bridge actions for ticket navigation and filters', tag: 'WebSockets · native bridge · LLM streaming' },
+  { name: 'State & real-time data', detail: "Domain-specific contexts split from a monolithic RootContext; powers the DMS module's offline-first sync", tag: 'Context API · React Query · JSON:API' },
+  { name: 'New Architecture bridge', detail: 'Hermes + TurboModules/Fabric — synchronous JS↔native calls, no serialization overhead', tag: 'Fabric · TurboModules · JSI' },
+  { name: 'Native binaries', detail: 'Versioned XCFramework + AAR, decoupled from native host toolchains', tag: 'XCFramework · AAR' },
+  { name: 'Persistence', detail: 'Migrated from AsyncStorage to MMKV — encrypted, synchronous, offline-first queueing', tag: 'MMKV · Keychain/Keystore' },
 ];
 
 export default function Hero() {
+  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
     <header className="hero">
       <div className="wrap">
@@ -36,7 +40,8 @@ export default function Hero() {
 
         {/* Deeper technical detail for engineers reviewing the stack */}
         <div
-          className="stack"
+          className={'stack reveal' + (visible ? ' visible' : '')}
+          ref={ref}
           role="img"
           aria-label="Diagram of React Native architecture layers: JavaScript, the New Architecture bridge, and native binaries."
         >

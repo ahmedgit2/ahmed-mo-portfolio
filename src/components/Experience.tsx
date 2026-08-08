@@ -9,7 +9,7 @@ type Job = {
 
 const JOBS: Job[] = [
   {
-    role: 'React Native Engineer — PlanRadar',
+    role: 'Senior React Native Engineer — PlanRadar',
     period: 'Sept 2024 — Present',
     meta: 'Remote (Vienna, Austria) · Construction & real-estate SaaS',
     bullets: [
