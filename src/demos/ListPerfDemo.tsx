@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import InteractiveList from '../sharedComponents/InteractiveList';
 
 const ITEMS = Array.from({ length: 14 }, (_, i) => `Task item #${i + 1}`);
 
@@ -19,17 +20,12 @@ export default function ListPerfDemo() {
       note="// Old: full list re-renders on every selection. New: only the touched row updates."
     >
       <div className="demo-box">
-        <div className="fake-list">
-          {ITEMS.map((label, i) => (
-            <div
-              key={label}
-              className={'fake-row' + (i === selected ? ' selected' : '')}
-              onClick={() => handleSelect(i)}
-            >
-              {label}
-            </div>
-          ))}
-        </div>
+        <InteractiveList
+          items={ITEMS}
+          selectedIndex={selected}
+          onSelect={handleSelect}
+          renderLabel={(label) => label}
+        />
         <div className="render-counter">
           <span>Old: <b>{oldCount}</b></span>
           <span>New: <b>1</b></span>

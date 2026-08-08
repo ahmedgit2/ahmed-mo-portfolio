@@ -49,12 +49,19 @@ h2 { font-family: var(--mono); font-size: 13px; letter-spacing: 0.14em; text-tra
 .cta-row { display: flex; gap: 14px; margin-top: 36px; flex-wrap: wrap; }
 
 .code-block {
-  background: #0E1516; border: 1px solid var(--line); border-radius: 4px; padding: 16px 18px;
-  font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-x: auto; white-space: pre; line-height: 1.7;
+  background: #0E1516; border: 1px solid var(--line); border-radius: 4px; padding: 16px 0;
+  font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-x: auto; line-height: 1.7;
 }
-.code-block .kw { color: var(--copper); }
-.code-block .str { color: #8FBF9F; }
-.code-block .cm { color: #5C6B69; font-style: italic; }
+.code-line { display: flex; white-space: pre; }
+.code-line-no {
+  flex-shrink: 0; width: 34px; text-align: right; padding-right: 14px; margin-right: 14px;
+  color: var(--muted); opacity: 0.4; user-select: none; border-right: 1px solid var(--line);
+}
+.code-line-content { padding-right: 18px; white-space: pre-wrap; word-break: break-word; }
+.tok-kw { color: var(--copper); }
+.tok-str { color: #8FBF9F; }
+.tok-cm { color: #5C6B69; font-style: italic; }
+.tok-num { color: #7FA8C9; }
 
 @media (max-width: 640px) {
   .job-head { flex-direction: column; }

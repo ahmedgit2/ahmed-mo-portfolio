@@ -1,6 +1,6 @@
-import DemoPanel from './shared/DemoPanel';
-import PipelineSteps, { usePipeline } from './shared/PipelineSteps';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import PipelineSteps, { usePipeline } from '../sharedComponents/PipelineSteps';
+import CodeTabs from '../sharedComponents/CodeTabs';
 
 const STEPS = ['Bump version → 4.12.0', 'Build XCFramework (iOS)', 'Build AAR (Android)', 'Publish to internal registry', 'Native teams consume via SPM/Gradle'];
 

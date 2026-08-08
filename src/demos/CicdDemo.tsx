@@ -1,6 +1,6 @@
-import DemoPanel from './shared/DemoPanel';
-import PipelineSteps, { usePipeline } from './shared/PipelineSteps';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import PipelineSteps, { usePipeline } from '../sharedComponents/PipelineSteps';
+import CodeTabs from '../sharedComponents/CodeTabs';
 
 const STEPS = ['Install deps', 'Run tests (Jest)', 'EAS Build (iOS + Android)', 'Submit → TestFlight', 'Submit → Play Console'];
 

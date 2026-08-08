@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import BridgeLog from '../sharedComponents/BridgeLog';
+import type { LogLine } from '../sharedComponents/useStagedLog';
 
 export default function SyncDemo() {
   const [isOnline, setIsOnline] = useState(true);
   const [queued, setQueued] = useState(0);
-  const [log, setLog] = useState<{ text: string; kind: 'ok' | 'cur' } | null>(null);
+  const [log, setLog] = useState<LogLine | null>(null);
 
   function toggleOnline() {
     const nextOnline = !isOnline;
@@ -37,9 +39,7 @@ export default function SyncDemo() {
           {queued > 0 && <span className="queue-badge">{queued} queued</span>}
         </div>
         <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={handleAction}>Approve item</button>
-        <div className="bridge-log" style={{ marginTop: 14 }}>
-          {log ? <div className={log.kind}>{log.text}</div> : 'Actions will log here →'}
-        </div>
+        <BridgeLog lines={log ? [log] : []} placeholder="Actions will log here →" style={{ marginTop: 14 }} />
       </div>
       <CodeTabs
         files={[

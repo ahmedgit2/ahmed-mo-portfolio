@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import BridgeLog from '../sharedComponents/BridgeLog';
+import { useStagedLog, type LogLine } from '../sharedComponents/useStagedLog';
 
-const STEPS: { text: string; kind: 'ok' | 'cur' }[] = [
+const STEPS: LogLine[] = [
   { text: 'Old bridge: serialize args → JSON', kind: 'cur' },
   { text: 'Old bridge: queue → native thread → deserialize', kind: 'cur' },
   { text: 'Old bridge: result ≈ 40ms round trip', kind: 'cur' },
@@ -11,18 +12,7 @@ const STEPS: { text: string; kind: 'ok' | 'cur' }[] = [
 ];
 
 export default function NewArchDemo() {
-  const [lines, setLines] = useState<typeof STEPS>([]);
-  const timers = useRef<number[]>([]);
-
-  function run() {
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-    setLines([]);
-    STEPS.forEach((step, i) => {
-      const id = window.setTimeout(() => setLines((prev) => [...prev, step]), i * 450);
-      timers.current.push(id);
-    });
-  }
+  const { lines, run } = useStagedLog(450);
 
   return (
     <DemoPanel
@@ -30,11 +20,8 @@ export default function NewArchDemo() {
       note="// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip."
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={run}>Call native module: getScannerState()</button>
-        <div className="bridge-log" style={{ minHeight: STEPS.length * 23 }}>
-          {lines.length === 0 && 'Run it on the old bridge, then on JSI →'}
-          {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
-        </div>
+        <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 14 }} onClick={() => run(STEPS)}>Call native module: getScannerState()</button>
+        <BridgeLog lines={lines} placeholder="Run it on the old bridge, then on JSI →" minHeight={STEPS.length * 23} />
       </div>
       <CodeTabs
         files={[

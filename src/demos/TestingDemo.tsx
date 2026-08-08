@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
 
 const TOTAL = 128;
 const TARGET_COV = 94;

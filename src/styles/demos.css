@@ -68,8 +68,7 @@
 .code-tab-btn:hover { color: var(--paper); }
 .code-tab-btn.active { color: var(--copper); border-bottom-color: var(--copper); }
 .code-tabs .code-block {
-  flex: 1; min-height: 0; overflow-y: auto; border: none; border-radius: 0;
-  background: transparent; white-space: pre-wrap; word-break: break-word;
+  flex: 1; min-height: 0; overflow-y: auto; border: none; border-radius: 0; background: transparent;
 }
 
 /* Demo: list perf */

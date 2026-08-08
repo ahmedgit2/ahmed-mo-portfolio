@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import BridgeLog from '../sharedComponents/BridgeLog';
+import type { LogLine } from '../sharedComponents/useStagedLog';
 
 const STAGES = [10, 50, 100];
 
 export default function OtaDemo() {
-  const [log, setLog] = useState<{ text: string; kind: 'ok' | 'cur' }[]>([]);
+  const [log, setLog] = useState<LogLine[]>([]);
 
   function stage(pct: number) {
-    const lines: { text: string; kind: 'ok' | 'cur' }[] = [
+    const lines: LogLine[] = [
       { text: `⇪ Bundle v2.3.1 pushed to ${pct}% of devices — monitoring crash-free rate...`, kind: 'cur' },
     ];
     if (pct === 100) lines.push({ text: '✓ Rollout complete, no crash spike detected', kind: 'ok' });
@@ -31,10 +33,7 @@ export default function OtaDemo() {
           ))}
           <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={rollback}>Rollback</button>
         </div>
-        <div className="bridge-log" style={{ minHeight: 46 }}>
-          {log.length === 0 && 'Pick a rollout stage →'}
-          {log.map((l, i) => <div key={i} className={l.kind}>{l.text}</div>)}
-        </div>
+        <BridgeLog lines={log} placeholder="Pick a rollout stage →" minHeight={46} />
       </div>
       <CodeTabs
         files={[

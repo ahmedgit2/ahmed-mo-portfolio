@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
 
 const STRINGS: Record<string, string> = {
   en: 'Welcome back — you have 3 new updates.',

@@ -1,12 +1,14 @@
 import { useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import BridgeLog from '../sharedComponents/BridgeLog';
+import type { LogLine } from '../sharedComponents/useStagedLog';
 
 const TV_LABELS = ['Home', 'Search', 'Library', 'Live', 'Settings', 'Profile', 'Downloads', 'Guide', 'Exit'];
 
 export default function TvDemo() {
   const [focus, setFocus] = useState(4); // center tile starts focused
-  const [log, setLog] = useState<{ text: string; kind: 'ok' | 'cur' } | null>(null);
+  const [log, setLog] = useState<LogLine | null>(null);
 
   function move(dir: 'up' | 'down' | 'left' | 'right' | 'ok') {
     if (dir === 'ok') {
@@ -42,9 +44,7 @@ export default function TvDemo() {
           <button className="btn btn-ghost" onClick={() => move('right')}>▶</button>
           <span className="empty" /><button className="btn btn-ghost" onClick={() => move('down')}>▼</button><span className="empty" />
         </div>
-        <div className="bridge-log">
-          {log ? <div className={log.kind}>{log.text}</div> : 'Use the D-pad to move focus →'}
-        </div>
+        <BridgeLog lines={log ? [log] : []} placeholder="Use the D-pad to move focus →" />
       </div>
       <CodeTabs
         files={[

@@ -1,8 +1,7 @@
-import { useRef, useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
-
-type LogLine = { text: string; kind: 'ok' | 'cur' };
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import BridgeLog from '../sharedComponents/BridgeLog';
+import { useStagedLog, type LogLine } from '../sharedComponents/useStagedLog';
 
 const FLOWS: Record<'send' | 'receive', { label: string; steps: LogLine[] }> = {
   send: {
@@ -30,18 +29,7 @@ const MAX_STEPS = Math.max(...Object.values(FLOWS).map((f) => f.steps.length));
 const LOG_MIN_HEIGHT = MAX_STEPS * 23;
 
 export default function WearablesDemo() {
-  const [lines, setLines] = useState<LogLine[]>([]);
-  const timers = useRef<number[]>([]);
-
-  function run(flow: 'send' | 'receive') {
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-    setLines([]);
-    FLOWS[flow].steps.forEach((step, i) => {
-      const id = window.setTimeout(() => setLines((prev) => [...prev, step]), i * 450);
-      timers.current.push(id);
-    });
-  }
+  const { lines, run } = useStagedLog(450);
 
   return (
     <DemoPanel
@@ -50,13 +38,10 @@ export default function WearablesDemo() {
     >
       <div className="demo-box" style={{ alignSelf: 'stretch' }}>
         <div className="cta-row" style={{ marginTop: 0, marginBottom: 14 }}>
-          <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run('send')}>{FLOWS.send.label}</button>
-          <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => run('receive')}>{FLOWS.receive.label}</button>
+          <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run(FLOWS.send.steps)}>{FLOWS.send.label}</button>
+          <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={() => run(FLOWS.receive.steps)}>{FLOWS.receive.label}</button>
         </div>
-        <div className="bridge-log" style={{ minHeight: LOG_MIN_HEIGHT }}>
-          {lines.length === 0 && 'Simulates the native companion bridge, either direction →'}
-          {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
-        </div>
+        <BridgeLog lines={lines} placeholder="Simulates the native companion bridge, either direction →" minHeight={LOG_MIN_HEIGHT} />
       </div>
       <CodeTabs
         files={[

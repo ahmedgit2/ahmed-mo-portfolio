@@ -1,27 +1,17 @@
-import { useRef, useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import BridgeLog from '../sharedComponents/BridgeLog';
+import { useStagedLog, type LogLine } from '../sharedComponents/useStagedLog';
 
-const STEPS = [
-  'iOS: user taps https://geet.app/order/8842',
-  'System checks apple-app-site-association on geet.app',
-  'App ID matches installed app → opens natively, no Safari hop',
-  'RN linking config resolves to OrderDetails, orderId: 8842 ✓',
+const STEPS: LogLine[] = [
+  { text: 'iOS: user taps https://geet.app/order/8842', kind: 'cur' },
+  { text: 'System checks apple-app-site-association on geet.app', kind: 'cur' },
+  { text: 'App ID matches installed app → opens natively, no Safari hop', kind: 'cur' },
+  { text: 'RN linking config resolves to OrderDetails, orderId: 8842 ✓', kind: 'ok' },
 ];
 
 export default function ULinkDemo() {
-  const [lines, setLines] = useState<string[]>([]);
-  const timers = useRef<number[]>([]);
-
-  function run() {
-    timers.current.forEach(clearTimeout);
-    timers.current = [];
-    setLines([]);
-    STEPS.forEach((step, i) => {
-      const id = window.setTimeout(() => setLines((prev) => [...prev, step]), i * 450);
-      timers.current.push(id);
-    });
-  }
+  const { lines, run } = useStagedLog(450);
 
   return (
     <DemoPanel
@@ -29,13 +19,13 @@ export default function ULinkDemo() {
       note="// No installed app → same URL opens the mobile web fallback instead."
     >
       <div className="demo-box">
-        <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={run}>Open https://geet.app/order/8842</button>
-        <div className="bridge-log" style={{ marginTop: 14, minHeight: STEPS.length * 23 }}>
-          {lines.length === 0 && 'Simulates iOS resolving the link →'}
-          {lines.map((line, i) => (
-            <div key={line} className={i === STEPS.length - 1 ? 'ok' : 'cur'}>{line}</div>
-          ))}
-        </div>
+        <button className="btn btn-primary" style={{ padding: '9px 16px' }} onClick={() => run(STEPS)}>Open https://geet.app/order/8842</button>
+        <BridgeLog
+          lines={lines}
+          placeholder="Simulates iOS resolving the link →"
+          minHeight={STEPS.length * 23}
+          style={{ marginTop: 14 }}
+        />
       </div>
       <CodeTabs
         files={[

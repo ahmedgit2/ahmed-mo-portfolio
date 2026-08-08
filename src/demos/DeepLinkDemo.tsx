@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import DemoPanel from './shared/DemoPanel';
-import CodeTabs from './shared/CodeTabs';
+import DemoPanel from '../sharedComponents/DemoPanel';
+import CodeTabs from '../sharedComponents/CodeTabs';
+import InteractiveList from '../sharedComponents/InteractiveList';
 
 const LINKS = [
   { label: 'geet://order/8842', route: '→ resolves to OrderDetails, orderId: 8842' },
@@ -17,17 +18,12 @@ export default function DeepLinkDemo() {
       note="// Unmatched paths fall back to a default route instead of crashing the navigator."
     >
       <div className="demo-box">
-        <div className="fake-list">
-          {LINKS.map((l, i) => (
-            <div
-              key={l.label}
-              className={'fake-row' + (i === selected ? ' selected' : '')}
-              onClick={() => setSelected(i)}
-            >
-              {l.label}
-            </div>
-          ))}
-        </div>
+        <InteractiveList
+          items={LINKS}
+          selectedIndex={selected}
+          onSelect={setSelected}
+          renderLabel={(l) => l.label}
+        />
         <div className="demo-note" style={{ marginTop: 14 }}>
           {selected === null ? 'Pick a link to resolve it →' : LINKS[selected].route}
         </div>

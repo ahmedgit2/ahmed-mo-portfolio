@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useReveal } from '../hooks/useReveal';
-import { DEMO_LIST } from '../demos/shared/registry';
+import { DEMO_LIST } from '../sharedComponents/registry';
 import ListPerfDemo from '../demos/ListPerfDemo';
 import StorageDemo from '../demos/StorageDemo';
 import SyncDemo from '../demos/SyncDemo';
