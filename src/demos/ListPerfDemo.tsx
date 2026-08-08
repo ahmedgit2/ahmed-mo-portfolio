@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 const ITEMS = Array.from({ length: 14 }, (_, i) => `Task item #${i + 1}`);
 
@@ -34,7 +35,11 @@ export default function ListPerfDemo() {
           <span>New: <b>1</b></span>
         </div>
       </div>
-      <pre className="code-block">{`// before — FlatList row, memoized but still O(n) per tap
+      <CodeTabs
+        files={[
+          {
+            name: 'InventoryRow.tsx',
+            code: `// before — memoized, but still O(n) per tap
 const Row = React.memo(({ item, selectedIds, onToggle }: RowProps) => {
   const isSelected = selectedIds.includes(item.id); // array scan, n comparisons
   return (
@@ -47,7 +52,7 @@ const Row = React.memo(({ item, selectedIds, onToggle }: RowProps) => {
 // selectedIds is a new array reference every toggle → every Row's
 // props.selectedIds changes identity → React.memo bails, all 400 rows re-render.
 
-// after — Set membership, stable reference per row
+// after — bool prop, stable identity per row
 const Row = React.memo(
   ({ item, isSelected, onToggle }: RowProps) => (
     <Pressable onPress={() => onToggle(item.id)} style={styles.row}>
@@ -58,16 +63,33 @@ const Row = React.memo(
   (prev, next) => prev.isSelected === next.isSelected, // custom comparator
 );
 
-const toggle = useCallback((id: string) => {
-  setSelectedIds((prev) => {
-    const next = new Set(prev);
-    next.has(id) ? next.delete(id) : next.add(id);
-    return next;
-  });
-}, []);
+// parent: <Row isSelected={selectedIds.has(item.id)} ... />`,
+          },
+          {
+            name: 'useRowSelection.ts',
+            code: `export function useRowSelection() {
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
 
-// parent passes isSelected={selectedIds.has(item.id)} per row —
-// only the touched row's boolean prop actually changes.`}</pre>
+  const toggle = useCallback((id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }, []);
+
+  const flush = useCallback(() => {
+    offlineQueue.push({ type: 'BULK_SELECT', ids: Array.from(selectedIds) });
+  }, [selectedIds]);
+
+  return { selected: selectedIds, toggle, flush };
+}
+
+// only the touched row's boolean prop actually changes on toggle —
+// the other 399 rows never re-render.`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

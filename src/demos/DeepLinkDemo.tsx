@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 const LINKS = [
   { label: 'geet://order/8842', route: '→ resolves to OrderDetails, orderId: 8842' },
@@ -31,7 +32,7 @@ export default function DeepLinkDemo() {
           {selected === null ? 'Pick a link to resolve it →' : LINKS[selected].route}
         </div>
       </div>
-      <pre className="code-block">{`const linking: LinkingOptions<RootStackParamList> = {
+      <CodeTabs files={[{ name: 'linking.ts', code: `const linking: LinkingOptions<RootStackParamList> = {
   prefixes: ['geet://', 'https://geet.app'], // custom scheme + Universal Link host
   config: {
     screens: {
@@ -58,7 +59,7 @@ export default function DeepLinkDemo() {
     const message = await messaging().getInitialNotification();
     return message?.data?.link ?? null; // push notifications also carry deep links
   },
-};`}</pre>
+};` }]} />
     </DemoPanel>
   );
 }

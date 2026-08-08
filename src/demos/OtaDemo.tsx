@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 const STAGES = [10, 50, 100];
 
@@ -35,28 +36,51 @@ export default function OtaDemo() {
           {log.map((l, i) => <div key={i} className={l.kind}>{l.text}</div>)}
         </div>
       </div>
-      <pre className="code-block">{`function checkForUpdate() {
-  codePush.sync(
-    {
-      deploymentKey: Config.CODEPUSH_KEY, // per-env: DEV / STAGING / PROD-ANDROID
-      installMode: codePush.InstallMode.ON_NEXT_RESUME,
-      mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, // forced security fixes
-      rollbackRetryOptions: { maxRetryAttempts: 3, minBackoffMs: 60000 },
-      updateDialog: false, // silent — we control messaging via in-app banner
-    },
-    (status) => analytics.track('codepush_status', { status }),
-    ({ receivedBytes, totalBytes }) => setDownloadProgress(receivedBytes / totalBytes),
-  );
-}
+      <CodeTabs
+        files={[
+          {
+            name: 'useCodePushUpdate.ts',
+            code: `export function useCodePushUpdate() {
+  const [downloadProgress, setDownloadProgress] = useState(0);
 
-// rollout staged server-side via App Center / self-hosted CodePush server
-// 10% → watch crash-free rate on Crashlytics for ~2h → 50% → 100%
-// codePush.notifyAppReady() must fire post-mount, or the SDK assumes
-// the update crashed on boot and auto-rolls-back the whole cohort
+  function checkForUpdate() {
+    codePush.sync(
+      {
+        deploymentKey: Config.CODEPUSH_KEY, // per-env: DEV / STAGING / PROD-ANDROID
+        installMode: codePush.InstallMode.ON_NEXT_RESUME,
+        mandatoryInstallMode: codePush.InstallMode.IMMEDIATE, // forced security fixes
+        rollbackRetryOptions: { maxRetryAttempts: 3, minBackoffMs: 60000 },
+        updateDialog: false, // silent — we control messaging via in-app banner
+      },
+      (status) => analytics.track('codepush_status', { status }),
+      ({ receivedBytes, totalBytes }) => setDownloadProgress(receivedBytes / totalBytes),
+    );
+  }
 
-useEffect(() => {
-  codePush.notifyAppReady();
-}, []);`}</pre>
+  // codePush.notifyAppReady() must fire post-mount, or the SDK assumes
+  // the update crashed on boot and auto-rolls-back the whole cohort
+  useEffect(() => {
+    codePush.notifyAppReady();
+  }, []);
+
+  return { checkForUpdate, downloadProgress };
+}`,
+          },
+          {
+            name: 'rollout-notes.md',
+            code: `## Staged rollout — App Center CodePush server
+
+1. push bundle to 10% of devices
+2. watch Crashlytics crash-free-users rate for ~2h
+3. if stable → 50%, repeat the watch window
+4. if stable → 100%
+
+A bad bundle at any stage gets rolled back with one CLI command —
+CodePush reverts affected devices to the last known-good bundle on
+their next resume, no store review, no forced app update.`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

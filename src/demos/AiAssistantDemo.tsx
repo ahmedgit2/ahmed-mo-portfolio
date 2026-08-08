@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 type ChatMessage =
   | { role: 'user'; text: string }
@@ -54,7 +55,7 @@ export default function AiAssistantDemo() {
 
   return (
     <DemoPanel
-      desc="PlanRadar's in-app AI Assistant — I built the RN client: ActionCable-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Pick a prompt below."
+      desc="PlanRadar's in-app AI Assistant — I built the RN client: WebSocket-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Architecture below, renamed from the real implementation. Pick a prompt below."
       note="// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working."
     >
       <div className="demo-box">
@@ -90,31 +91,38 @@ export default function AiAssistantDemo() {
         <div className="ai-usage-bar"><div className="ai-usage-fill" style={{ width: `${Math.round((usage / MAX_USAGE) * 100)}%` }} /></div>
         <div className="ai-usage-label">{usage} / {MAX_USAGE} messages this cycle</div>
       </div>
-      <pre className="code-block">{`// processAnswer.ts — the backend streams staged JSON, not raw markdown
-type AnswerStage = { state: 'Thinking' | 'Response' | 'FormActions'; output: string };
+      <CodeTabs
+        files={[
+          {
+            name: 'parseChatReply.ts',
+            code: `// backend streams staged JSON, not raw markdown, so the UI can show
+// "thinking" separately from the final answer
+type ReplyStage = { stage: 'pending' | 'final' | 'suggestedActions'; text: string };
 
-export function processAnswer(rawAnswer: string | null): string | null {
-  if (!rawAnswer) return null;
-  const stages: AnswerStage[] = JSON.parse(rawAnswer);
+export function parseChatReply(raw: string | null): string | null {
+  if (!raw) return null;
+  const stages: ReplyStage[] = JSON.parse(raw);
 
   return stages
-    .filter((s) => s.state === 'Response' || s.state === 'Thinking') // skip FormActions, web-only
+    .filter((s) => s.stage === 'final' || s.stage === 'pending') // skip web-only action stage
     .map((stage) =>
-      stage.state === 'Thinking'
-        ? \`<thinking-placeholder>\${stage.output}</thinking-placeholder>\` // collapsible in MarkdownRenderer
-        : stage.output, // plain markdown + XML ticket tags, rendered as-is
+      stage.stage === 'pending'
+        ? \`<pending-block>\${stage.text}</pending-block>\` // collapsible "thinking" UI
+        : stage.text, // plain markdown + a few custom XML tags, rendered as-is
     )
     .join('');
-}
-
-// use-assistant-cable.ts — one ActionCable subscription per session
-export function useAssistantCable({ sessionId, onReceived, enabled = true }: Props) {
+}`,
+          },
+          {
+            name: 'useChatSocket.ts',
+            code: `// one WebSocket subscription per chat session
+export function useChatSocket({ sessionId, onReceived, enabled = true }: Props) {
   useEffect(() => {
     if (!enabled || !sessionId) return;
 
-    const channel = cable.subscriptions.create(
-      { channel: 'AssistantMessageChannel', session_id: sessionId },
-      { received: (data: AssistantCableMessageUpsertProps) => onReceived(data) },
+    const channel = socketClient.subscribe(
+      { channel: 'ChatUpdatesChannel', session_id: sessionId },
+      { received: (data: ChatUpsertPayload) => onReceived(data) },
     );
 
     return () => channel.unsubscribe(); // one leaked subscription per screen visit adds up fast
@@ -122,7 +130,10 @@ export function useAssistantCable({ sessionId, onReceived, enabled = true }: Pro
 }
 
 // upsert payload lets partial tokens patch the *same* message bubble
-// instead of appending a new one per chunk — { uuid, answer, done, failed }`}</pre>
+// instead of appending a new one per chunk — { id, text, done, failed }`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

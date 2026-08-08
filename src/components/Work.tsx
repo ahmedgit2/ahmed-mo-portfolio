@@ -1,3 +1,5 @@
+import { useReveal } from '../hooks/useReveal';
+
 type Project = {
   icon: string;
   alt: string;
@@ -58,9 +60,10 @@ const PROJECTS: Project[] = [
 ];
 
 export default function Work() {
+  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
     <section id="work">
-      <div className="wrap">
+      <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={ref}>
         <div className="sec-head">
           <h2>Shipped Apps</h2>
           <p className="sec-sub">6 of 10+ shipped — the ones most worth showing. All live on the App Store and Google Play.</p>

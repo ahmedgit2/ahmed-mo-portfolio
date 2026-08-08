@@ -48,8 +48,29 @@
    size to their own content. */
 .demo-grid { display: flex; gap: 16px; align-items: flex-start; }
 .demo-grid > .demo-box { flex: 1; min-width: 0; }
-.demo-grid > .code-block { flex: 1.2; min-width: 0; white-space: pre-wrap; word-break: break-word; max-height: 400px; overflow-y: auto; }
+.demo-grid > .code-tabs { flex: 1.2; min-width: 0; }
 @media (max-width: 900px) { .demo-grid { flex-direction: column; } }
+
+/* File-tab code viewer */
+.code-tabs {
+  display: flex; flex-direction: column; max-height: 400px;
+  border: 1px solid var(--line); border-radius: 4px; overflow: hidden; background: #0E1516;
+}
+.code-tabs-bar {
+  display: flex; flex-wrap: wrap; gap: 2px; background: var(--panel-2);
+  border-bottom: 1px solid var(--line); flex-shrink: 0; padding: 0 4px;
+}
+.code-tab-btn {
+  font-family: var(--mono); font-size: 11px; color: var(--muted); background: transparent;
+  border: none; border-bottom: 2px solid transparent; padding: 8px 10px; cursor: pointer; white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+.code-tab-btn:hover { color: var(--paper); }
+.code-tab-btn.active { color: var(--copper); border-bottom-color: var(--copper); }
+.code-tabs .code-block {
+  flex: 1; min-height: 0; overflow-y: auto; border: none; border-radius: 0;
+  background: transparent; white-space: pre-wrap; word-break: break-word;
+}
 
 /* Demo: list perf */
 .fake-list { max-height: 220px; overflow-y: auto; border: 1px solid var(--line); border-radius: 3px; }

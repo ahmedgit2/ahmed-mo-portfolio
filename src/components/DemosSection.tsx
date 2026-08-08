@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { DEMO_LIST } from '../demos/types';
+import { useReveal } from '../hooks/useReveal';
+import { DEMO_LIST } from '../demos/shared/registry';
 import ListPerfDemo from '../demos/ListPerfDemo';
 import StorageDemo from '../demos/StorageDemo';
 import SyncDemo from '../demos/SyncDemo';
@@ -43,6 +44,7 @@ export default function DemosSection() {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [panelHeight, setPanelHeight] = useState<number | undefined>(undefined);
   const ActiveDemo = DEMO_COMPONENTS[activeId];
+  const { ref: revealRef, visible } = useReveal<HTMLDivElement>();
 
   // Every demo panel matches the sidebar's height exactly — measured, not guessed,
   // so it stays correct regardless of how tall any individual demo's content is.
@@ -70,7 +72,7 @@ export default function DemosSection() {
 
   return (
     <section id="demos">
-      <div className="wrap">
+      <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={revealRef}>
         <div className="sec-head">
           <h2>Skill Demos</h2>
           <p className="sec-sub">Live, interactive — not screenshots. Each one maps to real work from my experience.</p>

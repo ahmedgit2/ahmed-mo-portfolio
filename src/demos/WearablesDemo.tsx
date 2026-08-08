@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 type LogLine = { text: string; kind: 'ok' | 'cur' };
 
@@ -57,7 +58,12 @@ export default function WearablesDemo() {
           {lines.map((line, i) => <div key={i} className={line.kind}>{line.text}</div>)}
         </div>
       </div>
-      <pre className="code-block">{`// RN → Watch — native module wraps WatchConnectivity (iOS) behind one JS API
+      <CodeTabs
+        files={[
+          {
+            name: 'WatchBridge.ts',
+            code: `// native module wraps WatchConnectivity (iOS) / MessageClient (Android)
+// behind one JS API — screens don't care which platform they're on
 class WatchBridge extends NativeEventEmitter {
   sendOrderStatus(orderId: string, status: OrderStatus) {
     if (Platform.OS === 'ios') {
@@ -69,16 +75,26 @@ class WatchBridge extends NativeEventEmitter {
         JSON.stringify({ orderId, status }));
     }
   }
+}`,
+          },
+          {
+            name: 'useWatchActions.ts',
+            code: `// Watch → RN — one handler regardless of which platform triggered it
+export function useWatchActions(handleOrderAction: (orderId: string, action: string) => void) {
+  useEffect(() => {
+    const sub = watchBridge.addListener('watchAction', (payload: { action: string; orderId: string }) => {
+      handleOrderAction(payload.orderId, payload.action); // same reducer as the phone UI
+    });
+    return () => sub.remove();
+  }, [handleOrderAction]);
 }
-
-// Watch → RN — one handler regardless of which platform triggered it
-watchBridge.addListener('watchAction', (payload: { action: string; orderId: string }) => {
-  handleOrderAction(payload.orderId, payload.action); // same reducer as the phone UI
-});
 
 // complication data (the glanceable watch-face text) is pushed separately —
 // it has its own budget/refresh-rate limits, can't just piggyback the message API
-CLKComplicationServer.reloadTimeline(complicationDescriptor);`}</pre>
+CLKComplicationServer.sharedInstance().reloadTimeline(complicationDescriptor);`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

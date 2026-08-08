@@ -1,7 +1,10 @@
+import { useReveal } from '../hooks/useReveal';
+
 export default function Contact() {
+  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
     <footer id="contact">
-      <div className="wrap">
+      <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={ref}>
         <h2 className="big">Let's build something.</h2>
         <p className="sub">Open to senior React Native roles — remote, Cairo-based, or open to relocate.</p>
         <div className="contact-links">

@@ -1,5 +1,6 @@
-import DemoPanel from './DemoPanel';
-import PipelineSteps, { usePipeline } from './PipelineSteps';
+import DemoPanel from './shared/DemoPanel';
+import PipelineSteps, { usePipeline } from './shared/PipelineSteps';
+import CodeTabs from './shared/CodeTabs';
 
 const STEPS = ['Install deps', 'Run tests (Jest)', 'EAS Build (iOS + Android)', 'Submit → TestFlight', 'Submit → Play Console'];
 
@@ -15,8 +16,11 @@ export default function CicdDemo() {
         <button className="btn btn-primary" style={{ padding: '9px 16px', marginBottom: 16 }} onClick={run}>Run pipeline</button>
         <PipelineSteps steps={STEPS} states={states} />
       </div>
-      <pre className="code-block">{`# .gitlab-ci.yml
-stages: [install, test, build, deploy]
+      <CodeTabs
+        files={[
+          {
+            name: '.gitlab-ci.yml',
+            code: `stages: [install, test, build, deploy]
 
 install:
   stage: install
@@ -57,7 +61,33 @@ deploy_play:
   stage: deploy
   script: eas submit -p android --latest --non-interactive
   needs: [build_android]
-  when: manual`}</pre>
+  when: manual`,
+          },
+          {
+            name: 'eas.json',
+            code: `{
+  "build": {
+    "production": {
+      "node": "20.11.0",
+      "ios": { "resourceClass": "m-medium", "autoIncrement": true },
+      "android": { "buildType": "app-bundle", "autoIncrement": true },
+      "env": { "APP_ENV": "production" }
+    },
+    "staging": {
+      "extends": "production",
+      "distribution": "internal",
+      "env": { "APP_ENV": "staging" }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": { "appleId": "release@company.com", "ascAppId": "0000000000" }
+    }
+  }
+}`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

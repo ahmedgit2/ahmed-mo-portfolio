@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 const STEPS = [
   'iOS: user taps https://geet.app/order/8842',
@@ -36,8 +37,12 @@ export default function ULinkDemo() {
           ))}
         </div>
       </div>
-      <pre className="code-block">{`// apple-app-site-association — served at
-// https://geet.app/.well-known/apple-app-site-association, no extension, no redirect
+      <CodeTabs
+        files={[
+          {
+            name: 'apple-app-site-association',
+            code: `// served at https://geet.app/.well-known/apple-app-site-association
+// no file extension, no redirect, must be served as application/json
 {
   "applinks": {
     "apps": [],
@@ -48,11 +53,13 @@ export default function ULinkDemo() {
   }
 }
 
-// Xcode: Associated Domains capability (per environment)
+// Xcode: Associated Domains capability, one entry per environment
 applinks:geet.app
-applinks:staging.geet.app
-
-// Android: /.well-known/assetlinks.json + manifest intent-filter
+applinks:staging.geet.app`,
+          },
+          {
+            name: 'AndroidManifest.xml',
+            code: `<!-- verified against /.well-known/assetlinks.json on geet.app -->
 <intent-filter android:autoVerify="true">
   <action android:name="android.intent.action.VIEW" />
   <category android:name="android.intent.category.DEFAULT" />
@@ -60,9 +67,13 @@ applinks:staging.geet.app
   <data android:scheme="https" android:host="geet.app" />
 </intent-filter>
 
-// caught in review once: staging builds pointed at the prod AASA file,
-// so TestFlight links silently opened production data. Split by scheme
-// and verify assetlinks.json / AASA per environment in CI before release.`}</pre>
+<!-- caught in review once: staging builds pointed at the prod AASA file,
+     so TestFlight links silently opened production data. Split by
+     scheme and verify assetlinks.json / AASA per environment in CI
+     before release. -->`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

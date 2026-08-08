@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 export default function SyncDemo() {
   const [isOnline, setIsOnline] = useState(true);
@@ -26,7 +27,7 @@ export default function SyncDemo() {
 
   return (
     <DemoPanel
-      desc="PlanRadar's DMS module is offline-first and real-time over WebSockets — actions queue while offline and flush on reconnect. Toggle offline below and make changes."
+      desc="One of PlanRadar's core modules is offline-first and real-time over WebSockets — actions queue while offline and flush on reconnect. Toggle offline below and make changes."
       note="// Queued actions flush in order once the socket reconnects."
     >
       <div className="demo-box">
@@ -35,15 +36,19 @@ export default function SyncDemo() {
           <span style={{ fontFamily: 'var(--mono)', fontSize: 12.5 }}>{isOnline ? 'Online' : 'Offline'}</span>
           {queued > 0 && <span className="queue-badge">{queued} queued</span>}
         </div>
-        <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={handleAction}>Approve document</button>
+        <button className="btn btn-ghost" style={{ padding: '9px 16px' }} onClick={handleAction}>Approve item</button>
         <div className="bridge-log" style={{ marginTop: 14 }}>
           {log ? <div className={log.kind}>{log.text}</div> : 'Actions will log here →'}
         </div>
       </div>
-      <pre className="code-block">{`type QueuedAction = { id: string; type: 'APPROVE' | 'REJECT'; documentId: string; ts: number };
+      <CodeTabs
+        files={[
+          {
+            name: 'OfflineQueue.ts',
+            code: `type QueuedAction = { id: string; type: 'APPROVE' | 'REJECT'; itemId: string; ts: number };
 
 // queue persisted to MMKV, not memory — survives an app kill mid-offline
-class OfflineQueue {
+export class OfflineQueue {
   private storage = new MMKV({ id: 'offline-queue' });
 
   push(action: Omit<QueuedAction, 'ts'>) {
@@ -63,18 +68,35 @@ class OfflineQueue {
     }
     this.storage.delete('actions');
   }
-}
+}`,
+          },
+          {
+            name: 'useItemApproval.ts',
+            code: `const queue = new OfflineQueue();
 
-function approveDocument(documentId: string) {
-  const action = { id: uuid(), type: 'APPROVE' as const, documentId };
-  if (!networkState.isOnline) return queue.push(action);
-  socket.send(JSON.stringify(action));
-}
+export function useItemApproval() {
+  const socket = useRealtimeSocket();
+  const [wasOffline, setWasOffline] = useState(false);
 
-// NetInfo listener drives both the toggle UI and the flush trigger
-NetInfo.addEventListener(({ isConnected }) => {
-  if (isConnected && wasOffline) queue.flush(socket);
-});`}</pre>
+  function approveItem(itemId: string) {
+    const action = { id: uuid(), type: 'APPROVE' as const, itemId };
+    if (!networkState.isOnline) return queue.push(action);
+    socket.send(JSON.stringify(action));
+  }
+
+  useEffect(() => {
+    // NetInfo listener drives both the offline banner and the flush trigger
+    return NetInfo.addEventListener(({ isConnected }) => {
+      if (isConnected && wasOffline) queue.flush(socket);
+      setWasOffline(!isConnected);
+    });
+  }, [socket, wasOffline]);
+
+  return { approveItem };
+}`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

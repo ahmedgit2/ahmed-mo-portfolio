@@ -1,3 +1,5 @@
+import { useReveal } from '../hooks/useReveal';
+
 type Job = {
   role: string;
   period: string;
@@ -40,9 +42,10 @@ const JOBS: Job[] = [
 ];
 
 export default function Experience() {
+  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
     <section id="experience">
-      <div className="wrap">
+      <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={ref}>
         <div className="sec-head">
           <h2>Experience</h2>
           <p className="sec-sub">Six years across mobile, e-commerce, logistics, and enterprise desktop systems.</p>

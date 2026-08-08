@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 export default function StorageDemo() {
   const [store, setStore] = useState<Record<string, string>>({});
@@ -35,7 +36,11 @@ export default function StorageDemo() {
             ))}
         </div>
       </div>
-      <pre className="code-block">{`// before — AsyncStorage, async everywhere it's touched
+      <CodeTabs
+        files={[
+          {
+            name: 'secureStorage.ts',
+            code: `// before — AsyncStorage, async everywhere it's touched
 async function getAuthToken(): Promise<string | null> {
   return AsyncStorage.getItem('auth_token'); // ~2-5ms, disk I/O off JS thread
 }
@@ -46,7 +51,7 @@ async function getAuthToken(): Promise<string | null> {
 import { MMKV } from 'react-native-mmkv';
 
 const secureStorage = new MMKV({
-  id: 'planradar-secure',
+  id: 'app-secure',
   encryptionKey: getDeviceKeystoreKey(), // per-device, from Keychain/Keystore
 });
 
@@ -56,16 +61,39 @@ export function getAuthToken(): string | null {
 
 export function setAuthToken(token: string): void {
   secureStorage.set('auth_token', token);
-}
+}`,
+          },
+          {
+            name: 'migrateLegacyStorage.ts',
+            code: `// ran once on app boot behind a feature flag — reads both stores,
+// prefers MMKV once populated, deletes the AsyncStorage copy after
+export async function migrateFromAsyncStorage() {
+  if (secureStorage.getBoolean('migrated_v2')) return;
 
-// migration ran once on app boot behind a feature flag,
-// reading both stores and preferring MMKV once populated
-async function migrateFromAsyncStorage() {
-  const legacy = await AsyncStorage.getItem('auth_token');
-  if (legacy && !secureStorage.contains('auth_token')) {
-    secureStorage.set('auth_token', legacy);
+  const keys = ['auth_token', 'user_prefs', 'last_project_id'];
+  for (const key of keys) {
+    const legacy = await AsyncStorage.getItem(key);
+    if (legacy !== null && !secureStorage.contains(key)) {
+      secureStorage.set(key, legacy);
+    }
   }
-}`}</pre>
+
+  secureStorage.set('migrated_v2', true);
+  await AsyncStorage.multiRemove(keys); // don't leave stale copies around
+}`,
+          },
+          {
+            name: 'package.json',
+            code: `{
+  "dependencies": {
+    "react-native-mmkv": "^2.12.2"
+  }
+}
+// requires a dev-client rebuild (or bare workflow) — MMKV links native
+// code, it's not compatible with Expo Go`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 export default function PushDemo() {
   const [show, setShow] = useState(false);
@@ -25,10 +26,14 @@ export default function PushDemo() {
           </div>
         </div>
       </div>
-      <pre className="code-block">{`import messaging from '@react-native-firebase/messaging';
+      <CodeTabs
+        files={[
+          {
+            name: 'useNotificationRouting.ts',
+            code: `import messaging from '@react-native-firebase/messaging';
 
 // three lifecycle states, three different entry points into the same handler
-function useNotificationRouting(navigation: NavigationProp) {
+export function useNotificationRouting(navigation: NavigationProp) {
   const route = useCallback((data: Record<string, string>) => {
     if (data?.orderId) navigation.navigate('OrderDetails', { orderId: Number(data.orderId) });
     if (data?.threadId) navigation.navigate('Chat', { threadId: data.threadId });
@@ -54,7 +59,22 @@ function useNotificationRouting(navigation: NavigationProp) {
 
 // missed this the first time in prod: getInitialNotification() resolves before
 // the navigator's initial route mounts, so the navigate() call was a no-op —
-// fixed by gating it on navigationRef.isReady().`}</pre>
+// fixed by gating it on navigationRef.isReady().`,
+          },
+          {
+            name: 'package.json',
+            code: `{
+  "dependencies": {
+    "@react-native-firebase/app": "^21.0.0",
+    "@react-native-firebase/messaging": "^21.0.0",
+    "@notifee/react-native": "^7.8.2"
+  }
+}
+// Notifee handles the actual local notification rendering — FCM's own
+// foreground behavior is inconsistent across Android OEMs`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }

@@ -1,3 +1,5 @@
+import { useReveal } from '../hooks/useReveal';
+
 type SkillGroup = { title: string; pills: string[]; desc?: string };
 
 const GROUPS: SkillGroup[] = [
@@ -27,9 +29,10 @@ const GROUPS: SkillGroup[] = [
 ];
 
 export default function Skills() {
+  const { ref, visible } = useReveal<HTMLDivElement>();
   return (
     <section id="skills">
-      <div className="wrap">
+      <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={ref}>
         <div className="sec-head">
           <h2>Skills</h2>
           <p className="sec-sub">What I reach for day to day.</p>

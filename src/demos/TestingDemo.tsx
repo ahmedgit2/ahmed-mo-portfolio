@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import DemoPanel from './DemoPanel';
+import DemoPanel from './shared/DemoPanel';
+import CodeTabs from './shared/CodeTabs';
 
 const TOTAL = 128;
 const TARGET_COV = 94;
@@ -42,27 +43,33 @@ export default function TestingDemo() {
           {done && <span><b style={{ color: '#7FBF8F' }}>✓ all green</b></span>}
         </div>
       </div>
-      <pre className="code-block">{`describe('useDocumentSelection', () => {
+      <CodeTabs
+        files={[
+          {
+            name: 'useRowSelection.test.ts',
+            code: `describe('useRowSelection', () => {
   it('uses O(1) Set lookup, not array scan', () => {
-    const { result } = renderHook(() => useDocumentSelection());
-    act(() => result.current.toggle('doc-1'));
-    expect(result.current.selected.has('doc-1')).toBe(true);
+    const { result } = renderHook(() => useRowSelection());
+    act(() => result.current.toggle('row-1'));
+    expect(result.current.selected.has('row-1')).toBe(true);
     expect(result.current.selected.size).toBe(1);
   });
 
   it('does not re-toggle a row already flushed to the sync queue', () => {
-    const { result } = renderHook(() => useDocumentSelection());
-    act(() => result.current.toggle('doc-1'));
+    const { result } = renderHook(() => useRowSelection());
+    act(() => result.current.toggle('row-1'));
     act(() => result.current.flush());
-    act(() => result.current.toggle('doc-1')); // re-select after flush is fine
+    act(() => result.current.toggle('row-1')); // re-select after flush is fine
     expect(mockOfflineQueue.push).toHaveBeenCalledTimes(1);
   });
-});
-
-// component test — offline queue behavior, not just the reducer
+});`,
+          },
+          {
+            name: 'ItemApprovalScreen.test.tsx',
+            code: `// component test — offline queue behavior, not just the reducer
 it('queues approval when NetInfo reports offline', async () => {
   mockNetInfo.mockReturnValue({ isConnected: false });
-  const { getByText } = render(<DocumentApprovalScreen documentId="doc-1" />);
+  const { getByText } = render(<ItemApprovalScreen itemId="row-1" />);
 
   fireEvent.press(getByText('Approve'));
 
@@ -71,11 +78,35 @@ it('queues approval when NetInfo reports offline', async () => {
   );
 });
 
-// CI gate: yarn test --coverage --ci, merge blocked below 90% on changed files
-// jest.config.js
-coverageThreshold: {
-  './src/containers/**': { branches: 85, functions: 90, lines: 90 },
-}`}</pre>
+it('flushes the queue in order once NetInfo reports back online', async () => {
+  mockNetInfo.mockReturnValue({ isConnected: true });
+  const { getByText } = render(<ItemApprovalScreen itemId="row-1" />);
+
+  await waitFor(() => expect(mockSocket.send).toHaveBeenCalledWith(
+    expect.stringContaining('"type":"APPROVE"'),
+  ));
+});`,
+          },
+          {
+            name: 'jest.config.js',
+            code: `module.exports = {
+  preset: 'react-native',
+  setupFilesAfterEach: ['@testing-library/jest-native/extend-expect'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(react-native|@react-native|react-native-.*)/)',
+  ],
+  coverageThreshold: {
+    global: { branches: 75, functions: 80, lines: 80 },
+    './src/containers/**': { branches: 85, functions: 90, lines: 90 },
+  },
+};
+
+// CI runs: yarn test --coverage --ci
+// merge is blocked below threshold on changed files — the tighter
+// container-level bar is where most business logic lives`,
+          },
+        ]}
+      />
     </DemoPanel>
   );
 }
