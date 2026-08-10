@@ -28,6 +28,13 @@ const PROJECTS: Project[] = [
     appStore: 'https://apps.apple.com/us/app/%D8%B4%D9%8A%D9%81-%D8%B1%D9%88%D9%84%D8%B1/id1464885006',
   },
   {
+    icon: '/images/icons/chefruler.jpg', // reuse the same brand icon as the Client app — no separate icon asset exists
+    alt: 'Chef Ruler — Provider app icon',
+    title: 'Chef Ruler — Provider',
+    descKey: 'chefRulerProvider',
+    // no playStore/appStore link — the real Play Store URL for this app wasn't verifiable, do NOT invent one.
+  },
+  {
     icon: '/images/icons/geet-client.jpg',
     alt: 'Geet — Client app icon',
     title: 'Geet — Client',

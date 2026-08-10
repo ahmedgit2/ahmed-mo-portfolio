@@ -1,6 +1,6 @@
 {
   "nav": { "work": "Progetti", "demos": "Demo", "experience": "Esperienza", "contact": "Contatti" },
-  "common": { "old": "Vecchio", "new": "Nuovo" },
+  "common": { "old": "Vecchio", "new": "Nuovo", "live": "Dal vivo", "code": "Codice" },
   "demoText": {
     "list": { "desc": "In PlanRadar, selezionare una riga in un elenco grande ri-renderizzava ogni riga tramite confronto di identità dell'array — O(n²). L'ho sostituito con una ricerca di appartenenza a un Set, così solo la riga toccata si ri-renderizza. Clicca sulle righe qui sotto.", "note": "// Prima: l'intero elenco si ri-renderizza a ogni selezione. Dopo: si aggiorna solo la riga toccata." },
     "storage": { "desc": "Migrazione della persistenza di PlanRadar da AsyncStorage a MMKV — sincrona, cifrata, letture più veloci.", "note": "// Le scritture MMKV sono sincrone — nessun await, nessuno sfarfallio in lettura." },
@@ -40,7 +40,7 @@
     "heroDiagramAriaLabel": "Diagramma dei livelli architetturali React Native: JavaScript, il bridge New Architecture, e i binari nativi."
   },
   "hero": {
-    "eyebrow": "Senior React Native Engineer · Il Cairo, Egitto",
+    "eyebrow": "Senior React Native Engineer · Decima di Ramadan, Egitto",
     "h1Line1": "Costruisco lo strato in cui",
     "h1Pre": "JavaScript incontra il ",
     "h1Accent": "nativo",
@@ -62,10 +62,11 @@
   },
   "work": {
     "heading": "App pubblicate",
-    "subheading": "6 su oltre 10 pubblicate — le più significative. Tutte live su App Store e Google Play.",
+    "subheading": "7 su oltre 10 pubblicate — le più significative. Tutte live su App Store e Google Play.",
     "projects": {
       "planradar": "SaaS per edilizia e immobiliare. Modulo RN incorporato in app host native iOS/Android, pacchettizzato come binario versionato.",
       "chefRulerClient": "Piattaforma di ordinazione che collega gli utenti a pasti fatti in casa da chef locali.",
+      "chefRulerProvider": "Controparte lato fornitore per gli chef: elenco piatti, gestione menu e gestione degli ordini in arrivo.",
       "geetClient": "App di consegna per consumatori: negozi, pacchi e richieste di corriere on-demand.",
       "geetProvider": "App lato fornitore per gestire offerte di consegna, percorsi e consegna ordini.",
       "flow": "App di gestione inventario creata per migliorare l'efficienza operativa quotidiana.",
@@ -105,9 +106,13 @@
         "bullets": [
           "Co-architetto del packaging di React Native come binario nativo versionato (XCFramework + AAR), eliminando la necessità della toolchain Node/Yarn per i team nativi.",
           "Ha guidato la migrazione della piattaforma a React Native 0.85, abilitando Hermes e la New Architecture (TurboModules/Fabric).",
+          "Ha stabilito un pattern di container a livelli — schermate → HOC → hook/helper — adottato come standard tra modali e navigazione, con Animated API per le transizioni.",
+          "Rifattorizzato il modulo DMS — un sistema offline-first e in tempo reale su WebSocket e JSON:API — la superficie più grande e a maggior traffico del prodotto per la gestione di file/cartelle, azioni collettive e approvazioni.",
           "Risolto un collo di bottiglia critico nel rendering — sostituito un percorso di re-render O(n²) con una ricerca O(1).",
           "Migrata la persistenza da AsyncStorage a MMKV; suddiviso un context monolitico in context specifici per dominio.",
-          "Costruito l'Assistente IA in-app: risposte a fasi in streaming via ActionCable (pensiero/risposta), iniezione di contesto ticket e documenti, tracciamento dello stato di indicizzazione IA, e limitazione per livello di utilizzo con flusso di upgrade."
+          "Costruito l'Assistente IA in-app: risposte a fasi in streaming via WebSocket (pensiero/risposta), iniezione di contesto ticket e documenti, tracciamento dello stato di indicizzazione IA, e limitazione per livello di utilizzo con flusso di upgrade.",
+          "Ha integrato Claude Code nel flusso di lavoro quotidiano — consegna delle funzionalità circa il 25-30% più veloce lungo i cicli di sprint.",
+          "Oltre 1.500 commit su più di 200 ticket in due anni, coperti da una suite di oltre 3.500 test in una pipeline GitLab CI/CD."
         ]
       },
       {
@@ -117,7 +122,8 @@
         "bullets": [
           "Ridotti i tempi di risposta API del 40% sotto carichi elevati ottimizzando le strategie di fetching dei dati.",
           "Progettata una struttura di cartelle modulare che ha ridotto il tempo di manutenzione del codice del 30%.",
-          "Integrate notifiche push, deep linking, Universal Links e funzionalità di chat in app di produzione."
+          "Integrate notifiche push, deep linking, Universal Links e funzionalità di chat in app di produzione, usando React Query, Redux Toolkit e React Navigation per dati e stato, Reanimated per le animazioni, e CodePush per la distribuzione OTA.",
+          "Collaborato a stretto contatto con i team di prodotto e design per tradurre i design Figma in specifiche tecniche, segnalando vincoli implementativi durante lo sprint planning."
         ]
       },
       {
@@ -126,7 +132,9 @@
         "meta": "Remoto (Iraq) · Sistemi desktop enterprise",
         "bullets": [
           "Sviluppate applicazioni desktop enterprise con C#, WinForms e DevExpress.",
-          "Ottimizzate query SQL Server e integrata comunicazione in tempo reale via RestSharp e Twilio."
+          "Ottimizzate query SQL Server e integrata comunicazione in tempo reale via RestSharp e Twilio.",
+          "Progettato un sistema di contabilità finanziaria, traducendo le esigenze di business del cliente in una soluzione per problemi operativi centrali.",
+          "Analizzati i flussi di lavoro aziendali e progettati moduli ERP per punto vendita, controllo dell'inventario e gestione del magazzino su più filiali."
         ]
       }
     ]
@@ -137,6 +145,7 @@
     "groups": [
       { "title": "Framework principale e linguaggi" },
       { "title": "New Architecture e nativo" },
+      { "title": "Funzionalità di prodotto IA" },
       { "title": "Packaging nativo" },
       { "title": "UI, navigazione e liste" },
       { "title": "Gestione dello stato" },
@@ -148,13 +157,15 @@
       { "title": "Strumenti e sviluppo assistito da IA" },
       { "title": "Localizzazione" },
       { "title": "Modalità di lavoro" },
+      { "title": "Analisi di sistemi e business", "desc": "Il mio background in MIS plasma il mio approccio all'ingegneria — raccolta requisiti, mappatura dei processi di business, e traduzione delle esigenze di business in specifiche tecniche, come dimostrato nella progettazione di sistemi ERP e finanziari presso Micro Arabs." },
+      { "title": "Background tecnico", "desc": "Esperienza precedente in software desktop enterprise presso Micro Arabs, prima di passare al mobile — applicazioni gestionali aziendali costruite con C# e WinForms." },
       { "title": "Integrazione multi-dispositivo", "desc": "A mio agio nell'estendere applicazioni React Native a Smart TV e Wearable usando fork della piattaforma (react-native-tvos), controlli del focus, e architettura bridge nativo / app companion per watchOS e Wear OS." },
       { "title": "Ulteriore", "desc": "Familiare con i fondamenti di React.js e Next.js (architettura dei componenti, server-side rendering, hook, gestione dello stato) grazie al background React Native — aperto a ruoli web. Questo stesso portfolio è costruito con React." }
     ]
   },
   "contact": {
     "heading": "Costruiamo qualcosa.",
-    "subheading": "Aperto a ruoli React Native senior — remoto, con base al Cairo, o disponibile a trasferirmi.",
+    "subheading": "Aperto a ruoli React Native senior — remoto, con base a Decima di Ramadan, o disponibile a trasferirmi.",
     "resumeLabel": "Il mio CV ↗",
     "footnote": "Progettato e costruito da me — React, TypeScript, CSS puro, distribuito su Vercel. Nessun template."
   }

@@ -1,6 +1,6 @@
 {
   "nav": { "work": "Projeler", "demos": "Demolar", "experience": "Deneyim", "contact": "İletişim" },
-  "common": { "old": "Eski", "new": "Yeni" },
+  "common": { "old": "Eski", "new": "Yeni", "live": "Canlı", "code": "Kod" },
   "demoText": {
     "list": { "desc": "PlanRadar'da, büyük bir listede bir satırı seçmek, array-identity karşılaştırması nedeniyle her satırı yeniden render ediyordu — O(n²). Bunu bir Set-üyelik aramasıyla değiştirdim, böylece yalnızca dokunulan satır yeniden render edilir. Aşağıdaki satırlara tıklayın.", "note": "// Eski: her seçimde tüm liste yeniden render olur. Yeni: yalnızca dokunulan satır güncellenir." },
     "storage": { "desc": "PlanRadar'ın kalıcılığını AsyncStorage'dan MMKV'ye taşıdım — senkron, şifreli, daha hızlı okumalar.", "note": "// MMKV yazmaları senkrondur — await yok, okumada titreme yok." },
@@ -40,7 +40,7 @@
     "heroDiagramAriaLabel": "React Native mimari katmanları diyagramı: JavaScript, New Architecture köprüsü ve native binary'ler."
   },
   "hero": {
-    "eyebrow": "Kıdemli React Native Mühendisi · Kahire, Mısır",
+    "eyebrow": "Kıdemli React Native Mühendisi · 10. Ramazan Şehri, Mısır",
     "h1Line1": "JavaScript'in native koda",
     "h1Pre": "dokunduğu katmanı ",
     "h1Accent": "kuruyorum",
@@ -62,10 +62,11 @@
   },
   "work": {
     "heading": "Yayınlanan Uygulamalar",
-    "subheading": "10'dan fazla yayınlanan uygulamadan gösterilmeye en değer 6'sı. Hepsi App Store ve Google Play'de yayında.",
+    "subheading": "10'dan fazla yayınlanan uygulamadan gösterilmeye en değer 7'si. Hepsi App Store ve Google Play'de yayında.",
     "projects": {
       "planradar": "İnşaat ve gayrimenkul SaaS'ı. Native iOS/Android host uygulamaları içine gömülü, sürümlenmiş binary olarak paketlenmiş RN modülü.",
       "chefRulerClient": "Kullanıcıları yerel şeflerin ev yemekleriyle buluşturan sipariş platformu.",
+      "chefRulerProvider": "Şeflerin yemek listelediği, menüleri yönettiği ve gelen siparişleri karşıladığı sağlayıcı tarafı uygulaması.",
       "geetClient": "Mağazalar, paketler ve talep üzerine kurye istekleri için tüketici teslimat uygulaması.",
       "geetProvider": "Teslimat tekliflerini, rotaları ve sipariş devrini yönetmek için sağlayıcı tarafı uygulaması.",
       "flow": "Günlük operasyonel verimliliği artırmak için oluşturulmuş envanter yönetim uygulaması.",
@@ -105,9 +106,13 @@
         "bullets": [
           "React Native'in sürümlenmiş bir native binary (XCFramework + AAR) olarak paketlenmesinin mimarisinde ortak rol aldı, native ekipler için Node/Yarn araç zinciri gereksinimini ortadan kaldırdı.",
           "React Native 0.85'e platform göçünü yönetti, Hermes ve New Architecture'ı (TurboModules/Fabric) etkinleştirdi.",
+          "Katmanlı bir container deseni kurdu — ekranlar → HOC'lar → hook'lar/helper'lar — modaller ve navigasyonda standart olarak benimsendi, geçişler Animated API ile.",
+          "DMS modülünü yeniden yapılandırdı — WebSocket ve JSON:API üzerinde çalışan, offline-first ve gerçek zamanlı bir sistem — dosya/klasör yönetimi, toplu işlemler ve onaylar için ürünün en büyük ve en yoğun trafikli yüzeyi.",
           "Kritik bir render darboğazını düzeltti — O(n²) yeniden render yolunu O(1) aramayla değiştirdi.",
           "Kalıcılığı AsyncStorage'dan MMKV'ye taşıdı; monolitik bir context'i domain'e özgü context'lere ayırdı.",
-          "Uygulama içi Yapay Zeka Asistanını oluşturdu: ActionCable üzerinden akan aşamalı yanıtlar (düşünme/yanıt), bilet ve doküman bağlam enjeksiyonu, yapay zeka indeksleme durumu takibi, ve yükseltme akışıyla kullanım seviyesi sınırlaması."
+          "Uygulama içi Yapay Zeka Asistanını oluşturdu: WebSocket üzerinden akan aşamalı yanıtlar (düşünme/yanıt), bilet ve doküman bağlam enjeksiyonu, yapay zeka indeksleme durumu takibi, ve yükseltme akışıyla kullanım seviyesi sınırlaması.",
+          "Claude Code'u günlük iş akışına entegre etti — sprint döngülerinde yaklaşık %25-30 daha hızlı özellik teslimatı.",
+          "İki yılda 200+ bilette 1.500'den fazla commit, GitLab CI/CD hattında 3.500'den fazla testten oluşan bir test paketiyle güvence altında."
         ]
       },
       {
@@ -117,7 +122,8 @@
         "bullets": [
           "Veri çekme stratejilerini optimize ederek yoğun yük altında API yanıt sürelerini %40 azalttı.",
           "Kod bakım süresini %30 azaltan modüler bir klasör yapısı tasarladı.",
-          "Üretim uygulamalarında push bildirimleri, deep linking, Universal Links ve sohbet işlevselliğini entegre etti."
+          "Üretim uygulamalarında push bildirimleri, deep linking, Universal Links ve sohbet işlevselliğini entegre etti; veri ve durum için React Query, Redux Toolkit ve React Navigation, animasyon için Reanimated, OTA teslimatı için CodePush kullanarak.",
+          "Figma tasarımlarını teknik spesifikasyonlara çevirmek için ürün ve tasarım ekipleriyle yakın çalıştı, sprint planlamasında uygulama kısıtlarını belirtti."
         ]
       },
       {
@@ -126,7 +132,9 @@
         "meta": "Uzaktan (Irak) · Kurumsal masaüstü sistemleri",
         "bullets": [
           "C#, WinForms ve DevExpress ile kurumsal masaüstü uygulamaları geliştirdi.",
-          "SQL Server sorgularını optimize etti ve RestSharp ile Twilio üzerinden gerçek zamanlı iletişim entegre etti."
+          "SQL Server sorgularını optimize etti ve RestSharp ile Twilio üzerinden gerçek zamanlı iletişim entegre etti.",
+          "Bir finansal muhasebe sistemi tasarladı, müşterinin iş ihtiyaçlarını temel operasyonel sorunları çözen bir çözüme dönüştürdü.",
+          "İş süreçlerini analiz etti ve birden fazla şubede satış noktası, envanter kontrolü ve depo yönetimi için ERP modülleri tasarladı."
         ]
       }
     ]
@@ -137,6 +145,7 @@
     "groups": [
       { "title": "Temel Framework & Diller" },
       { "title": "New Architecture & Native" },
+      { "title": "Yapay Zeka Ürün Özellikleri" },
       { "title": "Native Paketleme" },
       { "title": "UI, Navigasyon & Listeler" },
       { "title": "Durum Yönetimi" },
@@ -148,13 +157,15 @@
       { "title": "Araçlar & Yapay Zeka Destekli Geliştirme" },
       { "title": "Yerelleştirme" },
       { "title": "Çalışma Şekli" },
+      { "title": "Sistem ve İş Analizi", "desc": "MIS geçmişim mühendisliğe yaklaşımımı şekillendiriyor — gereksinim toplama, iş süreci haritalama ve iş ihtiyaçlarını teknik spesifikasyonlara çevirme; Micro Arabs'taki ERP ve finansal sistem tasarımında da görüldüğü gibi." },
+      { "title": "Teknik Geçmiş", "desc": "Mobile geçmeden önce Micro Arabs'ta edinilen kurumsal masaüstü yazılım deneyimi — C# ve WinForms üzerine kurulu kurumsal iş uygulamaları." },
       { "title": "Çoklu Cihaz Entegrasyonu", "desc": "Platform fork'ları (react-native-tvos), odak kontrolleri ve watchOS & Wear OS için native bridge / companion app mimarisi kullanarak React Native uygulamalarını Akıllı TV ve Giyilebilirlere genişletme konusunda rahat." },
       { "title": "Ek", "desc": "React Native geçmişim sayesinde React.js ve Next.js temellerine (bileşen mimarisi, sunucu taraflı render, hook'lar, durum yönetimi) aşinayım — web rollerine açığım. Bu portfolyonun kendisi React ile inşa edildi." }
     ]
   },
   "contact": {
     "heading": "Birlikte bir şeyler inşa edelim.",
-    "subheading": "Kıdemli React Native rollerine açığım — uzaktan, Kahire merkezli veya taşınmaya açık.",
+    "subheading": "Kıdemli React Native rollerine açığım — uzaktan, 10. Ramazan Şehri merkezli veya taşınmaya açık.",
     "resumeLabel": "Özgeçmişim ↗",
     "footnote": "Tarafımdan tasarlandı ve geliştirildi — React, TypeScript, sade CSS, Vercel'de yayınlandı. Şablon kullanılmadı."
   }

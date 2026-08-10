@@ -1,6 +1,6 @@
 {
   "nav": { "work": "Work", "demos": "Demos", "experience": "Experience", "contact": "Contact" },
-  "common": { "old": "Old", "new": "New" },
+  "common": { "old": "Old", "new": "New", "live": "Live", "code": "Code" },
   "demoText": {
     "list": { "desc": "At PlanRadar, selecting a row in a large list re-rendered every row via array-identity comparison — O(n²). I swapped it for a Set-membership lookup, so only the touched row re-renders. Click rows below.", "note": "// Old: full list re-renders on every selection. New: only the touched row updates." },
     "storage": { "desc": "Migrated PlanRadar's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads.", "note": "// MMKV writes are synchronous — no await, no flicker on read." },
@@ -40,7 +40,7 @@
     "heroDiagramAriaLabel": "Diagram of React Native architecture layers: JavaScript, the New Architecture bridge, and native binaries."
   },
   "hero": {
-    "eyebrow": "Senior React Native Engineer · Cairo, Egypt",
+    "eyebrow": "Senior React Native Engineer · 10th of Ramadan, Egypt",
     "h1Line1": "I build the layer where",
     "h1Pre": "JavaScript meets ",
     "h1Accent": "native",
@@ -62,10 +62,11 @@
   },
   "work": {
     "heading": "Shipped Apps",
-    "subheading": "6 of 10+ shipped — the ones most worth showing. All live on the App Store and Google Play.",
+    "subheading": "7 of 10+ shipped — the ones most worth showing. All live on the App Store and Google Play.",
     "projects": {
       "planradar": "Construction & real-estate SaaS. RN module embedded inside native iOS/Android host apps, packaged as a versioned binary.",
       "chefRulerClient": "Ordering platform connecting users with home-cooked meals from local chefs.",
+      "chefRulerProvider": "Provider-side counterpart for chefs to list meals, manage menus, and handle incoming orders.",
       "geetClient": "Consumer delivery app for stores, packages, and on-demand courier requests.",
       "geetProvider": "Provider-side app for managing delivery offers, routing, and order handoff.",
       "flow": "Inventory management app built to improve day-to-day operational efficiency.",
@@ -106,9 +107,13 @@
         "bullets": [
           "Co-architected React Native's packaging as a versioned native binary (XCFramework + AAR), removing the Node/Yarn toolchain requirement for native teams.",
           "Led platform migration to React Native 0.85, enabling Hermes and the New Architecture (TurboModules/Fabric).",
+          "Established a layered container pattern — screens → HOCs → hooks/helpers — adopted as the standard across modals and navigation, with Animated API driving transitions.",
+          "Refactored the DMS module — an offline-first, real-time system on WebSockets and JSON:API — the product's largest, highest-traffic surface for file/folder management, bulk actions, and approvals.",
           "Fixed a critical rendering bottleneck — replaced an O(n²) re-render path with an O(1) lookup.",
           "Refactored persistence from AsyncStorage to MMKV; split a monolithic context into domain-specific contexts.",
-          "Built the in-app AI Assistant: ActionCable-streamed staged responses (thinking/response), ticket & document context injection, AI-index status tracking, and usage-tier gating with upgrade flow."
+          "Built the in-app AI Assistant: WebSocket-streamed staged responses (thinking/response), ticket & document context injection, AI-index status tracking, and usage-tier gating with upgrade flow.",
+          "Wove Claude Code into the daily workflow for scaffolding, refactors, and test generation — roughly 25-30% faster feature delivery across sprint cycles.",
+          "Shipped 1,500+ commits across 200+ tickets over two years, guarded by a 3,500+ test suite running in GitLab CI/CD."
         ]
       },
       {
@@ -118,7 +123,8 @@
         "bullets": [
           "Cut API response times by 40% under heavy data loads through fetching-strategy optimization.",
           "Designed a modular folder structure that reduced code maintenance time by 30%.",
-          "Integrated push notifications, deep linking, Universal Links, and chat functionality across production apps."
+          "Integrated push notifications, deep linking, Universal Links, and chat functionality across production apps, using React Query, Redux Toolkit, and React Navigation for data and state, Reanimated for animation, and CodePush for OTA delivery.",
+          "Partnered with product and design teams to translate Figma designs into technical specs, flagging implementation constraints during sprint planning."
         ]
       },
       {
@@ -127,7 +133,9 @@
         "meta": "Remote (Iraq) · Enterprise desktop systems",
         "bullets": [
           "Built enterprise desktop applications with C#, WinForms, and DevExpress.",
-          "Optimized SQL Server queries and integrated real-time communication via RestSharp and Twilio."
+          "Optimized SQL Server queries and integrated real-time communication via RestSharp and Twilio.",
+          "Designed a financial accounting system, translating client business needs into a solution addressing core operational problems.",
+          "Analyzed business workflows and designed ERP modules for point-of-sale, inventory control, and warehouse management across multiple branches."
         ]
       }
     ]
@@ -138,6 +146,7 @@
     "groups": [
       { "title": "Core Framework & Languages" },
       { "title": "New Architecture & Native" },
+      { "title": "AI Product Features" },
       { "title": "Native Packaging" },
       { "title": "UI, Navigation & Lists" },
       { "title": "State Management" },
@@ -149,13 +158,15 @@
       { "title": "Tools & AI-Assisted Dev" },
       { "title": "Localization" },
       { "title": "Ways of Working" },
+      { "title": "Systems & Business Analysis", "desc": "MIS background shapes how I approach engineering — requirements gathering, business process mapping, and translating business needs into technical specs, as demonstrated in ERP and financial-system design at Micro Arabs." },
+      { "title": "Technical Background", "desc": "Prior enterprise desktop software experience at Micro Arabs, before moving into mobile — corporate line-of-business applications built on C# and WinForms." },
       { "title": "Multi-Device Integration", "desc": "Comfortable with expanding React Native applications to Smart TV and Wearables using platform forks (react-native-tvos), focus controls, and Native Bridge / Companion App architecture for watchOS & Wear OS." },
       { "title": "Additional", "desc": "Familiar with React.js and Next.js fundamentals (component architecture, server-side rendering, hooks, state management) through a React Native background — open to web roles. This portfolio itself is built with React." }
     ]
   },
   "contact": {
     "heading": "Let's build something.",
-    "subheading": "Open to senior React Native roles — remote, Cairo-based, or open to relocate.",
+    "subheading": "Open to senior React Native roles — remote, 10th of Ramadan-based, or open to relocate.",
     "resumeLabel": "My Resume ↗",
     "footnote": "Designed & built by me — React, TypeScript, plain CSS, deployed on Vercel. No template."
   }

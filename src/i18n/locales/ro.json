@@ -1,6 +1,6 @@
 {
   "nav": { "work": "Proiecte", "demos": "Demo-uri", "experience": "Experiență", "contact": "Contact" },
-  "common": { "old": "Vechi", "new": "Nou" },
+  "common": { "old": "Vechi", "new": "Nou", "live": "În direct", "code": "Cod" },
   "demoText": {
     "list": { "desc": "La PlanRadar, selectarea unui rând într-o listă mare re-randa fiecare rând prin comparație de identitate a array-ului — O(n²). Am înlocuit cu o căutare de apartenență la un Set, deci doar rândul atins se re-randează. Dă clic pe rândurile de mai jos.", "note": "// Înainte: toată lista se re-randează la fiecare selecție. Acum: se actualizează doar rândul atins." },
     "storage": { "desc": "Migrarea persistenței PlanRadar de la AsyncStorage la MMKV — sincron, criptat, citiri mai rapide.", "note": "// Scrierile MMKV sunt sincrone — fără await, fără pâlpâire la citire." },
@@ -40,7 +40,7 @@
     "heroDiagramAriaLabel": "Diagrama straturilor de arhitectură React Native: JavaScript, bridge-ul New Architecture, și binarele native."
   },
   "hero": {
-    "eyebrow": "Inginer React Native Senior · Cairo, Egipt",
+    "eyebrow": "Inginer React Native Senior · 10 Ramadan, Egipt",
     "h1Line1": "Construiesc stratul unde",
     "h1Pre": "JavaScript întâlnește codul ",
     "h1Accent": "nativ",
@@ -62,10 +62,11 @@
   },
   "work": {
     "heading": "Aplicații lansate",
-    "subheading": "6 din peste 10 lansate — cele mai relevante de arătat. Toate live pe App Store și Google Play.",
+    "subheading": "7 din peste 10 lansate — cele mai relevante de arătat. Toate live pe App Store și Google Play.",
     "projects": {
       "planradar": "SaaS pentru construcții și imobiliare. Modul RN încorporat în aplicații host native iOS/Android, împachetat ca binar versionat.",
       "chefRulerClient": "Platformă de comenzi care conectează utilizatorii cu mâncare gătită în casă de la bucătari locali.",
+      "chefRulerProvider": "Contrapartida pentru furnizori — bucătarii listează preparate, gestionează meniuri și preiau comenzile primite.",
       "geetClient": "Aplicație de livrare pentru consumatori — magazine, colete și cereri de curierat la cerere.",
       "geetProvider": "Aplicație pentru furnizori pentru gestionarea ofertelor de livrare, rutelor și predarea comenzilor.",
       "flow": "Aplicație de gestionare a inventarului creată pentru a îmbunătăți eficiența operațională zilnică.",
@@ -105,9 +106,13 @@
         "bullets": [
           "Co-arhitect al împachetării React Native ca binar nativ versionat (XCFramework + AAR), eliminând necesitatea toolchain-ului Node/Yarn pentru echipele native.",
           "A condus migrarea platformei la React Native 0.85, activând Hermes și New Architecture (TurboModules/Fabric).",
+          "A stabilit un model de containere pe straturi — ecrane → HOC-uri → hooks/helpers — adoptat ca standard în modale și navigare, cu Animated API pentru tranziții.",
+          "A refactorizat modulul DMS — un sistem offline-first și în timp real pe WebSockets și JSON:API — cea mai mare și mai solicitată suprafață a produsului pentru gestionarea fișierelor/folderelor, acțiuni în masă și aprobări.",
           "A remediat un blocaj critic de randare — a înlocuit un traseu de re-randare O(n²) cu o căutare O(1).",
           "A migrat persistența de la AsyncStorage la MMKV; a împărțit un context monolitic în contexts specifice pe domeniu.",
-          "A construit Asistentul AI din aplicație: răspunsuri în etape transmise prin ActionCable (gândire/răspuns), injectare de context pentru tichete și documente, urmărirea stării de indexare AI și limitare pe niveluri de utilizare cu flux de upgrade."
+          "A construit Asistentul AI din aplicație: răspunsuri în etape transmise prin WebSocket (gândire/răspuns), injectare de context pentru tichete și documente, urmărirea stării de indexare AI și limitare pe niveluri de utilizare cu flux de upgrade.",
+          "A integrat Claude Code în fluxul zilnic de lucru — livrare de funcționalități cu aproximativ 25-30% mai rapidă de-a lungul ciclurilor de sprint.",
+          "Peste 1.500 de commit-uri pe mai mult de 200 de tichete în doi ani, susținute de o suită de peste 3.500 de teste într-un pipeline GitLab CI/CD."
         ]
       },
       {
@@ -117,7 +122,8 @@
         "bullets": [
           "A redus timpii de răspuns API cu 40% sub sarcini mari prin optimizarea strategiilor de preluare a datelor.",
           "A proiectat o structură modulară de foldere care a redus timpul de întreținere a codului cu 30%.",
-          "A integrat notificări push, deep linking, Universal Links și funcționalitate de chat în aplicații de producție."
+          "A integrat notificări push, deep linking, Universal Links și funcționalitate de chat în aplicații de producție, folosind React Query, Redux Toolkit și React Navigation pentru date și stare, Reanimated pentru animații, și CodePush pentru livrare OTA.",
+          "A colaborat îndeaproape cu echipele de produs și design pentru a traduce design-urile Figma în specificații tehnice, semnalând constrângerile de implementare în timpul planificării sprintului."
         ]
       },
       {
@@ -126,7 +132,9 @@
         "meta": "Remote (Irak) · Sisteme desktop enterprise",
         "bullets": [
           "A construit aplicații desktop enterprise cu C#, WinForms și DevExpress.",
-          "A optimizat interogări SQL Server și a integrat comunicare în timp real prin RestSharp și Twilio."
+          "A optimizat interogări SQL Server și a integrat comunicare în timp real prin RestSharp și Twilio.",
+          "A proiectat un sistem de contabilitate financiară, traducând nevoile de business ale clientului într-o soluție pentru probleme operaționale de bază.",
+          "A analizat fluxurile de lucru de business și a proiectat module ERP pentru punct de vânzare, control al inventarului și gestionare a depozitelor pe mai multe filiale."
         ]
       }
     ]
@@ -137,6 +145,7 @@
     "groups": [
       { "title": "Framework de bază și limbaje" },
       { "title": "New Architecture și nativ" },
+      { "title": "Funcționalități de produs AI" },
       { "title": "Împachetare nativă" },
       { "title": "UI, navigare și liste" },
       { "title": "Gestionarea stării" },
@@ -148,13 +157,15 @@
       { "title": "Unelte și dezvoltare asistată de AI" },
       { "title": "Localizare" },
       { "title": "Mod de lucru" },
+      { "title": "Analiză de sisteme și business", "desc": "Formarea mea în MIS îmi modelează abordarea în inginerie — culegere de cerințe, mapare a proceselor de business, și traducerea nevoilor de business în specificații tehnice, demonstrat în proiectarea sistemelor ERP și financiare la Micro Arabs." },
+      { "title": "Fundal tehnic", "desc": "Experiență anterioară în software desktop enterprise la Micro Arabs, înainte de trecerea la mobile — aplicații corporative de linie de business construite pe C# și WinForms." },
       { "title": "Integrare multi-dispozitiv", "desc": "Confortabil în extinderea aplicațiilor React Native către Smart TV și Wearables folosind fork-uri de platformă (react-native-tvos), controale de focus, și arhitectură bridge nativ / aplicație companion pentru watchOS și Wear OS." },
       { "title": "Suplimentar", "desc": "Familiarizat cu elementele fundamentale React.js și Next.js (arhitectură de componente, server-side rendering, hooks, gestionarea stării) datorită experienței în React Native — deschis către roluri web. Acest portofoliu este construit chiar cu React." }
     ]
   },
   "contact": {
     "heading": "Hai să construim ceva.",
-    "subheading": "Deschis către roluri React Native senior — remote, cu bază în Cairo, sau dispus să mă relochez.",
+    "subheading": "Deschis către roluri React Native senior — remote, cu bază în 10 Ramadan, sau dispus să mă relochez.",
     "resumeLabel": "CV-ul meu ↗",
     "footnote": "Proiectat și construit de mine — React, TypeScript, CSS simplu, publicat pe Vercel. Fără template."
   }

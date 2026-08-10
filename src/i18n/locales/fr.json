@@ -1,6 +1,6 @@
 {
   "nav": { "work": "Projets", "demos": "Démos", "experience": "Expérience", "contact": "Contact" },
-  "common": { "old": "Ancien", "new": "Nouveau" },
+  "common": { "old": "Ancien", "new": "Nouveau", "live": "En direct", "code": "Code" },
   "demoText": {
     "list": { "desc": "Chez PlanRadar, sélectionner une ligne dans une longue liste re-rendait chaque ligne via une comparaison d'identité de tableau — O(n²). Je l'ai remplacé par une recherche d'appartenance à un Set, donc seule la ligne touchée se re-rend. Cliquez sur les lignes ci-dessous.", "note": "// Avant : toute la liste se re-rend à chaque sélection. Après : seule la ligne touchée est mise à jour." },
     "storage": { "desc": "Migration de la persistance de PlanRadar d'AsyncStorage vers MMKV — synchrone, chiffré, lectures plus rapides.", "note": "// Les écritures MMKV sont synchrones — pas d'await, pas de scintillement à la lecture." },
@@ -40,7 +40,7 @@
     "heroDiagramAriaLabel": "Diagramme des couches d'architecture React Native : JavaScript, le pont New Architecture, et les binaires natifs."
   },
   "hero": {
-    "eyebrow": "Ingénieur React Native Senior · Le Caire, Égypte",
+    "eyebrow": "Ingénieur React Native Senior · 10 Ramadan, Égypte",
     "h1Line1": "Je construis la couche où",
     "h1Pre": "JavaScript rencontre le ",
     "h1Accent": "natif",
@@ -62,10 +62,11 @@
   },
   "work": {
     "heading": "Applications publiées",
-    "subheading": "6 sur 10+ publiées — les plus représentatives. Toutes disponibles sur l'App Store et Google Play.",
+    "subheading": "7 sur 10+ publiées — les plus représentatives. Toutes disponibles sur l'App Store et Google Play.",
     "projects": {
       "planradar": "SaaS pour le BTP et l'immobilier. Module RN embarqué dans des applications hôtes iOS/Android natives, packagé en binaire versionné.",
       "chefRulerClient": "Plateforme de commande reliant les utilisateurs à des repas faits maison par des chefs locaux.",
+      "chefRulerProvider": "Pendant côté prestataire pour que les chefs publient leurs plats, gèrent leurs menus et traitent les commandes entrantes.",
       "geetClient": "Application de livraison pour magasins, colis et demandes de coursier à la demande.",
       "geetProvider": "Application côté prestataire pour gérer les offres de livraison, les itinéraires et la remise des commandes.",
       "flow": "Application de gestion des stocks conçue pour améliorer l'efficacité opérationnelle au quotidien.",
@@ -105,9 +106,13 @@
         "bullets": [
           "Co-architecte du packaging de React Native en binaire natif versionné (XCFramework + AAR), supprimant le besoin de la chaîne d'outils Node/Yarn pour les équipes natives.",
           "A dirigé la migration de la plateforme vers React Native 0.85, activant Hermes et la New Architecture (TurboModules/Fabric).",
+          "A mis en place un modèle de conteneurs en couches — écrans → HOCs → hooks/helpers — devenu le standard pour les modales et la navigation, avec l'Animated API pour les transitions.",
+          "A refactorisé le module DMS — un système offline-first et temps réel sur WebSockets et JSON:API — la surface la plus vaste et la plus fréquentée du produit pour la gestion de fichiers/dossiers, les actions groupées et les approbations.",
           "A corrigé un goulot d'étranglement critique de rendu — remplacé un chemin de re-rendu O(n²) par une recherche O(1).",
           "A migré la persistance d'AsyncStorage vers MMKV ; a scindé un contexte monolithique en contextes spécifiques par domaine.",
-          "A construit l'assistant IA intégré : réponses en étapes diffusées via ActionCable (réflexion/réponse), injection de contexte tickets et documents, suivi du statut d'indexation IA, et limitation par palier d'usage avec parcours de mise à niveau."
+          "A construit l'assistant IA intégré : réponses en étapes diffusées via WebSocket (réflexion/réponse), injection de contexte tickets et documents, suivi du statut d'indexation IA, et limitation par palier d'usage avec parcours de mise à niveau.",
+          "A intégré Claude Code dans le flux de travail quotidien — livraison de fonctionnalités environ 25-30 % plus rapide sur les cycles de sprint.",
+          "Plus de 1 500 commits sur plus de 200 tickets en deux ans, couverts par une suite de plus de 3 500 tests dans un pipeline GitLab CI/CD."
         ]
       },
       {
@@ -117,7 +122,8 @@
         "bullets": [
           "Réduction de 40 % des temps de réponse API sous forte charge grâce à l'optimisation des stratégies de récupération de données.",
           "Conception d'une structure de dossiers modulaire ayant réduit le temps de maintenance du code de 30 %.",
-          "Intégration de notifications push, deep linking, Universal Links, et fonctionnalités de chat dans des applications en production."
+          "Intégration de notifications push, deep linking, Universal Links, et fonctionnalités de chat dans des applications en production, avec React Query, Redux Toolkit et React Navigation pour les données et l'état, Reanimated pour l'animation, et CodePush pour les mises à jour OTA.",
+          "Collaboration étroite avec les équipes produit et design pour traduire les maquettes Figma en spécifications techniques, en signalant les contraintes techniques lors du sprint planning."
         ]
       },
       {
@@ -126,7 +132,9 @@
         "meta": "Remote (Irak) · Systèmes desktop d'entreprise",
         "bullets": [
           "Développement d'applications desktop d'entreprise avec C#, WinForms et DevExpress.",
-          "Optimisation de requêtes SQL Server et intégration de communication en temps réel via RestSharp et Twilio."
+          "Optimisation de requêtes SQL Server et intégration de communication en temps réel via RestSharp et Twilio.",
+          "Conception d'un système de comptabilité financière, traduisant les besoins métier du client en une solution répondant à des problèmes opérationnels centraux.",
+          "Analyse des flux de travail métier et conception de modules ERP pour le point de vente, le contrôle des stocks et la gestion d'entrepôts sur plusieurs succursales."
         ]
       }
     ]
@@ -137,6 +145,7 @@
     "groups": [
       { "title": "Framework principal & langages" },
       { "title": "New Architecture & natif" },
+      { "title": "Fonctionnalités produit IA" },
       { "title": "Packaging natif" },
       { "title": "UI, navigation & listes" },
       { "title": "Gestion d'état" },
@@ -148,13 +157,15 @@
       { "title": "Outils & dev assisté par IA" },
       { "title": "Localisation" },
       { "title": "Méthodes de travail" },
+      { "title": "Analyse systèmes & métier", "desc": "Ma formation en MIS façonne mon approche de l'ingénierie — recueil des besoins, cartographie des processus métier, et traduction des besoins métier en spécifications techniques, comme démontré dans la conception de systèmes ERP et financiers chez Micro Arabs." },
+      { "title": "Bagage technique", "desc": "Expérience antérieure en logiciels desktop d'entreprise chez Micro Arabs, avant de passer au mobile — applications métier d'entreprise construites en C# et WinForms." },
       { "title": "Intégration multi-appareils", "desc": "À l'aise pour étendre des applications React Native aux Smart TV et Wearables via des forks de plateforme (react-native-tvos), la gestion du focus, et l'architecture pont natif / application compagnon pour watchOS & Wear OS." },
       { "title": "Complémentaire", "desc": "Familier avec les fondamentaux de React.js et Next.js (architecture de composants, rendu côté serveur, hooks, gestion d'état) grâce à mon expérience React Native — ouvert aux rôles web. Ce portfolio lui-même est construit avec React." }
     ]
   },
   "contact": {
     "heading": "Construisons quelque chose.",
-    "subheading": "Ouvert aux postes React Native senior — remote, basé au Caire, ou prêt à déménager.",
+    "subheading": "Ouvert aux postes React Native senior — remote, basé à 10 Ramadan, ou prêt à déménager.",
     "resumeLabel": "Mon CV ↗",
     "footnote": "Conçu et développé par moi-même — React, TypeScript, CSS pur, déployé sur Vercel. Sans template."
   }

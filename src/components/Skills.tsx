@@ -6,6 +6,7 @@ import { useReveal } from '../hooks/useReveal';
 const PILLS: string[][] = [
   ['React Native CLI', 'Expo', 'TypeScript', 'JavaScript ES6+', 'Bare Workflow'],
   ['Fabric', 'TurboModules', 'JSI', 'Hermes', 'Swift/Kotlin Bridging'],
+  ['LLM Chat/Assistant Integration', 'WebSocket Streaming', 'Native Bridge'],
   ['XCFramework', 'Android AAR', 'Versioned Binary Distribution'],
   ['React Navigation', 'Reanimated v2/v3', 'Community UI Libs'],
   ['Redux Toolkit', 'Redux Persist', 'Context API'],
@@ -17,6 +18,8 @@ const PILLS: string[][] = [
   ['Claude Code', 'Cursor AI', 'GitHub Copilot', 'CodePush', 'ESLint/Prettier'],
   ['i18next', 'react-native-localize'],
   ['Agile/Scrum', 'Sprint Planning', 'Code Reviews', 'Cross-Functional Collab'],
+  ['Requirements Gathering', 'Business Process Mapping', 'Technical Specs', 'MIS'],
+  ['C#', 'WinForms', 'DevExpress', 'RestSharp', 'Twilio API'],
   ['react-native-tvos', 'tvOS', 'Android TV', 'Focus Management', 'Spatial Navigation', 'watchOS', 'Wear OS', 'Native Bridge', 'Companion Apps'],
   ['React.js', 'Next.js (fundamentals)', 'SSR', 'Web'],
 ];

@@ -47,9 +47,33 @@
    Flex's align-items:flex-start has no such row-stretch step, so items always
    size to their own content. */
 .demo-grid { display: flex; gap: 16px; align-items: stretch; }
-.demo-grid > .demo-box { flex: 1; min-width: 0; }
-.demo-grid > .code-tabs { flex: 1.2; min-width: 0; }
-@media (max-width: 900px) { .demo-grid { flex-direction: column; } }
+.demo-grid-cell { display: contents; } /* desktop: cell wrapper is invisible, its child lays out directly in the flex row */
+.demo-grid-cell:first-child > .demo-box { flex: 1; min-width: 0; }
+.demo-grid-cell:last-child > .code-tabs { flex: 1.2; min-width: 0; }
+
+/* Mobile-only Live/Code tab bar — hidden on desktop, both cells shown instead */
+.demo-tabs-mobile-bar { display: none; }
+
+@media (max-width: 900px) {
+  .demo-tabs-mobile-bar {
+    display: flex; gap: 2px; background: var(--panel-2);
+    border: 1px solid var(--line); border-bottom: none; border-radius: 4px 4px 0 0;
+    padding: 0 4px; margin-bottom: -1px;
+  }
+  .demo-tab-btn {
+    font-family: var(--mono); font-size: 12px; color: var(--muted); background: transparent;
+    border: none; border-bottom: 2px solid transparent; padding: 9px 14px; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .demo-tab-btn:hover { color: var(--paper); }
+  .demo-tab-btn.active { color: var(--copper); border-bottom-color: var(--copper); }
+
+  .demo-grid {
+    flex-direction: column; border: 1px solid var(--line); border-radius: 0 0 4px 4px; padding: 16px;
+  }
+  .demo-grid-cell { display: none; }
+  .demo-grid-cell.active { display: block; }
+}
 
 /* File-tab code viewer */
 .code-tabs {
