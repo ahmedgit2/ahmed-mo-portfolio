@@ -19,11 +19,15 @@ import TvDemo from '../demos/TvDemo';
 import WearablesDemo from '../demos/WearablesDemo';
 import AiAssistantDemo from '../demos/AiAssistantDemo';
 import GestureDemo from '../demos/GestureDemo';
+import FirebaseDemo from '../demos/FirebaseDemo';
+import RestApiDemo from '../demos/RestApiDemo';
 
 const DEMO_COMPONENTS: Record<DemoId, React.ComponentType> = {
   list: ListPerfDemo,
   storage: StorageDemo,
   sync: SyncDemo,
+  firebase: FirebaseDemo,
+  restapi: RestApiDemo,
   anim: AnimDemo,
   deeplink: DeepLinkDemo,
   ulink: ULinkDemo,
@@ -79,7 +83,7 @@ export default function DemosSection() {
       <div className={'wrap reveal' + (visible ? ' visible' : '')} ref={revealRef}>
         <div className="sec-head">
           <h2>{t('demos.heading')}</h2>
-          <p className="sec-sub">{t('demos.subheading')}</p>
+          <p className="sec-sub demos-sub">{t('demos.subheading')}</p>
         </div>
 
         <div className="demos-layout">

@@ -5,6 +5,8 @@
     "list": { "desc": "In PlanRadar, selezionare una riga in un elenco grande ri-renderizzava ogni riga tramite confronto di identità dell'array — O(n²). L'ho sostituito con una ricerca di appartenenza a un Set, così solo la riga toccata si ri-renderizza. Clicca sulle righe qui sotto.", "note": "// Prima: l'intero elenco si ri-renderizza a ogni selezione. Dopo: si aggiorna solo la riga toccata." },
     "storage": { "desc": "Migrazione della persistenza di PlanRadar da AsyncStorage a MMKV — sincrona, cifrata, letture più veloci.", "note": "// Le scritture MMKV sono sincrone — nessun await, nessuno sfarfallio in lettura." },
     "sync": { "desc": "Uno dei moduli principali di PlanRadar è offline-first e in tempo reale via WebSocket — le azioni si accodano offline e vengono inviate alla riconnessione. Attiva la modalità offline qui sotto e apporta modifiche.", "note": "// Le azioni in coda vengono inviate in ordine una volta riconnesso il socket." },
+    "firebase": { "desc": "Firebase è alla base dell'observability sia in PlanRadar che in Index Group — Analytics per il tracciamento d'uso, Crashlytics per il crash-free rate e FCM come trasporto per le push. Avvia una chiamata SDK qui sotto.", "note": "// Il contesto di Crashlytics (id utente, breadcrumb) viene impostato prima del throw, non dopo — altrimenti il report arriva senza alcuna idea di cosa l'abbia preceduto." },
+    "restapi": { "desc": "PlanRadar e Index Group parlano entrambi col backend tramite un layer REST/JSON:API tipizzato — un client Axios con interceptor per l'aggancio del token di auth, il refresh su 401 e la normalizzazione centralizzata degli errori, incapsulato in resource hook chiamati direttamente dai componenti. Fai fetch qui sotto per tracciare la pipeline.", "note": "// L'interceptor di request condivide un unico refresh in corso tra più 401 concorrenti, invece di avviarne uno per ogni richiesta." },
     "anim": { "desc": "L'API Reanimated / Animated guida le transizioni di modali e navigazione in PlanRadar. Due esempi qui sotto.", "note": "// I worklet di Reanimated girano sul thread UI — nessun scatto dovuto al thread JS sotto carico." },
     "deeplink": { "desc": "In Index Group, notifiche e link condivisi aprivano l'app direttamente su una schermata specifica di ordine o autista.", "note": "// I percorsi non corrispondenti tornano a una rotta predefinita invece di far crashare il navigator." },
     "ulink": { "desc": "Gli Universal Links (iOS) e App Links (Android) saltano completamente il prompt dello schema personalizzato — un vero link https:// apre l'app direttamente se installata, altrimenti la pagina web.", "note": "// Nessuna app installata → lo stesso URL apre invece il fallback web mobile." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "Attività #{{n}}" },
     "storage": { "keyPlaceholder": "chiave", "valuePlaceholder": "valore", "setButton": "Imposta", "noKeysYet": "ancora nessuna chiave", "emptyValue": "(vuoto)" },
     "sync": { "online": "Online", "offline": "Offline", "queuedBadge": "{{count}} in coda", "approveButton": "Approva elemento", "logPlaceholder": "Le azioni appariranno qui →", "logReconnected": "↺ Riconnesso — invio di {{count}} azione/i in coda...", "logSent": "✓ Inviato via WebSocket — approvato istantaneamente", "logQueued": "⏸ Offline — azione in coda ({{count}})" },
+    "firebase": { "analyticsButton": "Registra evento Analytics", "crashlyticsButton": "Segnala a Crashlytics", "fcmButton": "Registra token FCM", "placeholder": "Avvia una chiamata SDK per vederla tracciata →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ evento accodato — raggruppato al prossimo intervallo di flush", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ report accodato — inviato al prossimo passaggio in primo piano", "fcmStep1": "messaging().requestPermission() → concesso", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ token registrato sul backend, legato alla sessione utente" },
+    "restapi": { "fetchButton": "Recupera ticket", "placeholder": "Avvia un fetch per tracciare la pipeline →", "step1": "→ interceptor di request: aggiunta dell'header Authorization", "step2": "→ GET /projects/8842/tickets", "step3": "← interceptor di response: 200 OK", "step4": "✓ hook risolto — 3 elementi", "item1": "ITEM-4821 · Infiltrazione dal tetto, ala ovest", "item2": "ITEM-4822 · Ispezione elettrica in sospeso", "item3": "ITEM-4823 · Getto di calcestruzzo programmato" },
     "anim": { "slideButton": "Transizione slide", "popTitle": "Documento approvato", "popSubtitle": "Comparsa a molla, come una conferma modale.", "springButton": "Comparsa a molla" },
     "deeplink": { "pickLink": "Scegli un link da risolvere →", "linkOrder": "→ risolve a OrderDetails, orderId: 8842", "linkDriver": "→ risolve a DriverProfile, driverId: 119", "linkUnknown": "→ nessuna corrispondenza — getStateFromPath torna a Home" },
     "ulink": { "openButton": "Apri https://geet.app/order/8842", "placeholder": "Simula come iOS risolve il link →", "step1": "iOS: l'utente tocca https://geet.app/order/8842", "step2": "Il sistema verifica apple-app-site-association su geet.app", "step3": "L'App ID corrisponde all'app installata → si apre nativamente, senza passare da Safari", "step4": "La config linking di RN risolve a OrderDetails, orderId: 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "Performance liste",
       "storage": "Storage offline",
       "sync": "Sync offline-first",
+      "firebase": "Firebase",
+      "restapi": "API REST",
       "anim": "Animazioni",
       "deeplink": "Deep Linking",
       "ulink": "Universal Links",
@@ -92,7 +98,8 @@
       "ota": "CodePush OTA",
       "tv": "Smart TV",
       "wearables": "Wearable",
-      "aiassistant": "Chat IA"
+      "aiassistant": "Chat IA",
+      "gesture": "Fisica dei gesti"
     }
   },
   "experience": {

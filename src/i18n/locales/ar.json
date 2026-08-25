@@ -5,6 +5,8 @@
     "list": { "desc": "في PlanRadar، كان تحديد صف في قائمة كبيرة يعيد عرض كل صف عبر مقارنة هوية المصفوفة — O(n²). استبدلت ذلك ببحث انتماء إلى Set، بحيث يعاد عرض الصف الملموس فقط. انقر على الصفوف أدناه.", "note": "// قديم: كل القائمة تُعاد عرضها مع كل تحديد. جديد: يتم تحديث الصف الملموس فقط." },
     "storage": { "desc": "نقلت آلية التخزين الدائم في PlanRadar من AsyncStorage إلى MMKV — متزامن، مشفّر، قراءة أسرع.", "note": "// عمليات الكتابة في MMKV متزامنة — بدون await، بدون وميض عند القراءة." },
     "sync": { "desc": "إحدى الوحدات الأساسية في PlanRadar تعمل دون اتصال أولاً وبشكل لحظي عبر WebSockets — تُجمّع الإجراءات في طابور أثناء عدم الاتصال وتُرسل عند إعادة الاتصال. بدّل وضع عدم الاتصال أدناه وقم بإجراء تغييرات.", "note": "// الإجراءات المُجمّعة تُرسل بالترتيب فور إعادة اتصال المقبس." },
+    "firebase": { "desc": "يشكّل Firebase أساس المراقبة (observability) في تطبيقي PlanRadar وIndex Group — Analytics لتتبع الاستخدام، Crashlytics لمراقبة معدل crash-free، وFCM كوسيلة نقل للإشعارات push. شغّل استدعاء SDK أدناه.", "note": "// يتم ضبط سياق Crashlytics (معرّف المستخدم، breadcrumbs) قبل الـ throw، لا بعده — وإلا يصل التقرير دون أي فكرة عمّا سبقه." },
+    "restapi": { "desc": "يتواصل كل من PlanRadar وIndex Group مع الخلفية عبر طبقة REST/JSON:API مُنمّطة — عميل Axios مزوّد بـ interceptors لإرفاق رمز المصادقة، وتحديث الجلسة عند 401، وتوحيد الأخطاء مركزياً، ملفوفة في resource hooks تستدعيها المكوّنات مباشرة. شغّل عملية جلب أدناه لتتبّع خط الأنابيب (pipeline).", "note": "// يشارك مُعترض الطلب (request interceptor) عملية تحديث واحدة قيد التنفيذ بين طلبات 401 المتزامنة، بدلاً من إطلاق تحديث لكل طلب." },
     "anim": { "desc": "واجهة Reanimated / Animated تُشغّل انتقالات النوافذ المنبثقة والتنقل في PlanRadar. مثالان أدناه.", "note": "// عمليات Reanimated worklets تعمل على خيط الواجهة — بدون تقطّع بسبب خيط JS تحت الحمل." },
     "deeplink": { "desc": "في Index Group، كانت الإشعارات والروابط المشتركة تفتح التطبيق مباشرة على شاشة طلب أو سائق محددة.", "note": "// المسارات غير المتطابقة تعود إلى مسار افتراضي بدلاً من تعطيل نظام التنقل." },
     "ulink": { "desc": "الروابط الشاملة (iOS) وروابط التطبيقات (Android) تتجاوز تماماً مطالبة المخطط المخصص — رابط https:// حقيقي يفتح التطبيق مباشرة إذا كان مثبتاً، أو صفحة الويب إن لم يكن.", "note": "// بدون تطبيق مثبت ← نفس الرابط يفتح بدلاً من ذلك نسخة الويب للموبايل." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "مهمة #{{n}}" },
     "storage": { "keyPlaceholder": "المفتاح", "valuePlaceholder": "القيمة", "setButton": "حفظ", "noKeysYet": "لا توجد مفاتيح بعد", "emptyValue": "(فارغ)" },
     "sync": { "online": "متصل", "offline": "غير متصل", "queuedBadge": "{{count}} في الطابور", "approveButton": "اعتماد العنصر", "logPlaceholder": "ستظهر الإجراءات هنا →", "logReconnected": "↺ أعيد الاتصال — جارٍ إرسال {{count}} إجراء(ات) من الطابور...", "logSent": "✓ أُرسل عبر WebSocket — تمت الموافقة فوراً", "logQueued": "⏸ غير متصل — تمت إضافة الإجراء إلى الطابور ({{count}})" },
+    "firebase": { "analyticsButton": "تسجيل حدث Analytics", "crashlyticsButton": "الإبلاغ إلى Crashlytics", "fcmButton": "تسجيل رمز FCM", "placeholder": "شغّل استدعاء SDK لرؤية تتبّعه →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ تم وضع الحدث في الطابور — سيُجمّع في فترة الـ flush التالية", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ تم وضع التقرير في الطابور — سيُرسل عند عودة التطبيق إلى الواجهة الأمامية", "fcmStep1": "messaging().requestPermission() → مُمنوح", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ تم تسجيل الرمز في الخلفية، مرتبط بجلسة المستخدم" },
+    "restapi": { "fetchButton": "جلب التذاكر", "placeholder": "شغّل عملية جلب لتتبّع خط الأنابيب →", "step1": "→ معترض الطلب: إرفاق ترويسة Authorization", "step2": "→ GET /projects/8842/tickets", "step3": "← معترض الاستجابة: 200 OK", "step4": "✓ تم حل الـ hook — 3 عناصر", "item1": "ITEM-4821 · تسرب في السقف، الجناح الغربي", "item2": "ITEM-4822 · فحص كهربائي مستحق", "item3": "ITEM-4823 · صب خرساني مجدول" },
     "anim": { "slideButton": "انتقال بالانزلاق", "popTitle": "تمت الموافقة على المستند", "popSubtitle": "ظهور بتأثير Spring، كأنه تأكيد نافذة منبثقة.", "springButton": "ظهور بتأثير Spring" },
     "deeplink": { "pickLink": "اختر رابطاً لحله →", "linkOrder": "→ يُحل إلى OrderDetails، orderId: 8842", "linkDriver": "→ يُحل إلى DriverProfile، driverId: 119", "linkUnknown": "→ لا تطابق — getStateFromPath يعود إلى Home" },
     "ulink": { "openButton": "فتح https://geet.app/order/8842", "placeholder": "يحاكي كيف يحل iOS الرابط →", "step1": "iOS: يضغط المستخدم على https://geet.app/order/8842", "step2": "يتحقق النظام من apple-app-site-association على geet.app", "step3": "معرف التطبيق يطابق التطبيق المثبت → يُفتح بشكل أصلي، دون المرور عبر Safari", "step4": "إعداد linking في RN يُحل إلى OrderDetails، orderId: 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "أداء القوائم",
       "storage": "التخزين دون اتصال",
       "sync": "مزامنة أولوية دون اتصال",
+      "firebase": "Firebase",
+      "restapi": "REST API",
       "anim": "الحركات والانتقالات",
       "deeplink": "الروابط العميقة",
       "ulink": "الروابط الشاملة",
@@ -92,7 +98,8 @@
       "ota": "تحديثات CodePush",
       "tv": "تلفاز ذكي",
       "wearables": "الأجهزة القابلة للارتداء",
-      "aiassistant": "الدردشة الذكية"
+      "aiassistant": "الدردشة الذكية",
+      "gesture": "فيزياء الإيماءات"
     }
   },
   "experience": {

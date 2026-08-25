@@ -5,6 +5,8 @@
     "list": { "desc": "Chez PlanRadar, sélectionner une ligne dans une longue liste re-rendait chaque ligne via une comparaison d'identité de tableau — O(n²). Je l'ai remplacé par une recherche d'appartenance à un Set, donc seule la ligne touchée se re-rend. Cliquez sur les lignes ci-dessous.", "note": "// Avant : toute la liste se re-rend à chaque sélection. Après : seule la ligne touchée est mise à jour." },
     "storage": { "desc": "Migration de la persistance de PlanRadar d'AsyncStorage vers MMKV — synchrone, chiffré, lectures plus rapides.", "note": "// Les écritures MMKV sont synchrones — pas d'await, pas de scintillement à la lecture." },
     "sync": { "desc": "L'un des modules principaux de PlanRadar est offline-first et temps réel via WebSockets — les actions sont mises en file hors ligne et rejouées à la reconnexion. Basculez hors ligne ci-dessous et effectuez des modifications.", "note": "// Les actions en file sont rejouées dans l'ordre une fois le socket reconnecté." },
+    "firebase": { "desc": "Firebase soutient l'observabilité des apps PlanRadar et Index Group — Analytics pour le suivi d'usage, Crashlytics pour le taux de crash-free, et FCM comme transport pour les push. Déclenchez un appel SDK ci-dessous.", "note": "// Le contexte Crashlytics (id utilisateur, breadcrumbs) est défini avant le throw, pas après — sinon le rapport arrive sans aucune idée de ce qui l'a précédé." },
+    "restapi": { "desc": "PlanRadar et Index Group communiquent tous deux avec le backend via une couche REST/JSON:API typée — un client Axios avec des intercepteurs pour attacher le jeton d'auth, gérer le refresh sur 401 et normaliser les erreurs de façon centralisée, le tout enveloppé dans des hooks de ressources appelés directement par les composants. Lancez un fetch ci-dessous pour tracer le pipeline.", "note": "// L'intercepteur de requête partage un seul refresh en cours entre plusieurs 401 concurrents, au lieu de lancer un refresh par requête." },
     "anim": { "desc": "L'API Reanimated / Animated pilote les transitions de modales et de navigation chez PlanRadar. Deux exemples ci-dessous.", "note": "// Les worklets Reanimated s'exécutent sur le thread UI — pas de saccades dues au thread JS sous charge." },
     "deeplink": { "desc": "Chez Index Group, les notifications et liens partagés ouvraient l'application directement sur un écran de commande ou de chauffeur spécifique.", "note": "// Les chemins non reconnus retombent sur une route par défaut au lieu de faire planter le navigateur." },
     "ulink": { "desc": "Les Universal Links (iOS) et App Links (Android) évitent complètement l'invite de schéma personnalisé — un vrai lien https:// ouvre l'application directement si elle est installée, sinon la page web.", "note": "// Pas d'application installée → la même URL ouvre le fallback web mobile à la place." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "Tâche #{{n}}" },
     "storage": { "keyPlaceholder": "clé", "valuePlaceholder": "valeur", "setButton": "Définir", "noKeysYet": "aucune clé pour l'instant", "emptyValue": "(vide)" },
     "sync": { "online": "En ligne", "offline": "Hors ligne", "queuedBadge": "{{count}} en file", "approveButton": "Approuver l'élément", "logPlaceholder": "Les actions s'afficheront ici →", "logReconnected": "↺ Reconnecté — envoi de {{count}} action(s) en file...", "logSent": "✓ Envoyé via WebSocket — approuvé instantanément", "logQueued": "⏸ Hors ligne — action mise en file ({{count}})" },
+    "firebase": { "analyticsButton": "Logger un événement Analytics", "crashlyticsButton": "Signaler à Crashlytics", "fcmButton": "Enregistrer le token FCM", "placeholder": "Déclenchez un appel SDK pour le voir tracé →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ événement mis en file — regroupé au prochain intervalle de flush", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ rapport mis en file — envoyé au prochain passage au premier plan", "fcmStep1": "messaging().requestPermission() → accordé", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ token enregistré côté backend, lié à la session utilisateur" },
+    "restapi": { "fetchButton": "Récupérer les tickets", "placeholder": "Déclenchez un fetch pour tracer le pipeline →", "step1": "→ intercepteur de requête : ajout du header Authorization", "step2": "→ GET /projects/8842/tickets", "step3": "← intercepteur de réponse : 200 OK", "step4": "✓ hook résolu — 3 éléments", "item1": "ITEM-4821 · Fuite de toit, aile ouest", "item2": "ITEM-4822 · Inspection électrique à faire", "item3": "ITEM-4823 · Coulage de béton programmé" },
     "anim": { "slideButton": "Transition slide", "popTitle": "Document approuvé", "popSubtitle": "Pop-in en spring, comme une confirmation modale.", "springButton": "Pop-in en spring" },
     "deeplink": { "pickLink": "Choisissez un lien à résoudre →", "linkOrder": "→ résout vers OrderDetails, orderId : 8842", "linkDriver": "→ résout vers DriverProfile, driverId : 119", "linkUnknown": "→ aucune correspondance — getStateFromPath retombe sur Home" },
     "ulink": { "openButton": "Ouvrir https://geet.app/order/8842", "placeholder": "Simule la résolution du lien par iOS →", "step1": "iOS : l'utilisateur touche https://geet.app/order/8842", "step2": "Le système vérifie apple-app-site-association sur geet.app", "step3": "L'App ID correspond à l'app installée → s'ouvre nativement, sans passer par Safari", "step4": "La config linking de RN résout vers OrderDetails, orderId : 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "Perf. de listes",
       "storage": "Stockage hors ligne",
       "sync": "Sync offline-first",
+      "firebase": "Firebase",
+      "restapi": "API REST",
       "anim": "Animations",
       "deeplink": "Liens profonds",
       "ulink": "Universal Links",
@@ -92,7 +98,8 @@
       "ota": "CodePush OTA",
       "tv": "Smart TV",
       "wearables": "Wearables",
-      "aiassistant": "Chat IA"
+      "aiassistant": "Chat IA",
+      "gesture": "Physique des gestes"
     }
   },
   "experience": {

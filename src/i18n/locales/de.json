@@ -5,6 +5,8 @@
     "list": { "desc": "Bei PlanRadar führte die Auswahl einer Zeile in einer großen Liste dazu, dass jede Zeile über einen Array-Identitätsvergleich neu gerendert wurde — O(n²). Ich habe das durch eine Set-Zugehörigkeitsprüfung ersetzt, sodass nur die berührte Zeile neu gerendert wird. Zeilen unten anklicken.", "note": "// Alt: Bei jeder Auswahl rendert die ganze Liste neu. Neu: Nur die berührte Zeile wird aktualisiert." },
     "storage": { "desc": "Migration der Persistenz von PlanRadar von AsyncStorage zu MMKV — synchron, verschlüsselt, schnellere Lesevorgänge.", "note": "// MMKV-Schreibvorgänge sind synchron — kein await, kein Flackern beim Lesen." },
     "sync": { "desc": "Eines der Kernmodule von PlanRadar ist offline-first und in Echtzeit über WebSockets — Aktionen werden im Offline-Modus zwischengespeichert und bei Wiederverbindung ausgeführt. Unten Offline umschalten und Änderungen vornehmen.", "note": "// Zwischengespeicherte Aktionen werden in Reihenfolge ausgeführt, sobald der Socket wieder verbindet." },
+    "firebase": { "desc": "Firebase ist die Basis für Observability bei PlanRadar und Index Group — Analytics für Nutzungs-Tracking, Crashlytics für die Crash-free-Rate und FCM als Transport für Push. SDK-Aufruf unten auslösen.", "note": "// Der Crashlytics-Kontext (User-ID, Breadcrumbs) wird vor dem Throw gesetzt, nicht danach — sonst kommt der Report ohne jeden Hinweis an, was davor passiert ist." },
+    "restapi": { "desc": "PlanRadar und Index Group sprechen beide über eine typisierte REST/JSON:API-Schicht mit dem Backend — ein Axios-Client mit Interceptors für Auth-Token-Anhang, 401-Refresh und zentrale Fehlernormalisierung, verpackt in Resource-Hooks, die Komponenten direkt aufrufen. Unten abrufen, um die Pipeline zu verfolgen.", "note": "// Der Request-Interceptor teilt sich einen laufenden Refresh über mehrere gleichzeitige 401er, statt für jede Anfrage einen eigenen Refresh zu starten." },
     "anim": { "desc": "Reanimated / Animated API steuert Modal- und Navigationsübergänge bei PlanRadar. Zwei Beispiele unten.", "note": "// Reanimated-Worklets laufen im UI-Thread — kein Ruckeln durch den JS-Thread bei Last." },
     "deeplink": { "desc": "Bei Index Group öffneten Benachrichtigungen und geteilte Links die App direkt auf einem bestimmten Bestellungs- oder Fahrer-Screen.", "note": "// Nicht übereinstimmende Pfade fallen auf eine Standardroute zurück, statt den Navigator abstürzen zu lassen." },
     "ulink": { "desc": "Universal Links (iOS) und App Links (Android) überspringen den Custom-Scheme-Dialog komplett — ein echter https://-Link öffnet die App direkt, falls installiert, sonst die Webseite.", "note": "// Keine installierte App → dieselbe URL öffnet stattdessen den mobilen Web-Fallback." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "Aufgabe #{{n}}" },
     "storage": { "keyPlaceholder": "Schlüssel", "valuePlaceholder": "Wert", "setButton": "Setzen", "noKeysYet": "noch keine Schlüssel", "emptyValue": "(leer)" },
     "sync": { "online": "Online", "offline": "Offline", "queuedBadge": "{{count}} in Warteschlange", "approveButton": "Element genehmigen", "logPlaceholder": "Aktionen erscheinen hier →", "logReconnected": "↺ Wiederverbunden — {{count}} wartende Aktion(en) werden gesendet...", "logSent": "✓ Über WebSocket gesendet — sofort genehmigt", "logQueued": "⏸ Offline — Aktion in Warteschlange ({{count}})" },
+    "firebase": { "analyticsButton": "Analytics-Event loggen", "crashlyticsButton": "An Crashlytics melden", "fcmButton": "FCM-Token registrieren", "placeholder": "SDK-Aufruf auslösen, um ihn nachzuverfolgen →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ Event eingereiht — wird mit dem nächsten Flush-Intervall gebündelt", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ Report eingereiht — wird beim nächsten App-Vordergrund gesendet", "fcmStep1": "messaging().requestPermission() → erteilt", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ Token beim Backend registriert, an die Nutzersitzung gebunden" },
+    "restapi": { "fetchButton": "Tickets abrufen", "placeholder": "Abruf auslösen, um die Pipeline zu verfolgen →", "step1": "→ Request-Interceptor: Authorization-Header anhängen", "step2": "→ GET /projects/8842/tickets", "step3": "← Response-Interceptor: 200 OK", "step4": "✓ Hook aufgelöst — 3 Einträge", "item1": "ITEM-4821 · Dachleck, Westflügel", "item2": "ITEM-4822 · Elektroprüfung fällig", "item3": "ITEM-4823 · Betonguss geplant" },
     "anim": { "slideButton": "Slide-Übergang", "popTitle": "Dokument genehmigt", "popSubtitle": "Spring-Pop-in, wie eine Modal-Bestätigung.", "springButton": "Spring-Pop-in" },
     "deeplink": { "pickLink": "Link zum Auflösen wählen →", "linkOrder": "→ löst zu OrderDetails auf, orderId: 8842", "linkDriver": "→ löst zu DriverProfile auf, driverId: 119", "linkUnknown": "→ keine Übereinstimmung — getStateFromPath fällt zurück auf Home" },
     "ulink": { "openButton": "Öffne https://geet.app/order/8842", "placeholder": "Simuliert, wie iOS den Link auflöst →", "step1": "iOS: Nutzer tippt auf https://geet.app/order/8842", "step2": "System prüft apple-app-site-association auf geet.app", "step3": "App-ID stimmt mit installierter App überein → öffnet nativ, kein Safari-Umweg", "step4": "RN-Linking-Konfiguration löst zu OrderDetails auf, orderId: 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "Listen-Performance",
       "storage": "Offline-Speicher",
       "sync": "Offline-First-Sync",
+      "firebase": "Firebase",
+      "restapi": "REST API",
       "anim": "Animationen",
       "deeplink": "Deep Linking",
       "ulink": "Universal Links",
@@ -92,7 +98,8 @@
       "ota": "CodePush OTA",
       "tv": "Smart TV",
       "wearables": "Wearables",
-      "aiassistant": "KI-Chat"
+      "aiassistant": "KI-Chat",
+      "gesture": "Gesten-Physik"
     }
   },
   "experience": {

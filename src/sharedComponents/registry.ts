@@ -12,6 +12,8 @@ export const DEMO_IDS = [
   'anim',
   'sync',
   'storage',
+  'firebase',
+  'restapi',
   'newarch',
   'deeplink',
   'ulink',

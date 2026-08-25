@@ -5,6 +5,8 @@
     "list": { "desc": "PlanRadar'da, büyük bir listede bir satırı seçmek, array-identity karşılaştırması nedeniyle her satırı yeniden render ediyordu — O(n²). Bunu bir Set-üyelik aramasıyla değiştirdim, böylece yalnızca dokunulan satır yeniden render edilir. Aşağıdaki satırlara tıklayın.", "note": "// Eski: her seçimde tüm liste yeniden render olur. Yeni: yalnızca dokunulan satır güncellenir." },
     "storage": { "desc": "PlanRadar'ın kalıcılığını AsyncStorage'dan MMKV'ye taşıdım — senkron, şifreli, daha hızlı okumalar.", "note": "// MMKV yazmaları senkrondur — await yok, okumada titreme yok." },
     "sync": { "desc": "PlanRadar'ın temel modüllerinden biri offline-first ve WebSocket üzerinden gerçek zamanlıdır — işlemler çevrimdışıyken kuyruğa alınır ve yeniden bağlanınca gönderilir. Aşağıda çevrimdışını açıp değişiklik yapın.", "note": "// Kuyruğa alınan işlemler soket yeniden bağlandığında sırayla gönderilir." },
+    "firebase": { "desc": "Firebase, hem PlanRadar hem de Index Group uygulamalarında gözlemlenebilirliğin temelini oluşturuyor — kullanım takibi için Analytics, crash-free oranı izleme için Crashlytics ve push taşıyıcısı olarak FCM. Aşağıdan bir SDK çağrısı tetikleyin.", "note": "// Crashlytics bağlamı (kullanıcı id'si, breadcrumb'lar) throw'dan önce ayarlanır, sonra değil — yoksa rapor, ondan önce ne olduğuna dair hiçbir fikir olmadan gelir." },
+    "restapi": { "desc": "PlanRadar ve Index Group, backend ile tipli bir REST/JSON:API katmanı üzerinden konuşur — auth token eklemek, 401'de refresh yapmak ve hataları merkezi olarak normalize etmek için interceptor'lara sahip bir Axios istemcisi, bileşenlerin doğrudan çağırdığı resource hook'ların içine sarılmış. Pipeline'ı izlemek için aşağıdan fetch tetikleyin.", "note": "// Request interceptor, eşzamanlı 401'ler arasında her istek için ayrı bir refresh başlatmak yerine tek bir devam eden refresh'i paylaşır." },
     "anim": { "desc": "Reanimated / Animated API, PlanRadar'da modal ve navigasyon geçişlerini yönetir. Aşağıda iki örnek.", "note": "// Reanimated worklet'leri UI thread'inde çalışır — yük altında JS thread takılması olmaz." },
     "deeplink": { "desc": "Index Group'ta, bildirimler ve paylaşılan bağlantılar uygulamayı doğrudan belirli bir sipariş veya sürücü ekranında açıyordu.", "note": "// Eşleşmeyen yollar, navigator'ı çökertmek yerine varsayılan bir rotaya döner." },
     "ulink": { "desc": "Universal Links (iOS) ve App Links (Android), özel şema istemini tamamen atlar — gerçek bir https:// bağlantısı, yüklüyse uygulamayı doğrudan açar, değilse web sayfasını açar.", "note": "// Yüklü uygulama yoksa → aynı URL bunun yerine mobil web yedeğini açar." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "Görev #{{n}}" },
     "storage": { "keyPlaceholder": "anahtar", "valuePlaceholder": "değer", "setButton": "Ayarla", "noKeysYet": "henüz anahtar yok", "emptyValue": "(boş)" },
     "sync": { "online": "Çevrimiçi", "offline": "Çevrimdışı", "queuedBadge": "{{count}} sırada", "approveButton": "Öğeyi onayla", "logPlaceholder": "İşlemler burada görünecek →", "logReconnected": "↺ Yeniden bağlanıldı — {{count}} sıradaki işlem gönderiliyor...", "logSent": "✓ WebSocket üzerinden gönderildi — anında onaylandı", "logQueued": "⏸ Çevrimdışı — işlem sıraya alındı ({{count}})" },
+    "firebase": { "analyticsButton": "Analytics Olayı Logla", "crashlyticsButton": "Crashlytics'e Bildir", "fcmButton": "FCM Token'ı Kaydet", "placeholder": "İzlemesini görmek için bir SDK çağrısı tetikleyin →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ olay kuyruğa alındı — bir sonraki flush aralığında toplanacak", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ rapor kuyruğa alındı — uygulama bir sonraki ön plana geçişinde gönderilecek", "fcmStep1": "messaging().requestPermission() → izin verildi", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ token backend'e kaydedildi, kullanıcı oturumuna bağlandı" },
+    "restapi": { "fetchButton": "Ticket'ları Getir", "placeholder": "Pipeline'ı izlemek için bir fetch tetikleyin →", "step1": "→ request interceptor: Authorization header'ı ekleniyor", "step2": "→ GET /projects/8842/tickets", "step3": "← response interceptor: 200 OK", "step4": "✓ hook çözümlendi — 3 öğe", "item1": "ITEM-4821 · Çatı sızıntısı, batı kanat", "item2": "ITEM-4822 · Elektrik denetimi bekliyor", "item3": "ITEM-4823 · Beton dökümü planlandı" },
     "anim": { "slideButton": "Kaydırma geçişi", "popTitle": "Belge onaylandı", "popSubtitle": "Spring pop-in, modal onayı gibi.", "springButton": "Spring pop-in" },
     "deeplink": { "pickLink": "Çözümlemek için bir bağlantı seçin →", "linkOrder": "→ OrderDetails'e çözümlenir, orderId: 8842", "linkDriver": "→ DriverProfile'a çözümlenir, driverId: 119", "linkUnknown": "→ eşleşme yok — getStateFromPath Home'a döner" },
     "ulink": { "openButton": "https://geet.app/order/8842 aç", "placeholder": "iOS'in bağlantıyı nasıl çözümlediğini simüle eder →", "step1": "iOS: kullanıcı https://geet.app/order/8842 adresine dokunur", "step2": "Sistem geet.app üzerinde apple-app-site-association'ı kontrol eder", "step3": "App ID yüklü uygulamayla eşleşir → Safari'ye gitmeden doğrudan native açılır", "step4": "RN linking yapılandırması OrderDetails'e çözümlenir, orderId: 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "Liste Performansı",
       "storage": "Offline Depolama",
       "sync": "Offline-First Senkron",
+      "firebase": "Firebase",
+      "restapi": "REST API",
       "anim": "Animasyonlar",
       "deeplink": "Deep Linking",
       "ulink": "Universal Links",
@@ -92,7 +98,8 @@
       "ota": "CodePush OTA",
       "tv": "Akıllı TV",
       "wearables": "Giyilebilirler",
-      "aiassistant": "Yapay Zeka Sohbeti"
+      "aiassistant": "Yapay Zeka Sohbeti",
+      "gesture": "Jest Fiziği"
     }
   },
   "experience": {

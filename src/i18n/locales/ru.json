@@ -5,6 +5,8 @@
     "list": { "desc": "В PlanRadar выбор строки в большом списке перерендеривал каждую строку через сравнение идентичности массива — O(n²). Я заменил это поиском принадлежности к Set, так что перерендеривается только затронутая строка. Кликните по строкам ниже.", "note": "// Раньше: весь список перерендеривается при каждом выборе. Теперь: обновляется только затронутая строка." },
     "storage": { "desc": "Миграция персистентности PlanRadar с AsyncStorage на MMKV — синхронно, зашифровано, более быстрое чтение.", "note": "// Записи MMKV синхронны — без await, без мерцания при чтении." },
     "sync": { "desc": "Один из основных модулей PlanRadar — offline-first и работает в реальном времени через WebSockets — действия становятся в очередь офлайн и отправляются при переподключении. Переключите офлайн-режим ниже и внесите изменения.", "note": "// Действия в очереди отправляются по порядку, как только сокет переподключается." },
+    "firebase": { "desc": "Firebase лежит в основе наблюдаемости в приложениях PlanRadar и Index Group — Analytics для отслеживания использования, Crashlytics для мониторинга crash-free rate и FCM как транспорт для push. Запустите вызов SDK ниже.", "note": "// Контекст Crashlytics (id пользователя, breadcrumbs) устанавливается до throw, а не после — иначе отчёт приходит без малейшего понятия, что ему предшествовало." },
+    "restapi": { "desc": "PlanRadar и Index Group общаются с бэкендом через типизированный слой REST/JSON:API — клиент Axios с интерсепторами для прикрепления auth-токена, обновления при 401 и централизованной нормализации ошибок, обёрнутый в resource-хуки, которые компоненты вызывают напрямую. Запустите fetch ниже, чтобы проследить пайплайн.", "note": "// Интерсептор запроса делит один выполняющийся refresh между несколькими одновременными 401, вместо того чтобы запускать refresh на каждый запрос." },
     "anim": { "desc": "API Reanimated / Animated управляет переходами модальных окон и навигации в PlanRadar. Два примера ниже.", "note": "// Ворклеты Reanimated выполняются в UI-потоке — без рывков из-за JS-потока под нагрузкой." },
     "deeplink": { "desc": "В Index Group уведомления и общие ссылки открывали приложение прямо на определённом экране заказа или водителя.", "note": "// Несовпадающие пути возвращаются к маршруту по умолчанию вместо сбоя навигатора." },
     "ulink": { "desc": "Universal Links (iOS) и App Links (Android) полностью пропускают запрос кастомной схемы — настоящая ссылка https:// открывает приложение напрямую, если оно установлено, иначе — веб-страницу.", "note": "// Приложение не установлено → тот же URL открывает мобильный веб-резерв." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "Задача #{{n}}" },
     "storage": { "keyPlaceholder": "ключ", "valuePlaceholder": "значение", "setButton": "Записать", "noKeysYet": "пока нет ключей", "emptyValue": "(пусто)" },
     "sync": { "online": "Онлайн", "offline": "Офлайн", "queuedBadge": "{{count}} в очереди", "approveButton": "Одобрить элемент", "logPlaceholder": "Действия появятся здесь →", "logReconnected": "↺ Переподключено — отправка {{count}} действия(й) из очереди...", "logSent": "✓ Отправлено через WebSocket — одобрено мгновенно", "logQueued": "⏸ Офлайн — действие поставлено в очередь ({{count}})" },
+    "firebase": { "analyticsButton": "Залогировать событие Analytics", "crashlyticsButton": "Отправить в Crashlytics", "fcmButton": "Зарегистрировать FCM-токен", "placeholder": "Запустите вызов SDK, чтобы увидеть трассировку →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ событие поставлено в очередь — попадёт в следующий интервал flush", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ отчёт поставлен в очередь — отправится при следующем переходе приложения на передний план", "fcmStep1": "messaging().requestPermission() → разрешено", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ токен зарегистрирован на бэкенде, привязан к сессии пользователя" },
+    "restapi": { "fetchButton": "Загрузить тикеты", "placeholder": "Запустите fetch, чтобы проследить пайплайн →", "step1": "→ интерсептор запроса: прикрепление заголовка Authorization", "step2": "→ GET /projects/8842/tickets", "step3": "← интерсептор ответа: 200 OK", "step4": "✓ хук разрешён — 3 элемента", "item1": "ITEM-4821 · Протечка крыши, западное крыло", "item2": "ITEM-4822 · Требуется электроосмотр", "item3": "ITEM-4823 · Запланирована заливка бетона" },
     "anim": { "slideButton": "Переход сдвигом", "popTitle": "Документ одобрен", "popSubtitle": "Появление с пружиной, как модальное подтверждение.", "springButton": "Появление с пружиной" },
     "deeplink": { "pickLink": "Выберите ссылку для разрешения →", "linkOrder": "→ разрешается в OrderDetails, orderId: 8842", "linkDriver": "→ разрешается в DriverProfile, driverId: 119", "linkUnknown": "→ нет совпадения — getStateFromPath возвращается к Home" },
     "ulink": { "openButton": "Открыть https://geet.app/order/8842", "placeholder": "Симулирует, как iOS разрешает ссылку →", "step1": "iOS: пользователь нажимает на https://geet.app/order/8842", "step2": "Система проверяет apple-app-site-association на geet.app", "step3": "App ID совпадает с установленным приложением → открывается нативно, минуя Safari", "step4": "Конфигурация linking в RN разрешается в OrderDetails, orderId: 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "Производительность списков",
       "storage": "Офлайн-хранилище",
       "sync": "Offline-First синхронизация",
+      "firebase": "Firebase",
+      "restapi": "REST API",
       "anim": "Анимации",
       "deeplink": "Deep Linking",
       "ulink": "Universal Links",
@@ -92,7 +98,8 @@
       "ota": "CodePush OTA",
       "tv": "Smart TV",
       "wearables": "Носимые устройства",
-      "aiassistant": "ИИ-чат"
+      "aiassistant": "ИИ-чат",
+      "gesture": "Физика жестов"
     }
   },
   "experience": {

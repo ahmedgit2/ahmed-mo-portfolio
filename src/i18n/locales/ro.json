@@ -5,6 +5,8 @@
     "list": { "desc": "La PlanRadar, selectarea unui rând într-o listă mare re-randa fiecare rând prin comparație de identitate a array-ului — O(n²). Am înlocuit cu o căutare de apartenență la un Set, deci doar rândul atins se re-randează. Dă clic pe rândurile de mai jos.", "note": "// Înainte: toată lista se re-randează la fiecare selecție. Acum: se actualizează doar rândul atins." },
     "storage": { "desc": "Migrarea persistenței PlanRadar de la AsyncStorage la MMKV — sincron, criptat, citiri mai rapide.", "note": "// Scrierile MMKV sunt sincrone — fără await, fără pâlpâire la citire." },
     "sync": { "desc": "Unul dintre modulele de bază ale PlanRadar este offline-first și în timp real prin WebSockets — acțiunile se pun în coadă offline și se trimit la reconectare. Comută offline mai jos și fă modificări.", "note": "// Acțiunile din coadă se trimit în ordine odată ce socket-ul se reconectează." },
+    "firebase": { "desc": "Firebase stă la baza observabilității atât la PlanRadar, cât și la Index Group — Analytics pentru urmărirea utilizării, Crashlytics pentru rata crash-free și FCM ca transport pentru push. Declanșează un apel SDK mai jos.", "note": "// Contextul Crashlytics (id utilizator, breadcrumbs) e setat înainte de throw, nu după — altfel raportul ajunge fără nicio idee despre ce l-a precedat." },
+    "restapi": { "desc": "PlanRadar și Index Group vorbesc ambele cu backend-ul printr-un strat REST/JSON:API tipizat — un client Axios cu interceptoare pentru atașarea token-ului de auth, refresh la 401 și normalizarea centralizată a erorilor, învelit în resource hooks apelate direct de componente. Fă fetch mai jos pentru a urmări pipeline-ul.", "note": "// Interceptorul de request împarte un singur refresh în desfășurare între 401-uri concurente, în loc să pornească un refresh per cerere." },
     "anim": { "desc": "API-ul Reanimated / Animated conduce tranzițiile de modale și navigare la PlanRadar. Două exemple mai jos.", "note": "// Worklet-urile Reanimated rulează pe thread-ul UI — fără sacadări din cauza thread-ului JS sub sarcină." },
     "deeplink": { "desc": "La Index Group, notificările și link-urile partajate deschideau aplicația direct pe un ecran specific de comandă sau șofer.", "note": "// Căile nepotrivite revin la o rută implicită în loc să blocheze navigatorul." },
     "ulink": { "desc": "Universal Links (iOS) și App Links (Android) sar complet peste prompt-ul de schemă personalizată — un link https:// real deschide aplicația direct dacă e instalată, altfel pagina web.", "note": "// Fără aplicația instalată → același URL deschide în schimb fallback-ul web mobil." },
@@ -24,6 +26,8 @@
     "list": { "taskItem": "Sarcină #{{n}}" },
     "storage": { "keyPlaceholder": "cheie", "valuePlaceholder": "valoare", "setButton": "Setează", "noKeysYet": "încă nicio cheie", "emptyValue": "(gol)" },
     "sync": { "online": "Online", "offline": "Offline", "queuedBadge": "{{count}} în coadă", "approveButton": "Aprobă elementul", "logPlaceholder": "Acțiunile vor apărea aici →", "logReconnected": "↺ Reconectat — se trimit {{count}} acțiune(i) din coadă...", "logSent": "✓ Trimis prin WebSocket — aprobat instantaneu", "logQueued": "⏸ Offline — acțiune pusă în coadă ({{count}})" },
+    "firebase": { "analyticsButton": "Loghează eveniment Analytics", "crashlyticsButton": "Raportează la Crashlytics", "fcmButton": "Înregistrează token FCM", "placeholder": "Declanșează un apel SDK ca să-l vezi urmărit →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ eveniment pus în coadă — grupat la următorul interval de flush", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ raport pus în coadă — trimis la următoarea revenire în prim-plan a aplicației", "fcmStep1": "messaging().requestPermission() → acordat", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ token înregistrat pe backend, legat de sesiunea utilizatorului" },
+    "restapi": { "fetchButton": "Preia tichetele", "placeholder": "Declanșează un fetch pentru a urmări pipeline-ul →", "step1": "→ interceptor de request: atașează header-ul Authorization", "step2": "→ GET /projects/8842/tickets", "step3": "← interceptor de response: 200 OK", "step4": "✓ hook rezolvat — 3 elemente", "item1": "ITEM-4821 · Infiltrație la acoperiș, aripa vestică", "item2": "ITEM-4822 · Inspecție electrică restantă", "item3": "ITEM-4823 · Turnare de beton programată" },
     "anim": { "slideButton": "Tranziție glisantă", "popTitle": "Document aprobat", "popSubtitle": "Apariție cu spring, ca o confirmare modală.", "springButton": "Apariție cu spring" },
     "deeplink": { "pickLink": "Alege un link de rezolvat →", "linkOrder": "→ rezolvă către OrderDetails, orderId: 8842", "linkDriver": "→ rezolvă către DriverProfile, driverId: 119", "linkUnknown": "→ nicio potrivire — getStateFromPath revine la Home" },
     "ulink": { "openButton": "Deschide https://geet.app/order/8842", "placeholder": "Simulează cum rezolvă iOS link-ul →", "step1": "iOS: utilizatorul atinge https://geet.app/order/8842", "step2": "Sistemul verifică apple-app-site-association pe geet.app", "step3": "App ID-ul se potrivește cu aplicația instalată → se deschide nativ, fără ocolire prin Safari", "step4": "Configurația linking din RN rezolvă către OrderDetails, orderId: 8842 ✓" },
@@ -80,6 +84,8 @@
       "list": "Performanță liste",
       "storage": "Stocare offline",
       "sync": "Sincronizare offline-first",
+      "firebase": "Firebase",
+      "restapi": "REST API",
       "anim": "Animații",
       "deeplink": "Deep Linking",
       "ulink": "Universal Links",
@@ -92,7 +98,8 @@
       "ota": "CodePush OTA",
       "tv": "Smart TV",
       "wearables": "Wearables",
-      "aiassistant": "Chat AI"
+      "aiassistant": "Chat AI",
+      "gesture": "Fizica gesturilor"
     }
   },
   "experience": {
