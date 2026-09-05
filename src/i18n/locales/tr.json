@@ -282,11 +282,11 @@
     }
   },
   "hero": {
-    "eyebrow": "Kıdemli React Native Mühendisi · 10. Ramazan Şehri, Mısır",
+    "eyebrow": "Kıdemli Mobil & Frontend Mühendisi · Çekirdekte React Native · 10. Ramazan Şehri, Mısır",
     "h1Line1": "JavaScript'in native koda",
     "h1Pre": "dokunduğu katmanı ",
     "h1Accent": "kuruyorum",
-    "tagline": "Kurumsal SaaS (inşaat), e-ticaret ve lojistik alanlarında üretim mobil uygulamalar geliştirmiş <0>5 yılı</0> da içeren, toplam <0>6 yıllık</0> yazılım mühendisliği deneyimine sahip kıdemli React Native geliştiricisiyim. Temel React Native'in ötesinde, <0>native iOS ve Android entegrasyonu</0> konusunda uygulamalı uzmanlık getiriyorum — Swift/Kotlin, özel native modüller, sürümlenmiş native binary'ler ve gömülü RN host mimarileri. Performans optimizasyonu, <0>New Architecture</0> benimsenmesi ve kurumsal uygulamalarda benimsenen modüler container desenleri mimarisi dahil kod tabanı standardizasyonunda uzmanım. Uzun vadeli hedefim bir <0>Team Lead</0> rolüne büyümek olan, yüksek etkili ve test destekli mobil çözümler sunuyorum.",
+    "tagline": "Kurumsal SaaS (inşaat), e-ticaret ve lojistik alanlarında üretim React Native uygulamalar geliştirmiş <0>5 yılı</0> da içeren, toplam <0>6 yıllık</0> yazılım mühendisliği deneyimine sahip kıdemli Mobil & Frontend mühendisiyim. Temel React Native'in ötesinde, <0>native iOS ve Android entegrasyonu</0> konusunda uygulamalı uzmanlık getiriyorum — Swift/Kotlin, özel native modüller, sürümlenmiş native binary'ler ve gömülü RN host mimarileri. Performans optimizasyonu, <0>New Architecture</0> benimsenmesi ve kurumsal uygulamalarda benimsenen modüler container desenleri mimarisi dahil kod tabanı standardizasyonunda uzmanım. Uzun vadeli hedefim bir <0>Team Lead</0> rolüne büyümek olan, yüksek etkili ve test destekli mobil çözümler sunuyorum.",
     "ctaPrimary": "Canlı gör",
     "ctaSecondary": "İletişime geç",
     "stackLabel": "Nerede çalışıyorum",

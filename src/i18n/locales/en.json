@@ -282,11 +282,11 @@
     }
   },
   "hero": {
-    "eyebrow": "Senior React Native Engineer · 10th of Ramadan, Egypt",
+    "eyebrow": "Senior Mobile & Frontend Engineer · React Native Core · 10th of Ramadan, Egypt",
     "h1Line1": "I build the layer where",
     "h1Pre": "JavaScript meets ",
     "h1Accent": "native",
-    "tagline": "Senior React Native Developer with <0>6 years</0> of software engineering experience, including <0>5 years</0> building production mobile applications across enterprise SaaS (construction), e-commerce, and logistics. Beyond core React Native, I bring hands-on expertise in <0>native iOS and Android integration</0> — Swift/Kotlin, custom native modules, versioned native binaries, and embedded RN host architectures. I specialize in performance optimization, <0>New Architecture</0> adoption, and codebase standardization, including architecting modular container patterns adopted across enterprise applications. Focused on delivering high-impact, test-backed mobile solutions, with long-term aspirations of growing into a <0>Team Lead</0> role.",
+    "tagline": "Senior Mobile & Frontend Engineer with <0>6 years</0> of software engineering experience, including <0>5 years</0> building production React Native applications across enterprise SaaS (construction), e-commerce, and logistics. Beyond core React Native, I bring hands-on expertise in <0>native iOS and Android integration</0> — Swift/Kotlin, custom native modules, versioned native binaries, and embedded RN host architectures. I specialize in performance optimization, <0>New Architecture</0> adoption, and codebase standardization, including architecting modular container patterns adopted across enterprise applications. Focused on delivering high-impact, test-backed mobile solutions, with long-term aspirations of growing into a <0>Team Lead</0> role.",
     "ctaPrimary": "See it in action",
     "ctaSecondary": "Get in touch",
     "stackLabel": "Where I work",
