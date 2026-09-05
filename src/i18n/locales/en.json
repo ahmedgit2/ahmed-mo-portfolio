@@ -514,8 +514,8 @@
       "geetProvider": "Geet — Provider: accept delivery offers, navigate pickup and drop-off.",
       "flowDashboard": "Flow: home dashboard for purchases, sales, customers, and branches at a glance.",
       "flowLedger": "Flow: per-customer ledger and outstanding balances, tracked automatically.",
-      "flowInvoicing": "Flow: multi-currency setup and fast invoice creation.",
-      "responsive": "One React Native codebase, responsive across phone and tablet."
+      "responsive": "One React Native codebase, responsive across phone and tablet.",
+      "chefRulerMenu": "Chef Ruler — Provider: dish photos for the meals a chef lists on their menu."
     }
   }
 }

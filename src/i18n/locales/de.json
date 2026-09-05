@@ -514,8 +514,8 @@
       "geetProvider": "Geet — Anbieter: Lieferangebote annehmen, Abholung und Zustellung navigieren.",
       "flowDashboard": "Flow: Startdashboard für Einkäufe, Verkäufe, Kunden und Filialen auf einen Blick.",
       "flowLedger": "Flow: Kontoauszug je Kunde mit automatisch verfolgten offenen Salden.",
-      "flowInvoicing": "Flow: Mehrwährungs-Setup und schnelle Rechnungserstellung.",
-      "responsive": "Eine React-Native-Codebasis, responsiv auf Handy und Tablet."
+      "responsive": "Eine React-Native-Codebasis, responsiv auf Handy und Tablet.",
+      "chefRulerMenu": "Chef Ruler — Anbieter: Gerichtfotos für die Speisen, die ein Koch auf seiner Speisekarte listet."
     }
   }
 }

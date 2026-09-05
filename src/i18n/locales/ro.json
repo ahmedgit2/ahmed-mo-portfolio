@@ -514,8 +514,8 @@
       "geetProvider": "Geet — Curier: acceptă oferte de livrare, navighează între ridicare și predare.",
       "flowDashboard": "Flow: tablou de bord principal cu achiziții, vânzări, clienți și filiale dintr-o privire.",
       "flowLedger": "Flow: extras de cont per client, cu solduri restante urmărite automat.",
-      "flowInvoicing": "Flow: configurare multi-valută și emitere rapidă de facturi.",
-      "responsive": "O singură bază de cod React Native, responsivă pe telefon și tabletă."
+      "responsive": "O singură bază de cod React Native, responsivă pe telefon și tabletă.",
+      "chefRulerMenu": "Chef Ruler — Furnizor: fotografii cu preparatele pe care un bucătar le listează în meniu."
     }
   }
 }

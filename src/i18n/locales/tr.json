@@ -514,8 +514,8 @@
       "geetProvider": "Geet — Kurye: teslimat tekliflerini kabul et, alım ve teslim noktaları arasında yol al.",
       "flowDashboard": "Flow: alışlar, satışlar, müşteriler ve şubeleri tek bakışta gösteren ana panel.",
       "flowLedger": "Flow: müşteri bazında hesap ekstresi ve otomatik takip edilen bakiyeler.",
-      "flowInvoicing": "Flow: çoklu para birimi kurulumu ve hızlı fatura oluşturma.",
-      "responsive": "Tek bir React Native kod tabanı, telefon ve tablette tam uyumlu."
+      "responsive": "Tek bir React Native kod tabanı, telefon ve tablette tam uyumlu.",
+      "chefRulerMenu": "Chef Ruler — Sağlayıcı: bir şefin menüsünde listelediği yemeklerin fotoğrafları."
     }
   }
 }

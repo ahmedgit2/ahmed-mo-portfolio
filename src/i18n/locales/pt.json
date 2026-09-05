@@ -514,8 +514,8 @@
       "geetProvider": "Geet — Entregador: aceite ofertas de entrega e navegue entre coleta e entrega.",
       "flowDashboard": "Flow: painel inicial com compras, vendas, clientes e filiais em um único lugar.",
       "flowLedger": "Flow: extrato por cliente com saldos pendentes acompanhados automaticamente.",
-      "flowInvoicing": "Flow: configuração multi-moeda e criação rápida de faturas.",
-      "responsive": "Uma única base de código React Native, responsiva em celular e tablet."
+      "responsive": "Uma única base de código React Native, responsiva em celular e tablet.",
+      "chefRulerMenu": "Chef Ruler — Fornecedor: fotos dos pratos que um chef lista no cardápio."
     }
   }
 }

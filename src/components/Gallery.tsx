@@ -2,23 +2,31 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useReveal } from '../hooks/useReveal';
 
-type Shot = { src: string; key: string };
+type Shot = { base: string; key: string };
 
+// Each image has an Arabic original (the real marketing render, on-image
+// text included) and an "-en" twin with only that on-image text redrawn in
+// English — everything else (screenshots, photos, layout) is identical.
+// Arabic viewers see the original; every other locale sees the English one.
 const SHOTS: Shot[] = [
-  { src: '/images/gallery/chef-ruler-client.jpg', key: 'chefRulerClient' },
-  { src: '/images/gallery/chef-ruler-provider.jpg', key: 'chefRulerProvider' },
-  { src: '/images/gallery/geet-client.jpg', key: 'geetClient' },
-  { src: '/images/gallery/geet-provider.jpg', key: 'geetProvider' },
-  { src: '/images/gallery/flow-dashboard.jpg', key: 'flowDashboard' },
-  { src: '/images/gallery/flow-ledger.jpg', key: 'flowLedger' },
-  { src: '/images/gallery/flow-invoicing.jpg', key: 'flowInvoicing' },
-  { src: '/images/gallery/responsive.jpg', key: 'responsive' },
+  { base: 'chef-ruler-client', key: 'chefRulerClient' },
+  { base: 'chef-ruler-provider', key: 'chefRulerProvider' },
+  { base: 'chef-ruler-menu', key: 'chefRulerMenu' },
+  { base: 'geet-client', key: 'geetClient' },
+  { base: 'geet-provider', key: 'geetProvider' },
+  { base: 'flow-dashboard', key: 'flowDashboard' },
+  { base: 'flow-ledger', key: 'flowLedger' },
+  { base: 'responsive', key: 'responsive' },
 ];
 
 export default function Gallery() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { ref, visible } = useReveal<HTMLDivElement>();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const isArabic = i18n.language === 'ar';
+  const srcFor = (base: string) => `/images/gallery/${base}${isArabic ? '' : '-en'}.jpg`;
+
   const open = openIndex !== null ? SHOTS[openIndex] : null;
 
   return (
@@ -33,10 +41,10 @@ export default function Gallery() {
             <button
               type="button"
               className="gallery-item"
-              key={shot.src}
+              key={shot.base}
               onClick={() => setOpenIndex(i)}
             >
-              <img src={shot.src} alt={t(`gallery.items.${shot.key}`)} loading="lazy" />
+              <img src={srcFor(shot.base)} alt={t(`gallery.items.${shot.key}`)} loading="lazy" />
               <span className="gallery-caption">{t(`gallery.items.${shot.key}`)}</span>
             </button>
           ))}
@@ -54,7 +62,7 @@ export default function Gallery() {
             ✕
           </button>
           <figure onClick={(e) => e.stopPropagation()}>
-            <img src={open.src} alt={t(`gallery.items.${open.key}`)} />
+            <img src={srcFor(open.base)} alt={t(`gallery.items.${open.key}`)} />
             <figcaption>{t(`gallery.items.${open.key}`)}</figcaption>
           </figure>
         </div>
