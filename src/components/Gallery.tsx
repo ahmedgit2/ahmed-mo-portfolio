@@ -5,9 +5,10 @@ import { useReveal } from '../hooks/useReveal';
 type Shot = { base: string; key: string };
 
 // Each image has an Arabic original (the real marketing render, on-image
-// text included) and an "-en" twin with only that on-image text redrawn in
-// English — everything else (screenshots, photos, layout) is identical.
-// Arabic viewers see the original; every other locale sees the English one.
+// text included) and a same-layout twin per other locale with only that
+// on-image text redrawn in that language — screenshots, photos, and layout
+// are identical, only the overlay headline/caption text changes.
+const LOCALIZED_LANGS = ['en', 'de', 'fr', 'es', 'it', 'pt', 'ro', 'tr', 'ru'];
 const SHOTS: Shot[] = [
   { base: 'chef-ruler-client', key: 'chefRulerClient' },
   { base: 'chef-ruler-provider', key: 'chefRulerProvider' },
@@ -24,8 +25,9 @@ export default function Gallery() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
+  const lang = LOCALIZED_LANGS.includes(i18n.language) ? i18n.language : 'en';
   const isArabic = i18n.language === 'ar';
-  const srcFor = (base: string) => `/images/gallery/${base}${isArabic ? '' : '-en'}.jpg`;
+  const srcFor = (base: string) => `/images/gallery/${base}${isArabic ? '' : `-${lang}`}.jpg`;
 
   const open = openIndex !== null ? SHOTS[openIndex] : null;
 
