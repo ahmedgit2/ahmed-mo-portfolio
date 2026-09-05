@@ -1,47 +1,285 @@
 {
-  "nav": { "work": "Proyectos", "demos": "Demos", "experience": "Experiencia", "contact": "Contacto" },
-  "common": { "old": "Antiguo", "new": "Nuevo", "live": "En vivo", "code": "Código" },
+  "nav": {
+    "work": "Proyectos",
+    "demos": "Demos",
+    "experience": "Experiencia",
+    "contact": "Contacto",
+    "home": "Inicio",
+    "skills": "Habilidades"
+  },
+  "common": {
+    "old": "Antiguo",
+    "new": "Nuevo",
+    "live": "En vivo",
+    "code": "Código"
+  },
   "demoText": {
-    "list": { "desc": "En PlanRadar, seleccionar una fila en una lista grande re-renderizaba cada fila mediante comparación de identidad de array — O(n²). Lo cambié por una búsqueda de pertenencia a un Set, así solo se re-renderiza la fila tocada. Haz clic en las filas de abajo.", "note": "// Antes: toda la lista se re-renderiza en cada selección. Ahora: solo se actualiza la fila tocada." },
-    "storage": { "desc": "Migración de la persistencia de PlanRadar de AsyncStorage a MMKV — síncrono, cifrado, lecturas más rápidas.", "note": "// Las escrituras de MMKV son síncronas — sin await, sin parpadeo al leer." },
-    "sync": { "desc": "Uno de los módulos principales de PlanRadar es offline-first y en tiempo real vía WebSockets — las acciones se encolan sin conexión y se envían al reconectar. Alterna el modo offline abajo y haz cambios.", "note": "// Las acciones encoladas se envían en orden una vez que el socket se reconecta." },
-    "firebase": { "desc": "Firebase sostiene la observabilidad en las apps de PlanRadar e Index Group — Analytics para el seguimiento de uso, Crashlytics para la tasa de crash-free y FCM como transporte para las push. Dispara una llamada al SDK abajo.", "note": "// El contexto de Crashlytics (id de usuario, breadcrumbs) se fija antes del throw, no después — si no, el reporte llega sin ninguna pista de qué lo provocó." },
-    "restapi": { "desc": "PlanRadar e Index Group hablan con el backend mediante una capa REST/JSON:API tipada — un cliente Axios con interceptores para adjuntar el token de auth, refrescar en 401 y normalizar errores de forma centralizada, envuelto en hooks de recursos que los componentes llaman directamente. Haz fetch abajo para trazar el pipeline.", "note": "// El interceptor de request comparte un único refresh en curso entre 401 concurrentes, en vez de lanzar un refresh por cada petición." },
-    "anim": { "desc": "La API Reanimated / Animated impulsa las transiciones de modales y navegación en PlanRadar. Dos ejemplos abajo.", "note": "// Los worklets de Reanimated corren en el hilo de UI — sin tirones del hilo JS bajo carga." },
-    "deeplink": { "desc": "En Index Group, las notificaciones y enlaces compartidos abrían la app directamente en una pantalla específica de pedido o conductor.", "note": "// Las rutas no coincidentes vuelven a una ruta por defecto en lugar de bloquear el navegador." },
-    "ulink": { "desc": "Universal Links (iOS) y App Links (Android) evitan por completo el aviso de esquema personalizado — un enlace https:// real abre la app directamente si está instalada, o la página web si no.", "note": "// Sin la app instalada → la misma URL abre el fallback web móvil en su lugar." },
-    "push": { "desc": "Notificaciones push vía FCM, conectadas a deep links para que al tocar una se navegue directo a la pantalla relevante.", "note": "// getInitialNotification() cubre el caso de cold start que el handler en primer plano de FCM no captura." },
-    "cicd": { "desc": "Responsabilidad completa de releases en PlanRadar e Index Group — GitLab CI/CD, EAS Build, TestFlight y Play Console. Ejecuta el pipeline abajo.", "note": "// Misma forma de pipeline en ambas apps: test → build → submit, condicionado a tests en verde." },
-    "i18n": { "desc": "Soporte multi-idioma vía i18next y react-native-localize, incluyendo RTL para árabe.", "note": "// react-native-localize detecta el idioma del dispositivo; I18nManager invierte la dirección del layout." },
-    "newarch": { "desc": "Lideró la migración de PlanRadar a React Native 0.85 — Hermes + New Architecture. JSI reemplaza el antiguo puente asíncrono serializado en JSON por llamadas nativas síncronas directas. Haz clic para comparar.", "note": "// JSI le da a JS una referencia directa a objetos nativos — sin ida y vuelta de serializar/encolar/deserializar." },
-    "release": { "desc": "Co-arquitecto del empaquetado de RN como binario nativo versionado (XCFramework + AAR) — desacoplando la capa RN de las apps host nativas, sin necesidad de toolchain Node/Yarn para equipos nativos.", "note": "// Los equipos nativos solo incrementan una cadena de versión — sin instalar toolchain de RN, sin Metro, sin Yarn." },
-    "testing": { "desc": "Más de 1.500 commits en más de 200 tickets en PlanRadar, protegidos por una suite de más de 3.500 pruebas en GitLab CI/CD. Ejecuta una suite de ejemplo.", "note": "// CI bloquea merges con pruebas en rojo — el umbral de cobertura mantiene seguros los refactors en 200+ tickets." },
-    "ota": { "desc": "Entrega OTA con CodePush en Index Group — enviar actualizaciones de JS/assets sin ciclo de revisión de app store, por etapas y reversible.", "note": "// Un bundle defectuoso en cualquier etapa → el rollback revierte los dispositivos a la última versión estable conocida." },
-    "tv": { "desc": "Extendiendo React Native a Smart TV — tvOS y Android TV vía react-native-tvos — reemplaza el táctil por navegación de foco con D-pad. Aún sin app en producción publicada — la arquitectura de abajo es cómo lo abordaría.", "note": "// Mismo modelo de componentes, distinto sistema de entrada — la navegación por foco/espacial reemplaza los gestos táctiles." },
-    "wearables": { "desc": "Los wearables (watchOS, Wear OS) se conectan vía un puente nativo complementario, no una pantalla RN reducida — en ambas direcciones. Aún sin app en producción publicada — la arquitectura de abajo es cómo lo abordaría.", "note": "// El puente es nativo a nativo — RN solo envía/recibe el payload, la app del reloj lo renderiza." },
-    "aiassistant": { "desc": "El Asistente de IA integrado de PlanRadar — construí el cliente RN: respuestas por etapas transmitidas vía WebSocket (pensando → respuesta), adjuntos de contexto de tickets/documentos, y limitación por nivel de uso. Arquitectura abajo, renombrada respecto a la implementación real. Elige un prompt.", "note": "// Transmitido vía WebSockets, no mediante polling — la etapa de pensamiento se muestra mientras el modelo sigue trabajando." },
-    "gesture": { "desc": "Una pila deslizable basada en física — retorno con spring, flick-to-dismiss sensible a la velocidad, y rotación tipo rubber-band. Arrastra la tarjeta frontal.", "note": "// Manipulación directa del DOM durante el arrastre, el estado de React solo se toca al soltar — sin re-render por frame." }
+    "list": {
+      "desc": "En PlanRadar, seleccionar una fila en una lista grande re-renderizaba cada fila mediante comparación de identidad de array — O(n²). Lo cambié por una búsqueda de pertenencia a un Set, así solo se re-renderiza la fila tocada. Haz clic en las filas de abajo.",
+      "note": "// Antes: toda la lista se re-renderiza en cada selección. Ahora: solo se actualiza la fila tocada."
+    },
+    "storage": {
+      "desc": "Migración de la persistencia de PlanRadar de AsyncStorage a MMKV — síncrono, cifrado, lecturas más rápidas.",
+      "note": "// Las escrituras de MMKV son síncronas — sin await, sin parpadeo al leer."
+    },
+    "sync": {
+      "desc": "Uno de los módulos principales de PlanRadar es offline-first y en tiempo real vía WebSockets — las acciones se encolan sin conexión y se envían al reconectar. Alterna el modo offline abajo y haz cambios.",
+      "note": "// Las acciones encoladas se envían en orden una vez que el socket se reconecta."
+    },
+    "firebase": {
+      "desc": "Firebase sostiene la observabilidad en las apps de PlanRadar e Index Group — Analytics para el seguimiento de uso, Crashlytics para la tasa de crash-free y FCM como transporte para las push. Dispara una llamada al SDK abajo.",
+      "note": "// El contexto de Crashlytics (id de usuario, breadcrumbs) se fija antes del throw, no después — si no, el reporte llega sin ninguna pista de qué lo provocó."
+    },
+    "restapi": {
+      "desc": "PlanRadar e Index Group hablan con el backend mediante una capa REST/JSON:API tipada — un cliente Axios con interceptores para adjuntar el token de auth, refrescar en 401 y normalizar errores de forma centralizada, envuelto en hooks de recursos que los componentes llaman directamente. Haz fetch abajo para trazar el pipeline.",
+      "note": "// El interceptor de request comparte un único refresh en curso entre 401 concurrentes, en vez de lanzar un refresh por cada petición."
+    },
+    "anim": {
+      "desc": "La API Reanimated / Animated impulsa las transiciones de modales y navegación en PlanRadar. Dos ejemplos abajo.",
+      "note": "// Los worklets de Reanimated corren en el hilo de UI — sin tirones del hilo JS bajo carga."
+    },
+    "deeplink": {
+      "desc": "En Index Group, las notificaciones y enlaces compartidos abrían la app directamente en una pantalla específica de pedido o conductor.",
+      "note": "// Las rutas no coincidentes vuelven a una ruta por defecto en lugar de bloquear el navegador."
+    },
+    "ulink": {
+      "desc": "Universal Links (iOS) y App Links (Android) evitan por completo el aviso de esquema personalizado — un enlace https:// real abre la app directamente si está instalada, o la página web si no.",
+      "note": "// Sin la app instalada → la misma URL abre el fallback web móvil en su lugar."
+    },
+    "push": {
+      "desc": "Notificaciones push vía FCM, conectadas a deep links para que al tocar una se navegue directo a la pantalla relevante.",
+      "note": "// getInitialNotification() cubre el caso de cold start que el handler en primer plano de FCM no captura."
+    },
+    "cicd": {
+      "desc": "Responsabilidad completa de releases en PlanRadar e Index Group — GitLab CI/CD, EAS Build, TestFlight y Play Console. Ejecuta el pipeline abajo.",
+      "note": "// Misma forma de pipeline en ambas apps: test → build → submit, condicionado a tests en verde."
+    },
+    "i18n": {
+      "desc": "Soporte multi-idioma vía i18next y react-native-localize, incluyendo RTL para árabe.",
+      "note": "// react-native-localize detecta el idioma del dispositivo; I18nManager invierte la dirección del layout."
+    },
+    "newarch": {
+      "desc": "Lideró la migración de PlanRadar a React Native 0.85 — Hermes + New Architecture. JSI reemplaza el antiguo puente asíncrono serializado en JSON por llamadas nativas síncronas directas. Haz clic para comparar.",
+      "note": "// JSI le da a JS una referencia directa a objetos nativos — sin ida y vuelta de serializar/encolar/deserializar."
+    },
+    "release": {
+      "desc": "Co-arquitecto del empaquetado de RN como binario nativo versionado (XCFramework + AAR) — desacoplando la capa RN de las apps host nativas, sin necesidad de toolchain Node/Yarn para equipos nativos.",
+      "note": "// Los equipos nativos solo incrementan una cadena de versión — sin instalar toolchain de RN, sin Metro, sin Yarn."
+    },
+    "testing": {
+      "desc": "Más de 1.500 commits en más de 200 tickets en PlanRadar, protegidos por una suite de más de 3.500 pruebas en GitLab CI/CD. Ejecuta una suite de ejemplo.",
+      "note": "// CI bloquea merges con pruebas en rojo — el umbral de cobertura mantiene seguros los refactors en 200+ tickets."
+    },
+    "ota": {
+      "desc": "Entrega OTA con CodePush en Index Group — enviar actualizaciones de JS/assets sin ciclo de revisión de app store, por etapas y reversible.",
+      "note": "// Un bundle defectuoso en cualquier etapa → el rollback revierte los dispositivos a la última versión estable conocida."
+    },
+    "tv": {
+      "desc": "Extendiendo React Native a Smart TV — tvOS y Android TV vía react-native-tvos — reemplaza el táctil por navegación de foco con D-pad. Aún sin app en producción publicada — la arquitectura de abajo es cómo lo abordaría.",
+      "note": "// Mismo modelo de componentes, distinto sistema de entrada — la navegación por foco/espacial reemplaza los gestos táctiles."
+    },
+    "wearables": {
+      "desc": "Los wearables (watchOS, Wear OS) se conectan vía un puente nativo complementario, no una pantalla RN reducida — en ambas direcciones. Aún sin app en producción publicada — la arquitectura de abajo es cómo lo abordaría.",
+      "note": "// El puente es nativo a nativo — RN solo envía/recibe el payload, la app del reloj lo renderiza."
+    },
+    "aiassistant": {
+      "desc": "El Asistente de IA integrado de PlanRadar — construí el cliente RN: respuestas por etapas transmitidas vía WebSocket (pensando → respuesta), adjuntos de contexto de tickets/documentos, y limitación por nivel de uso. Arquitectura abajo, renombrada respecto a la implementación real. Elige un prompt.",
+      "note": "// Transmitido vía WebSockets, no mediante polling — la etapa de pensamiento se muestra mientras el modelo sigue trabajando."
+    },
+    "gesture": {
+      "desc": "Una pila deslizable basada en física — retorno con spring, flick-to-dismiss sensible a la velocidad, y rotación tipo rubber-band. Arrastra la tarjeta frontal.",
+      "note": "// Manipulación directa del DOM durante el arrastre, el estado de React solo se toca al soltar — sin re-render por frame."
+    },
+    "nodeapi": {
+      "desc": "El backend no se limita a consumir APIs REST desde el cliente RN — también he construido y mantenido servicios Node.js/Express, con un pipeline de middlewares autenticados antes de la lógica de negocio. Ejecútalo abajo.",
+      "note": "// Cada middleware llama a next() o termina la respuesta — el controlador solo se ejecuta si se pasan todas las puertas."
+    },
+    "reactweb": {
+      "desc": "Más allá de React Native, trabajo con fundamentos de React.js y Next.js — este portafolio es un ejemplo. Abajo: cómo una página pasa de una respuesta renderizada en el servidor a ser totalmente interactiva, mediante hidratación.",
+      "note": "// El servidor envía HTML real de inmediato — la hidratación le agrega los listeners de eventos, no vuelve a renderizar todo."
+    }
   },
   "demoUI": {
-    "list": { "taskItem": "Tarea #{{n}}" },
-    "storage": { "keyPlaceholder": "clave", "valuePlaceholder": "valor", "setButton": "Guardar", "noKeysYet": "aún no hay claves", "emptyValue": "(vacío)" },
-    "sync": { "online": "En línea", "offline": "Sin conexión", "queuedBadge": "{{count}} en cola", "approveButton": "Aprobar elemento", "logPlaceholder": "Las acciones aparecerán aquí →", "logReconnected": "↺ Reconectado — enviando {{count}} acción(es) en cola...", "logSent": "✓ Enviado por WebSocket — aprobado al instante", "logQueued": "⏸ Sin conexión — acción en cola ({{count}})" },
-    "firebase": { "analyticsButton": "Registrar evento de Analytics", "crashlyticsButton": "Reportar a Crashlytics", "fcmButton": "Registrar token FCM", "placeholder": "Dispara una llamada al SDK para verla trazada →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ evento encolado — se agrupa en el próximo intervalo de flush", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ reporte encolado — se envía en el próximo primer plano de la app", "fcmStep1": "messaging().requestPermission() → concedido", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ token registrado en el backend, vinculado a la sesión del usuario" },
-    "restapi": { "fetchButton": "Obtener tickets", "placeholder": "Dispara un fetch para trazar el pipeline →", "step1": "→ interceptor de request: adjunta el header Authorization", "step2": "→ GET /projects/8842/tickets", "step3": "← interceptor de response: 200 OK", "step4": "✓ hook resuelto — 3 elementos", "item1": "ITEM-4821 · Filtración en el techo, ala oeste", "item2": "ITEM-4822 · Inspección eléctrica pendiente", "item3": "ITEM-4823 · Vertido de hormigón programado" },
-    "anim": { "slideButton": "Transición deslizante", "popTitle": "Documento aprobado", "popSubtitle": "Aparición con spring, como una confirmación modal.", "springButton": "Aparición con spring" },
-    "deeplink": { "pickLink": "Elige un enlace para resolverlo →", "linkOrder": "→ resuelve a OrderDetails, orderId: 8842", "linkDriver": "→ resuelve a DriverProfile, driverId: 119", "linkUnknown": "→ sin coincidencia — getStateFromPath cae a Home" },
-    "ulink": { "openButton": "Abrir https://geet.app/order/8842", "placeholder": "Simula cómo iOS resuelve el enlace →", "step1": "iOS: el usuario toca https://geet.app/order/8842", "step2": "El sistema verifica apple-app-site-association en geet.app", "step3": "El App ID coincide con la app instalada → se abre nativamente, sin pasar por Safari", "step4": "La config de linking de RN resuelve a OrderDetails, orderId: 8842 ✓" },
-    "push": { "triggerButton": "Simular notificación push entrante", "notifTitle": "Nuevo pedido asignado", "notifBody": "El pedido #8842 está listo para retirar — toca para ver." },
-    "cicd": { "runButton": "Ejecutar pipeline", "step1": "Instalar dependencias", "step2": "Ejecutar pruebas (Jest)", "step3": "EAS Build (iOS + Android)", "step4": "Enviar → TestFlight", "step5": "Enviar → Play Console" },
-    "newarch": { "runButton": "Llamar módulo nativo: getScannerState()", "placeholder": "Ejecútalo primero en el puente antiguo, luego en JSI →", "step1": "Puente antiguo: serializa argumentos → JSON", "step2": "Puente antiguo: cola → hilo nativo → deserializa", "step3": "Puente antiguo: resultado ≈ 40ms de ida y vuelta", "step4": "JSI: llamada directa, sin cola, sin serializar", "step5": "JSI: resultado ≈ 0.6ms de ida y vuelta ✓" },
-    "release": { "runButton": "Cortar release v4.12.0", "step1": "Incrementar versión → 4.12.0", "step2": "Compilar XCFramework (iOS)", "step3": "Compilar AAR (Android)", "step4": "Publicar en el registro interno", "step5": "Equipos nativos consumen vía SPM/Gradle" },
-    "testing": { "runButton": "Ejecutar suite", "testsLabel": "Pruebas:", "coverageLabel": "Cobertura:", "allGreen": "✓ todo en verde" },
-    "ota": { "stageButton": "Etapa {{pct}}%", "rollbackButton": "Revertir", "placeholder": "Elige una etapa de despliegue →", "bundlePushed": "⇪ Bundle v2.3.1 enviado al {{pct}}% de los dispositivos — monitoreando tasa de fallos...", "rolloutComplete": "✓ Despliegue completo, sin picos de fallos detectados", "rolledBack": "↩ Revertido — dispositivos regresados a la última versión estable conocida" },
-    "tv": { "placeholder": "Usa el D-pad para mover el foco →", "okButton": "OK", "onFocusFired": "✓ onFocus → onPress activado en \"{{label}}\"", "focusMoved": "→ TVEventHandler: foco movido a \"{{label}}\"", "labels": ["Inicio", "Buscar", "Biblioteca", "En vivo", "Ajustes", "Perfil", "Descargas", "Guía", "Salir"] },
-    "wearables": { "sendLabel": "Enviar estado al reloj", "receiveLabel": "Recibir toque del reloj", "placeholder": "Simula el puente nativo complementario, en ambas direcciones →", "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })", "sendStep2": "watchOS: WatchConnectivity entrega el mensaje a la app complementaria", "sendStep3": "Wear OS: MessageClient entrega a la app complementaria (ruta Android)", "sendStep4": "✓ Esfera del reloj actualizada — sin ida y vuelta por la UI del teléfono", "receiveStep1": "Reloj: el usuario toca la complicación \"Aprobar\" en su muñeca", "receiveStep2": "watchOS/Wear OS: la app complementaria envía la acción de vuelta por el puente", "receiveStep3": "RN: session.onMessage se dispara con { action: \"approve\", id }", "receiveStep4": "✓ Mismo handler que usa la UI del teléfono — una única fuente de verdad" },
-    "aiassistant": { "emptyState": "Pregúntame sobre este proyecto — prueba un prompt abajo.", "usageLabel": "{{usage}} / {{max}} mensajes este ciclo", "overdueLabel": "Tickets atrasados", "overdueQuestion": "Muéstrame los tickets atrasados en este proyecto", "overdueAnswer": "Se encontraron <b>3 tickets atrasados</b> en este proyecto, todos asignados a ti.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Fuga en el techo, ala oeste</div>", "summaryLabel": "Resumir este proyecto", "summaryQuestion": "Resume este proyecto", "summaryAnswer": "<b>West Tower Renovation</b> — 42 tickets en total, 34 resueltos, 8 abiertos. 2 documentos pendientes de revisión, a tiempo para el hito del 15 de marzo.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>", "similarLabel": "Buscar problemas similares pasados", "similarQuestion": "Encuentra problemas similares pasados", "similarAnswer": "Se encontraron <b>2 problemas similares</b> de proyectos anteriores — misma causa raíz (brecha en el sellado).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · Ala este, resuelto</div>" },
-    "gesture": { "hint": "← arrastra para resolver →", "card1Sub": "Fuga en el techo, ala oeste — ¿aprobar?", "card2Sub": "Inspección eléctrica pendiente", "card3Sub": "Vaciado de concreto programado", "card4Sub": "Fotos del sitio necesitan revisión", "allDismissed": "Todo resuelto — buen trabajo.", "resetButton": "Reiniciar la pila" },
-    "heroDiagramAriaLabel": "Diagrama de las capas de arquitectura de React Native: JavaScript, el puente New Architecture, y los binarios nativos."
+    "list": {
+      "taskItem": "Tarea #{{n}}"
+    },
+    "storage": {
+      "keyPlaceholder": "clave",
+      "valuePlaceholder": "valor",
+      "setButton": "Guardar",
+      "noKeysYet": "aún no hay claves",
+      "emptyValue": "(vacío)"
+    },
+    "sync": {
+      "online": "En línea",
+      "offline": "Sin conexión",
+      "queuedBadge": "{{count}} en cola",
+      "approveButton": "Aprobar elemento",
+      "logPlaceholder": "Las acciones aparecerán aquí →",
+      "logReconnected": "↺ Reconectado — enviando {{count}} acción(es) en cola...",
+      "logSent": "✓ Enviado por WebSocket — aprobado al instante",
+      "logQueued": "⏸ Sin conexión — acción en cola ({{count}})"
+    },
+    "firebase": {
+      "analyticsButton": "Registrar evento de Analytics",
+      "crashlyticsButton": "Reportar a Crashlytics",
+      "fcmButton": "Registrar token FCM",
+      "placeholder": "Dispara una llamada al SDK para verla trazada →",
+      "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })",
+      "analyticsStep2": "✓ evento encolado — se agrupa en el próximo intervalo de flush",
+      "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })",
+      "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')",
+      "crashlyticsStep3": "✓ reporte encolado — se envía en el próximo primer plano de la app",
+      "fcmStep1": "messaging().requestPermission() → concedido",
+      "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'",
+      "fcmStep3": "✓ token registrado en el backend, vinculado a la sesión del usuario"
+    },
+    "restapi": {
+      "fetchButton": "Obtener tickets",
+      "placeholder": "Dispara un fetch para trazar el pipeline →",
+      "step1": "→ interceptor de request: adjunta el header Authorization",
+      "step2": "→ GET /projects/8842/tickets",
+      "step3": "← interceptor de response: 200 OK",
+      "step4": "✓ hook resuelto — 3 elementos",
+      "item1": "ITEM-4821 · Filtración en el techo, ala oeste",
+      "item2": "ITEM-4822 · Inspección eléctrica pendiente",
+      "item3": "ITEM-4823 · Vertido de hormigón programado"
+    },
+    "anim": {
+      "slideButton": "Transición deslizante",
+      "popTitle": "Documento aprobado",
+      "popSubtitle": "Aparición con spring, como una confirmación modal.",
+      "springButton": "Aparición con spring"
+    },
+    "deeplink": {
+      "pickLink": "Elige un enlace para resolverlo →",
+      "linkOrder": "→ resuelve a OrderDetails, orderId: 8842",
+      "linkDriver": "→ resuelve a DriverProfile, driverId: 119",
+      "linkUnknown": "→ sin coincidencia — getStateFromPath cae a Home"
+    },
+    "ulink": {
+      "openButton": "Abrir https://geet.app/order/8842",
+      "placeholder": "Simula cómo iOS resuelve el enlace →",
+      "step1": "iOS: el usuario toca https://geet.app/order/8842",
+      "step2": "El sistema verifica apple-app-site-association en geet.app",
+      "step3": "El App ID coincide con la app instalada → se abre nativamente, sin pasar por Safari",
+      "step4": "La config de linking de RN resuelve a OrderDetails, orderId: 8842 ✓"
+    },
+    "push": {
+      "triggerButton": "Simular notificación push entrante",
+      "notifTitle": "Nuevo pedido asignado",
+      "notifBody": "El pedido #8842 está listo para retirar — toca para ver."
+    },
+    "cicd": {
+      "runButton": "Ejecutar pipeline",
+      "step1": "Instalar dependencias",
+      "step2": "Ejecutar pruebas (Jest)",
+      "step3": "EAS Build (iOS + Android)",
+      "step4": "Enviar → TestFlight",
+      "step5": "Enviar → Play Console"
+    },
+    "newarch": {
+      "runButton": "Llamar módulo nativo: getScannerState()",
+      "placeholder": "Ejecútalo primero en el puente antiguo, luego en JSI →",
+      "step1": "Puente antiguo: serializa argumentos → JSON",
+      "step2": "Puente antiguo: cola → hilo nativo → deserializa",
+      "step3": "Puente antiguo: resultado ≈ 40ms de ida y vuelta",
+      "step4": "JSI: llamada directa, sin cola, sin serializar",
+      "step5": "JSI: resultado ≈ 0.6ms de ida y vuelta ✓"
+    },
+    "release": {
+      "runButton": "Cortar release v4.12.0",
+      "step1": "Incrementar versión → 4.12.0",
+      "step2": "Compilar XCFramework (iOS)",
+      "step3": "Compilar AAR (Android)",
+      "step4": "Publicar en el registro interno",
+      "step5": "Equipos nativos consumen vía SPM/Gradle"
+    },
+    "testing": {
+      "runButton": "Ejecutar suite",
+      "testsLabel": "Pruebas:",
+      "coverageLabel": "Cobertura:",
+      "allGreen": "✓ todo en verde"
+    },
+    "ota": {
+      "stageButton": "Etapa {{pct}}%",
+      "rollbackButton": "Revertir",
+      "placeholder": "Elige una etapa de despliegue →",
+      "bundlePushed": "⇪ Bundle v2.3.1 enviado al {{pct}}% de los dispositivos — monitoreando tasa de fallos...",
+      "rolloutComplete": "✓ Despliegue completo, sin picos de fallos detectados",
+      "rolledBack": "↩ Revertido — dispositivos regresados a la última versión estable conocida"
+    },
+    "tv": {
+      "placeholder": "Usa el D-pad para mover el foco →",
+      "okButton": "OK",
+      "onFocusFired": "✓ onFocus → onPress activado en \"{{label}}\"",
+      "focusMoved": "→ TVEventHandler: foco movido a \"{{label}}\"",
+      "labels": [
+        "Inicio",
+        "Buscar",
+        "Biblioteca",
+        "En vivo",
+        "Ajustes",
+        "Perfil",
+        "Descargas",
+        "Guía",
+        "Salir"
+      ]
+    },
+    "wearables": {
+      "sendLabel": "Enviar estado al reloj",
+      "receiveLabel": "Recibir toque del reloj",
+      "placeholder": "Simula el puente nativo complementario, en ambas direcciones →",
+      "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })",
+      "sendStep2": "watchOS: WatchConnectivity entrega el mensaje a la app complementaria",
+      "sendStep3": "Wear OS: MessageClient entrega a la app complementaria (ruta Android)",
+      "sendStep4": "✓ Esfera del reloj actualizada — sin ida y vuelta por la UI del teléfono",
+      "receiveStep1": "Reloj: el usuario toca la complicación \"Aprobar\" en su muñeca",
+      "receiveStep2": "watchOS/Wear OS: la app complementaria envía la acción de vuelta por el puente",
+      "receiveStep3": "RN: session.onMessage se dispara con { action: \"approve\", id }",
+      "receiveStep4": "✓ Mismo handler que usa la UI del teléfono — una única fuente de verdad"
+    },
+    "aiassistant": {
+      "emptyState": "Pregúntame sobre este proyecto — prueba un prompt abajo.",
+      "usageLabel": "{{usage}} / {{max}} mensajes este ciclo",
+      "overdueLabel": "Tickets atrasados",
+      "overdueQuestion": "Muéstrame los tickets atrasados en este proyecto",
+      "overdueAnswer": "Se encontraron <b>3 tickets atrasados</b> en este proyecto, todos asignados a ti.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Fuga en el techo, ala oeste</div>",
+      "summaryLabel": "Resumir este proyecto",
+      "summaryQuestion": "Resume este proyecto",
+      "summaryAnswer": "<b>West Tower Renovation</b> — 42 tickets en total, 34 resueltos, 8 abiertos. 2 documentos pendientes de revisión, a tiempo para el hito del 15 de marzo.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>",
+      "similarLabel": "Buscar problemas similares pasados",
+      "similarQuestion": "Encuentra problemas similares pasados",
+      "similarAnswer": "Se encontraron <b>2 problemas similares</b> de proyectos anteriores — misma causa raíz (brecha en el sellado).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · Ala este, resuelto</div>"
+    },
+    "gesture": {
+      "hint": "← arrastra para resolver →",
+      "card1Sub": "Fuga en el techo, ala oeste — ¿aprobar?",
+      "card2Sub": "Inspección eléctrica pendiente",
+      "card3Sub": "Vaciado de concreto programado",
+      "card4Sub": "Fotos del sitio necesitan revisión",
+      "allDismissed": "Todo resuelto — buen trabajo.",
+      "resetButton": "Reiniciar la pila"
+    },
+    "heroDiagramAriaLabel": "Diagrama de las capas de arquitectura de React Native: JavaScript, el puente New Architecture, y los binarios nativos.",
+    "nodeapi": {
+      "runButton": "Manejar POST /tickets",
+      "step1": "Middleware de auth: verificar JWT",
+      "step2": "Middleware de validación: revisar el cuerpo de la solicitud",
+      "step3": "Limitador de tasa: 42/100 solicitudes este minuto",
+      "step4": "Controlador: crear ticket en la BD",
+      "step5": "201 Created → { id: 'ITEM-4824' }"
+    },
+    "reactweb": {
+      "runButton": "Simular carga de página",
+      "placeholder": "Simula una solicitud de Next.js, del servidor al cliente →",
+      "step1": "Navegador: GET /tickets/8842",
+      "step2": "Servidor: renderiza <TicketPage/> a HTML",
+      "step3": "Servidor: transmite el HTML — contenido visible de inmediato",
+      "step4": "Cliente: descarga el bundle de React en segundo plano",
+      "step5": "Cliente: hidrata — la página ya es interactiva",
+      "hydratedButton": "✓ Hidratado — haz clic ({{count}})"
+    }
   },
   "hero": {
     "eyebrow": "Ingeniero React Native Senior · 10 de Ramadán, Egipto",
@@ -53,15 +291,51 @@
     "ctaSecondary": "Contactarme",
     "stackLabel": "Dónde trabajo",
     "layers": [
-      { "name": "App host nativa", "detail": "App shell de iOS/Android que embebe el módulo RN como binario versionado", "tag": "Swift · Kotlin · Xcode/Gradle" },
-      { "name": "Arquitectura de componentes en capas", "detail": "Pantallas → HOCs → Hooks/Helpers → Componentes → Estilos — el patrón estándar adoptado en modales y navegación", "tag": "HOCs · hooks · componentes · estilos" },
-      { "name": "Estructura basada en features / dominios", "detail": "Código organizado por funcionalidad, no por tipo — cada dominio posee sus pantallas, hooks y estilos para una colaboración de equipo más rápida", "tag": "orientado a dominio · carpetas por feature" },
-      { "name": "Chat de IA integrado", "detail": "Respuestas de LLM transmitidas por WebSocket con acciones de puente nativo para navegación de tickets y filtros", "tag": "WebSockets · puente nativo · streaming de LLM" },
-      { "name": "Estado y datos en tiempo real", "detail": "Contexts específicos por dominio, divididos de un RootContext monolítico; impulsa la sincronización offline-first del módulo DMS", "tag": "Context API · React Query · JSON:API" },
-      { "name": "Puente de New Architecture", "detail": "Hermes + TurboModules/Fabric — llamadas síncronas JS↔nativo, sin sobrecarga de serialización", "tag": "Fabric · TurboModules · JSI" },
-      { "name": "Binarios nativos", "detail": "XCFramework + AAR versionados, desacoplados de los toolchains del host nativo", "tag": "XCFramework · AAR" },
-      { "name": "Persistencia", "detail": "Migración de AsyncStorage a MMKV — cifrado, síncrono, con cola de acciones offline", "tag": "MMKV · Keychain/Keystore" },
-      { "name": "Pair programming con IA", "detail": "Claude Code integrado en el flujo de trabajo diario — scaffolding, refactors, generación de pruebas — aceleró la entrega de funcionalidades ~25-30% en los ciclos de sprint", "tag": "Claude Code · Cursor AI · GitHub Copilot" }
+      {
+        "name": "App host nativa",
+        "detail": "App shell de iOS/Android que embebe el módulo RN como binario versionado",
+        "tag": "Swift · Kotlin · Xcode/Gradle"
+      },
+      {
+        "name": "Arquitectura de componentes en capas",
+        "detail": "Pantallas → HOCs → Hooks/Helpers → Componentes → Estilos — el patrón estándar adoptado en modales y navegación",
+        "tag": "HOCs · hooks · componentes · estilos"
+      },
+      {
+        "name": "Estructura basada en features / dominios",
+        "detail": "Código organizado por funcionalidad, no por tipo — cada dominio posee sus pantallas, hooks y estilos para una colaboración de equipo más rápida",
+        "tag": "orientado a dominio · carpetas por feature"
+      },
+      {
+        "name": "Chat de IA integrado",
+        "detail": "Respuestas de LLM transmitidas por WebSocket con acciones de puente nativo para navegación de tickets y filtros",
+        "tag": "WebSockets · puente nativo · streaming de LLM"
+      },
+      {
+        "name": "Estado y datos en tiempo real",
+        "detail": "Contexts específicos por dominio, divididos de un RootContext monolítico; impulsa la sincronización offline-first del módulo DMS",
+        "tag": "Context API · React Query · JSON:API"
+      },
+      {
+        "name": "Puente de New Architecture",
+        "detail": "Hermes + TurboModules/Fabric — llamadas síncronas JS↔nativo, sin sobrecarga de serialización",
+        "tag": "Fabric · TurboModules · JSI"
+      },
+      {
+        "name": "Binarios nativos",
+        "detail": "XCFramework + AAR versionados, desacoplados de los toolchains del host nativo",
+        "tag": "XCFramework · AAR"
+      },
+      {
+        "name": "Persistencia",
+        "detail": "Migración de AsyncStorage a MMKV — cifrado, síncrono, con cola de acciones offline",
+        "tag": "MMKV · Keychain/Keystore"
+      },
+      {
+        "name": "Pair programming con IA",
+        "detail": "Claude Code integrado en el flujo de trabajo diario — scaffolding, refactors, generación de pruebas — aceleró la entrega de funcionalidades ~25-30% en los ciclos de sprint",
+        "tag": "Claude Code · Cursor AI · GitHub Copilot"
+      }
     ]
   },
   "work": {
@@ -99,7 +373,9 @@
       "tv": "Smart TV",
       "wearables": "Wearables",
       "aiassistant": "Chat de IA",
-      "gesture": "Física de Gestos"
+      "gesture": "Física de Gestos",
+      "nodeapi": "API de Node.js",
+      "reactweb": "React y Next.js"
     }
   },
   "experience": {
@@ -150,30 +426,96 @@
     "heading": "Habilidades",
     "subheading": "Lo que uso día a día.",
     "groups": [
-      { "title": "Framework principal y lenguajes" },
-      { "title": "New Architecture y nativo" },
-      { "title": "Funciones de producto con IA" },
-      { "title": "Empaquetado nativo" },
-      { "title": "UI, navegación y listas" },
-      { "title": "Gestión de estado" },
-      { "title": "Datos y tiempo real" },
-      { "title": "Almacenamiento y seguridad" },
-      { "title": "Pruebas y rendimiento" },
-      { "title": "DevOps y release" },
-      { "title": "Cloud y backend" },
-      { "title": "Herramientas y desarrollo asistido por IA" },
-      { "title": "Localización" },
-      { "title": "Formas de trabajo" },
-      { "title": "Análisis de sistemas y negocio", "desc": "Mi formación en MIS moldea cómo abordo la ingeniería — recopilación de requisitos, mapeo de procesos de negocio, y traducción de necesidades de negocio a especificaciones técnicas, demostrado en el diseño de sistemas ERP y financieros en Micro Arabs." },
-      { "title": "Trasfondo técnico", "desc": "Experiencia previa en software de escritorio empresarial en Micro Arabs, antes de pasar a móvil — aplicaciones corporativas de línea de negocio construidas con C# y WinForms." },
-      { "title": "Integración multi-dispositivo", "desc": "Cómodo expandiendo aplicaciones React Native a Smart TV y Wearables usando forks de plataforma (react-native-tvos), controles de foco, y arquitectura de puente nativo / app complementaria para watchOS y Wear OS." },
-      { "title": "Adicional", "desc": "Familiarizado con los fundamentos de React.js y Next.js (arquitectura de componentes, renderizado del lado del servidor, hooks, gestión de estado) gracias a mi experiencia en React Native — abierto a roles web. Este mismo portafolio está construido con React." }
+      {
+        "title": "Framework principal y lenguajes"
+      },
+      {
+        "title": "New Architecture y nativo"
+      },
+      {
+        "title": "Funciones de producto con IA"
+      },
+      {
+        "title": "Empaquetado nativo"
+      },
+      {
+        "title": "UI, navegación y listas"
+      },
+      {
+        "title": "Gestión de estado"
+      },
+      {
+        "title": "Datos y tiempo real"
+      },
+      {
+        "title": "Almacenamiento y seguridad"
+      },
+      {
+        "title": "Pruebas y rendimiento"
+      },
+      {
+        "title": "DevOps y release"
+      },
+      {
+        "title": "Cloud y backend"
+      },
+      {
+        "title": "Herramientas y desarrollo asistido por IA"
+      },
+      {
+        "title": "Localización"
+      },
+      {
+        "title": "Formas de trabajo"
+      },
+      {
+        "title": "Análisis de sistemas y negocio",
+        "desc": "Mi formación en MIS moldea cómo abordo la ingeniería — recopilación de requisitos, mapeo de procesos de negocio, y traducción de necesidades de negocio a especificaciones técnicas, demostrado en el diseño de sistemas ERP y financieros en Micro Arabs."
+      },
+      {
+        "title": "Trasfondo técnico",
+        "desc": "Experiencia previa en software de escritorio empresarial en Micro Arabs, antes de pasar a móvil — aplicaciones corporativas de línea de negocio construidas con C# y WinForms."
+      },
+      {
+        "title": "Integración multi-dispositivo",
+        "desc": "Cómodo expandiendo aplicaciones React Native a Smart TV y Wearables usando forks de plataforma (react-native-tvos), controles de foco, y arquitectura de puente nativo / app complementaria para watchOS y Wear OS."
+      },
+      {
+        "title": "Adicional",
+        "desc": "Familiarizado con los fundamentos de React.js y Next.js (arquitectura de componentes, renderizado del lado del servidor, hooks, gestión de estado) gracias a mi experiencia en React Native — abierto a roles web. Este mismo portafolio está construido con React."
+      }
     ]
   },
   "contact": {
     "heading": "Construyamos algo.",
     "subheading": "Abierto a roles de React Native senior — remoto, con base en 10 de Ramadán, o dispuesto a reubicarme.",
     "resumeLabel": "Mi currículum ↗",
-    "footnote": "Diseñado y construido por mí — React, TypeScript, CSS puro, desplegado en Vercel. Sin plantilla."
+    "footnote": "Diseñado y construido por mí — React, TypeScript, CSS puro, desplegado en Vercel. Sin plantilla.",
+    "formHeading": "Enviar un mensaje",
+    "namePlaceholder": "Tu nombre",
+    "emailPlaceholder": "Tu correo",
+    "messagePlaceholder": "¿Qué te gustaría construir?",
+    "sendButton": "Enviar mensaje",
+    "sendingButton": "Enviando…",
+    "successMessage": "Gracias — tu mensaje llegó, responderé pronto.",
+    "errorMessage": "Algo salió mal — escríbeme directamente por correo.",
+    "whatsappCta": "Chatear por WhatsApp",
+    "orDivider": "o",
+    "attachmentLabel": "Adjuntar archivos (opcional)",
+    "removeFileAria": "Quitar archivo"
+  },
+  "gallery": {
+    "heading": "Galería",
+    "subheading": "Capturas de apps reales y publicadas — una mirada más de cerca, más allá de la ficha de la tienda.",
+    "items": {
+      "chefRulerClient": "Chef Ruler — Cliente: explora chefs caseros, pide platos y sigue la entrega.",
+      "chefRulerProvider": "Chef Ruler — Proveedor: gestiona pedidos entrantes, chatea con clientes y sigue estadísticas de ventas.",
+      "geetClient": "Geet — Cliente: solicita una entrega, compara ofertas de mensajeros y síguela en vivo.",
+      "geetProvider": "Geet — Repartidor: acepta ofertas de entrega y navega entre recogida y destino.",
+      "flowDashboard": "Flow: panel principal con compras, ventas, clientes y sucursales de un vistazo.",
+      "flowLedger": "Flow: estado de cuenta por cliente con saldos pendientes seguidos automáticamente.",
+      "flowInvoicing": "Flow: configuración multi-moneda y creación rápida de facturas.",
+      "responsive": "Una sola base de código React Native, responsive en móvil y tablet."
+    }
   }
 }

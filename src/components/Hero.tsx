@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { useReveal } from '../hooks/useReveal';
 
@@ -22,8 +23,8 @@ export default function Hero() {
         </p>
 
         <div className="cta-row">
-          <a className="btn btn-primary" href="#demos">{t('hero.ctaPrimary')}</a>
-          <a className="btn btn-ghost" href="mailto:ahmedmoh6000@gmail.com">{t('hero.ctaSecondary')}</a>
+          <Link className="btn btn-primary" to="/demos">{t('hero.ctaPrimary')}</Link>
+          <Link className="btn btn-ghost" to="/contact">{t('hero.ctaSecondary')}</Link>
         </div>
 
         {/* Deeper technical detail for engineers reviewing the stack */}

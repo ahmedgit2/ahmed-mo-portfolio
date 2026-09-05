@@ -21,6 +21,8 @@ import AiAssistantDemo from '../demos/AiAssistantDemo';
 import GestureDemo from '../demos/GestureDemo';
 import FirebaseDemo from '../demos/FirebaseDemo';
 import RestApiDemo from '../demos/RestApiDemo';
+import NodeApiDemo from '../demos/NodeApiDemo';
+import ReactWebDemo from '../demos/ReactWebDemo';
 
 const DEMO_COMPONENTS: Record<DemoId, React.ComponentType> = {
   list: ListPerfDemo,
@@ -38,6 +40,8 @@ const DEMO_COMPONENTS: Record<DemoId, React.ComponentType> = {
   release: ReleaseDemo,
   testing: TestingDemo,
   ota: OtaDemo,
+  nodeapi: NodeApiDemo,
+  reactweb: ReactWebDemo,
   tv: TvDemo,
   wearables: WearablesDemo,
   aiassistant: AiAssistantDemo,

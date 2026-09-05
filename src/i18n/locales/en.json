@@ -1,47 +1,285 @@
 {
-  "nav": { "work": "Work", "demos": "Demos", "experience": "Experience", "contact": "Contact" },
-  "common": { "old": "Old", "new": "New", "live": "Live", "code": "Code" },
+  "nav": {
+    "work": "Work",
+    "demos": "Demos",
+    "experience": "Experience",
+    "contact": "Contact",
+    "home": "Home",
+    "skills": "Skills"
+  },
+  "common": {
+    "old": "Old",
+    "new": "New",
+    "live": "Live",
+    "code": "Code"
+  },
   "demoText": {
-    "list": { "desc": "At PlanRadar, selecting a row in a large list re-rendered every row via array-identity comparison — O(n²). I swapped it for a Set-membership lookup, so only the touched row re-renders. Click rows below.", "note": "// Old: full list re-renders on every selection. New: only the touched row updates." },
-    "storage": { "desc": "Migrated PlanRadar's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads.", "note": "// MMKV writes are synchronous — no await, no flicker on read." },
-    "sync": { "desc": "One of PlanRadar's core modules is offline-first and real-time over WebSockets — actions queue while offline and flush on reconnect. Toggle offline below and make changes.", "note": "// Queued actions flush in order once the socket reconnects." },
-    "firebase": { "desc": "Firebase underpins observability on both PlanRadar and Index Group apps — Analytics for usage tracking, Crashlytics for crash-free-rate monitoring, and FCM as the transport for push. Trigger an SDK call below.", "note": "// Crashlytics context (user id, breadcrumbs) is set before the throw, not after — otherwise the report arrives with no idea what led up to it." },
-    "restapi": { "desc": "PlanRadar and Index Group both talk to the backend over a typed REST/JSON:API layer — an Axios client with interceptors for auth-token attach, 401 refresh, and centralized error normalization, wrapped in resource hooks components call directly. Fetch below to trace the pipeline.", "note": "// The request interceptor shares one in-flight refresh across concurrent 401s instead of racing a refresh per request." },
-    "anim": { "desc": "Reanimated / Animated API drives modal and navigation transitions at PlanRadar. Two examples below.", "note": "// Reanimated worklets run on the UI thread — no JS-thread jank under load." },
-    "deeplink": { "desc": "At Index Group, notifications and shared links opened the app directly to a specific order or driver screen.", "note": "// Unmatched paths fall back to a default route instead of crashing the navigator." },
-    "ulink": { "desc": "Universal Links (iOS) and App Links (Android) skip the custom-scheme prompt entirely — a real https:// link opens the app directly if it's installed, or the web page if not.", "note": "// No installed app → same URL opens the mobile web fallback instead." },
-    "push": { "desc": "Push notifications via FCM, wired to deep links so tapping one routes straight to the relevant screen.", "note": "// getInitialNotification() covers the cold-start case FCM's foreground handler misses." },
-    "cicd": { "desc": "Full release ownership at PlanRadar and Index Group — GitLab CI/CD, EAS Build, TestFlight, and Play Console. Run the pipeline below.", "note": "// Same pipeline shape across both apps: test → build → submit, gated on green tests." },
-    "i18n": { "desc": "Multi-locale support via i18next and react-native-localize, including RTL for Arabic.", "note": "// react-native-localize detects device locale; I18nManager flips layout direction." },
-    "newarch": { "desc": "Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare.", "note": "// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip." },
-    "release": { "desc": "Co-architected RN's packaging as a versioned native binary (XCFramework + AAR) — decoupling the RN layer from native host apps, no Node/Yarn toolchain required for native teams.", "note": "// Native teams bump one version string — no RN toolchain install, no Metro, no Yarn." },
-    "testing": { "desc": "1,500+ commits across 200+ tickets at PlanRadar, guarded by a 3,500+ test suite in GitLab CI/CD. Run a sample suite.", "note": "// CI blocks merge on red tests — coverage gate keeps refactors safe across 200+ tickets." },
-    "ota": { "desc": "CodePush OTA delivery at Index Group — ship JS/asset updates without an app-store review cycle, staged and reversible.", "note": "// Bad bundle at any stage → rollback reverts devices to the last known-good version." },
-    "tv": { "desc": "Extending React Native to Smart TV — tvOS and Android TV via react-native-tvos — swaps touch for D-pad focus navigation. No shipped production app yet — architecture below is how I'd approach it.", "note": "// Same component model, different input system — focus/spatial nav replaces touch gestures." },
-    "wearables": { "desc": "Wearables (watchOS, Wear OS) pair over a native companion bridge, not a shrunk-down RN screen — both directions. No shipped production app yet — architecture below is how I'd approach it.", "note": "// The bridge is native-to-native — RN only sends/receives the payload, the watch app renders it." },
-    "aiassistant": { "desc": "PlanRadar's in-app AI Assistant — I built the RN client: WebSocket-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Architecture below, renamed from the real implementation. Pick a prompt below.", "note": "// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working." },
-    "gesture": { "desc": "A physics-based swipe stack — spring return, velocity-aware flick-to-dismiss, and rubber-band rotation. Drag the front card.", "note": "// Direct DOM mutation during drag, React state only touches on release — no re-render per frame." }
+    "list": {
+      "desc": "At PlanRadar, selecting a row in a large list re-rendered every row via array-identity comparison — O(n²). I swapped it for a Set-membership lookup, so only the touched row re-renders. Click rows below.",
+      "note": "// Old: full list re-renders on every selection. New: only the touched row updates."
+    },
+    "storage": {
+      "desc": "Migrated PlanRadar's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads.",
+      "note": "// MMKV writes are synchronous — no await, no flicker on read."
+    },
+    "sync": {
+      "desc": "One of PlanRadar's core modules is offline-first and real-time over WebSockets — actions queue while offline and flush on reconnect. Toggle offline below and make changes.",
+      "note": "// Queued actions flush in order once the socket reconnects."
+    },
+    "firebase": {
+      "desc": "Firebase underpins observability on both PlanRadar and Index Group apps — Analytics for usage tracking, Crashlytics for crash-free-rate monitoring, and FCM as the transport for push. Trigger an SDK call below.",
+      "note": "// Crashlytics context (user id, breadcrumbs) is set before the throw, not after — otherwise the report arrives with no idea what led up to it."
+    },
+    "restapi": {
+      "desc": "PlanRadar and Index Group both talk to the backend over a typed REST/JSON:API layer — an Axios client with interceptors for auth-token attach, 401 refresh, and centralized error normalization, wrapped in resource hooks components call directly. Fetch below to trace the pipeline.",
+      "note": "// The request interceptor shares one in-flight refresh across concurrent 401s instead of racing a refresh per request."
+    },
+    "anim": {
+      "desc": "Reanimated / Animated API drives modal and navigation transitions at PlanRadar. Two examples below.",
+      "note": "// Reanimated worklets run on the UI thread — no JS-thread jank under load."
+    },
+    "deeplink": {
+      "desc": "At Index Group, notifications and shared links opened the app directly to a specific order or driver screen.",
+      "note": "// Unmatched paths fall back to a default route instead of crashing the navigator."
+    },
+    "ulink": {
+      "desc": "Universal Links (iOS) and App Links (Android) skip the custom-scheme prompt entirely — a real https:// link opens the app directly if it's installed, or the web page if not.",
+      "note": "// No installed app → same URL opens the mobile web fallback instead."
+    },
+    "push": {
+      "desc": "Push notifications via FCM, wired to deep links so tapping one routes straight to the relevant screen.",
+      "note": "// getInitialNotification() covers the cold-start case FCM's foreground handler misses."
+    },
+    "cicd": {
+      "desc": "Full release ownership at PlanRadar and Index Group — GitLab CI/CD, EAS Build, TestFlight, and Play Console. Run the pipeline below.",
+      "note": "// Same pipeline shape across both apps: test → build → submit, gated on green tests."
+    },
+    "i18n": {
+      "desc": "Multi-locale support via i18next and react-native-localize, including RTL for Arabic.",
+      "note": "// react-native-localize detects device locale; I18nManager flips layout direction."
+    },
+    "newarch": {
+      "desc": "Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare.",
+      "note": "// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip."
+    },
+    "release": {
+      "desc": "Co-architected RN's packaging as a versioned native binary (XCFramework + AAR) — decoupling the RN layer from native host apps, no Node/Yarn toolchain required for native teams.",
+      "note": "// Native teams bump one version string — no RN toolchain install, no Metro, no Yarn."
+    },
+    "testing": {
+      "desc": "1,500+ commits across 200+ tickets at PlanRadar, guarded by a 3,500+ test suite in GitLab CI/CD. Run a sample suite.",
+      "note": "// CI blocks merge on red tests — coverage gate keeps refactors safe across 200+ tickets."
+    },
+    "ota": {
+      "desc": "CodePush OTA delivery at Index Group — ship JS/asset updates without an app-store review cycle, staged and reversible.",
+      "note": "// Bad bundle at any stage → rollback reverts devices to the last known-good version."
+    },
+    "tv": {
+      "desc": "Extending React Native to Smart TV — tvOS and Android TV via react-native-tvos — swaps touch for D-pad focus navigation. No shipped production app yet — architecture below is how I'd approach it.",
+      "note": "// Same component model, different input system — focus/spatial nav replaces touch gestures."
+    },
+    "wearables": {
+      "desc": "Wearables (watchOS, Wear OS) pair over a native companion bridge, not a shrunk-down RN screen — both directions. No shipped production app yet — architecture below is how I'd approach it.",
+      "note": "// The bridge is native-to-native — RN only sends/receives the payload, the watch app renders it."
+    },
+    "aiassistant": {
+      "desc": "PlanRadar's in-app AI Assistant — I built the RN client: WebSocket-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Architecture below, renamed from the real implementation. Pick a prompt below.",
+      "note": "// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working."
+    },
+    "gesture": {
+      "desc": "A physics-based swipe stack — spring return, velocity-aware flick-to-dismiss, and rubber-band rotation. Drag the front card.",
+      "note": "// Direct DOM mutation during drag, React state only touches on release — no re-render per frame."
+    },
+    "nodeapi": {
+      "desc": "Backend work isn't limited to consuming REST APIs from the RN client — I've also built and maintained Node.js/Express services, with an authenticated middleware pipeline in front of the business logic. Run it below.",
+      "note": "// Each middleware either calls next() or ends the response — the controller only runs once every gate passes."
+    },
+    "reactweb": {
+      "desc": "Beyond React Native, I work with React.js and Next.js fundamentals — this portfolio itself is one example. Below: how a page goes from a server-rendered response to fully interactive, via hydration.",
+      "note": "// The server sends real HTML immediately — hydration attaches event listeners to it, it doesn't re-render from scratch."
+    }
   },
   "demoUI": {
-    "list": { "taskItem": "Task item #{{n}}" },
-    "storage": { "keyPlaceholder": "key", "valuePlaceholder": "value", "setButton": "Set", "noKeysYet": "no keys yet", "emptyValue": "(empty)" },
-    "sync": { "online": "Online", "offline": "Offline", "queuedBadge": "{{count}} queued", "approveButton": "Approve item", "logPlaceholder": "Actions will log here →", "logReconnected": "↺ Reconnected — flushing {{count}} queued action(s)...", "logSent": "✓ Sent over WebSocket — approved instantly", "logQueued": "⏸ Offline — action queued ({{count}})" },
-    "firebase": { "analyticsButton": "Log Analytics Event", "crashlyticsButton": "Report to Crashlytics", "fcmButton": "Register FCM Token", "placeholder": "Trigger an SDK call to see it traced →", "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })", "analyticsStep2": "✓ event queued — batched with the next flush interval", "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })", "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')", "crashlyticsStep3": "✓ report queued — sent on next app foreground", "fcmStep1": "messaging().requestPermission() → granted", "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'", "fcmStep3": "✓ token registered with backend, tied to user session" },
-    "restapi": { "fetchButton": "Fetch Tickets", "placeholder": "Trigger a fetch to trace the pipeline →", "step1": "→ request interceptor: attach Authorization header", "step2": "→ GET /projects/8842/tickets", "step3": "← response interceptor: 200 OK", "step4": "✓ hook resolved — 3 items", "item1": "ITEM-4821 · Roof leak, west wing", "item2": "ITEM-4822 · Electrical inspection due", "item3": "ITEM-4823 · Concrete pour scheduled" },
-    "anim": { "slideButton": "Slide transition", "popTitle": "Document approved", "popSubtitle": "Spring pop-in, like a modal confirmation.", "springButton": "Spring pop-in" },
-    "deeplink": { "pickLink": "Pick a link to resolve it →", "linkOrder": "→ resolves to OrderDetails, orderId: 8842", "linkDriver": "→ resolves to DriverProfile, driverId: 119", "linkUnknown": "→ no match — getStateFromPath falls back to Home" },
-    "ulink": { "openButton": "Open https://geet.app/order/8842", "placeholder": "Simulates iOS resolving the link →", "step1": "iOS: user taps https://geet.app/order/8842", "step2": "System checks apple-app-site-association on geet.app", "step3": "App ID matches installed app → opens natively, no Safari hop", "step4": "RN linking config resolves to OrderDetails, orderId: 8842 ✓" },
-    "push": { "triggerButton": "Simulate incoming push", "notifTitle": "New order assigned", "notifBody": "Order #8842 is ready for pickup — tap to view." },
-    "cicd": { "runButton": "Run pipeline", "step1": "Install deps", "step2": "Run tests (Jest)", "step3": "EAS Build (iOS + Android)", "step4": "Submit → TestFlight", "step5": "Submit → Play Console" },
-    "newarch": { "runButton": "Call native module: getScannerState()", "placeholder": "Run it on the old bridge, then on JSI →", "step1": "Old bridge: serialize args → JSON", "step2": "Old bridge: queue → native thread → deserialize", "step3": "Old bridge: result ≈ 40ms round trip", "step4": "JSI: direct call, no queue, no serialize", "step5": "JSI: result ≈ 0.6ms round trip ✓" },
-    "release": { "runButton": "Cut release v4.12.0", "step1": "Bump version → 4.12.0", "step2": "Build XCFramework (iOS)", "step3": "Build AAR (Android)", "step4": "Publish to internal registry", "step5": "Native teams consume via SPM/Gradle" },
-    "testing": { "runButton": "Run suite", "testsLabel": "Tests:", "coverageLabel": "Coverage:", "allGreen": "✓ all green" },
-    "ota": { "stageButton": "Stage {{pct}}%", "rollbackButton": "Rollback", "placeholder": "Pick a rollout stage →", "bundlePushed": "⇪ Bundle v2.3.1 pushed to {{pct}}% of devices — monitoring crash-free rate...", "rolloutComplete": "✓ Rollout complete, no crash spike detected", "rolledBack": "↩ Rolled back — devices reverted to last known-good bundle" },
-    "tv": { "placeholder": "Use the D-pad to move focus →", "okButton": "OK", "onFocusFired": "✓ onFocus → onPress fired on \"{{label}}\"", "focusMoved": "→ TVEventHandler: focus moved to \"{{label}}\"", "labels": ["Home", "Search", "Library", "Live", "Settings", "Profile", "Downloads", "Guide", "Exit"] },
-    "wearables": { "sendLabel": "Send status to watch", "receiveLabel": "Receive tap from watch", "placeholder": "Simulates the native companion bridge, either direction →", "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })", "sendStep2": "watchOS: WatchConnectivity delivers message to companion app", "sendStep3": "Wear OS: MessageClient delivers to companion app (Android path)", "sendStep4": "✓ Watch face updated — no round trip through the phone UI", "receiveStep1": "Watch: user taps \"Approve\" complication on their wrist", "receiveStep2": "watchOS/Wear OS: companion app sends action back over the bridge", "receiveStep3": "RN: session.onMessage fires with { action: \"approve\", id }", "receiveStep4": "✓ Same handler the phone UI uses — one source of truth" },
-    "aiassistant": { "emptyState": "Ask me about this project — try a prompt below.", "usageLabel": "{{usage}} / {{max}} messages this cycle", "overdueLabel": "Overdue tickets", "overdueQuestion": "Show me overdue tickets on this project", "overdueAnswer": "Found <b>3 overdue tickets</b> on this project, all assigned to you.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Roof leak, west wing</div>", "summaryLabel": "Summarize this project", "summaryQuestion": "Summarize this project", "summaryAnswer": "<b>West Tower Renovation</b> — 42 tickets total, 34 resolved, 8 open. 2 documents pending review, on track for the March 15 milestone.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>", "similarLabel": "Find similar past issues", "similarQuestion": "Find similar past issues", "similarAnswer": "Found <b>2 similar issues</b> from past projects — same root cause (flashing gap).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · East wing, resolved</div>" },
-    "gesture": { "hint": "← drag to resolve →", "card1Sub": "Roof leak, west wing — approve?", "card2Sub": "Electrical inspection due", "card3Sub": "Concrete pour scheduled", "card4Sub": "Site photos need review", "allDismissed": "All resolved — nice work.", "resetButton": "Reset stack" },
-    "heroDiagramAriaLabel": "Diagram of React Native architecture layers: JavaScript, the New Architecture bridge, and native binaries."
+    "list": {
+      "taskItem": "Task item #{{n}}"
+    },
+    "storage": {
+      "keyPlaceholder": "key",
+      "valuePlaceholder": "value",
+      "setButton": "Set",
+      "noKeysYet": "no keys yet",
+      "emptyValue": "(empty)"
+    },
+    "sync": {
+      "online": "Online",
+      "offline": "Offline",
+      "queuedBadge": "{{count}} queued",
+      "approveButton": "Approve item",
+      "logPlaceholder": "Actions will log here →",
+      "logReconnected": "↺ Reconnected — flushing {{count}} queued action(s)...",
+      "logSent": "✓ Sent over WebSocket — approved instantly",
+      "logQueued": "⏸ Offline — action queued ({{count}})"
+    },
+    "firebase": {
+      "analyticsButton": "Log Analytics Event",
+      "crashlyticsButton": "Report to Crashlytics",
+      "fcmButton": "Register FCM Token",
+      "placeholder": "Trigger an SDK call to see it traced →",
+      "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })",
+      "analyticsStep2": "✓ event queued — batched with the next flush interval",
+      "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })",
+      "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')",
+      "crashlyticsStep3": "✓ report queued — sent on next app foreground",
+      "fcmStep1": "messaging().requestPermission() → granted",
+      "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'",
+      "fcmStep3": "✓ token registered with backend, tied to user session"
+    },
+    "restapi": {
+      "fetchButton": "Fetch Tickets",
+      "placeholder": "Trigger a fetch to trace the pipeline →",
+      "step1": "→ request interceptor: attach Authorization header",
+      "step2": "→ GET /projects/8842/tickets",
+      "step3": "← response interceptor: 200 OK",
+      "step4": "✓ hook resolved — 3 items",
+      "item1": "ITEM-4821 · Roof leak, west wing",
+      "item2": "ITEM-4822 · Electrical inspection due",
+      "item3": "ITEM-4823 · Concrete pour scheduled"
+    },
+    "anim": {
+      "slideButton": "Slide transition",
+      "popTitle": "Document approved",
+      "popSubtitle": "Spring pop-in, like a modal confirmation.",
+      "springButton": "Spring pop-in"
+    },
+    "deeplink": {
+      "pickLink": "Pick a link to resolve it →",
+      "linkOrder": "→ resolves to OrderDetails, orderId: 8842",
+      "linkDriver": "→ resolves to DriverProfile, driverId: 119",
+      "linkUnknown": "→ no match — getStateFromPath falls back to Home"
+    },
+    "ulink": {
+      "openButton": "Open https://geet.app/order/8842",
+      "placeholder": "Simulates iOS resolving the link →",
+      "step1": "iOS: user taps https://geet.app/order/8842",
+      "step2": "System checks apple-app-site-association on geet.app",
+      "step3": "App ID matches installed app → opens natively, no Safari hop",
+      "step4": "RN linking config resolves to OrderDetails, orderId: 8842 ✓"
+    },
+    "push": {
+      "triggerButton": "Simulate incoming push",
+      "notifTitle": "New order assigned",
+      "notifBody": "Order #8842 is ready for pickup — tap to view."
+    },
+    "cicd": {
+      "runButton": "Run pipeline",
+      "step1": "Install deps",
+      "step2": "Run tests (Jest)",
+      "step3": "EAS Build (iOS + Android)",
+      "step4": "Submit → TestFlight",
+      "step5": "Submit → Play Console"
+    },
+    "newarch": {
+      "runButton": "Call native module: getScannerState()",
+      "placeholder": "Run it on the old bridge, then on JSI →",
+      "step1": "Old bridge: serialize args → JSON",
+      "step2": "Old bridge: queue → native thread → deserialize",
+      "step3": "Old bridge: result ≈ 40ms round trip",
+      "step4": "JSI: direct call, no queue, no serialize",
+      "step5": "JSI: result ≈ 0.6ms round trip ✓"
+    },
+    "release": {
+      "runButton": "Cut release v4.12.0",
+      "step1": "Bump version → 4.12.0",
+      "step2": "Build XCFramework (iOS)",
+      "step3": "Build AAR (Android)",
+      "step4": "Publish to internal registry",
+      "step5": "Native teams consume via SPM/Gradle"
+    },
+    "testing": {
+      "runButton": "Run suite",
+      "testsLabel": "Tests:",
+      "coverageLabel": "Coverage:",
+      "allGreen": "✓ all green"
+    },
+    "ota": {
+      "stageButton": "Stage {{pct}}%",
+      "rollbackButton": "Rollback",
+      "placeholder": "Pick a rollout stage →",
+      "bundlePushed": "⇪ Bundle v2.3.1 pushed to {{pct}}% of devices — monitoring crash-free rate...",
+      "rolloutComplete": "✓ Rollout complete, no crash spike detected",
+      "rolledBack": "↩ Rolled back — devices reverted to last known-good bundle"
+    },
+    "tv": {
+      "placeholder": "Use the D-pad to move focus →",
+      "okButton": "OK",
+      "onFocusFired": "✓ onFocus → onPress fired on \"{{label}}\"",
+      "focusMoved": "→ TVEventHandler: focus moved to \"{{label}}\"",
+      "labels": [
+        "Home",
+        "Search",
+        "Library",
+        "Live",
+        "Settings",
+        "Profile",
+        "Downloads",
+        "Guide",
+        "Exit"
+      ]
+    },
+    "wearables": {
+      "sendLabel": "Send status to watch",
+      "receiveLabel": "Receive tap from watch",
+      "placeholder": "Simulates the native companion bridge, either direction →",
+      "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })",
+      "sendStep2": "watchOS: WatchConnectivity delivers message to companion app",
+      "sendStep3": "Wear OS: MessageClient delivers to companion app (Android path)",
+      "sendStep4": "✓ Watch face updated — no round trip through the phone UI",
+      "receiveStep1": "Watch: user taps \"Approve\" complication on their wrist",
+      "receiveStep2": "watchOS/Wear OS: companion app sends action back over the bridge",
+      "receiveStep3": "RN: session.onMessage fires with { action: \"approve\", id }",
+      "receiveStep4": "✓ Same handler the phone UI uses — one source of truth"
+    },
+    "aiassistant": {
+      "emptyState": "Ask me about this project — try a prompt below.",
+      "usageLabel": "{{usage}} / {{max}} messages this cycle",
+      "overdueLabel": "Overdue tickets",
+      "overdueQuestion": "Show me overdue tickets on this project",
+      "overdueAnswer": "Found <b>3 overdue tickets</b> on this project, all assigned to you.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Roof leak, west wing</div>",
+      "summaryLabel": "Summarize this project",
+      "summaryQuestion": "Summarize this project",
+      "summaryAnswer": "<b>West Tower Renovation</b> — 42 tickets total, 34 resolved, 8 open. 2 documents pending review, on track for the March 15 milestone.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>",
+      "similarLabel": "Find similar past issues",
+      "similarQuestion": "Find similar past issues",
+      "similarAnswer": "Found <b>2 similar issues</b> from past projects — same root cause (flashing gap).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · East wing, resolved</div>"
+    },
+    "gesture": {
+      "hint": "← drag to resolve →",
+      "card1Sub": "Roof leak, west wing — approve?",
+      "card2Sub": "Electrical inspection due",
+      "card3Sub": "Concrete pour scheduled",
+      "card4Sub": "Site photos need review",
+      "allDismissed": "All resolved — nice work.",
+      "resetButton": "Reset stack"
+    },
+    "heroDiagramAriaLabel": "Diagram of React Native architecture layers: JavaScript, the New Architecture bridge, and native binaries.",
+    "nodeapi": {
+      "runButton": "Handle POST /tickets",
+      "step1": "Auth middleware: verify JWT",
+      "step2": "Validation middleware: check request body",
+      "step3": "Rate limiter: 42/100 requests this minute",
+      "step4": "Controller: create ticket in DB",
+      "step5": "201 Created → { id: 'ITEM-4824' }"
+    },
+    "reactweb": {
+      "runButton": "Simulate a page load",
+      "placeholder": "Simulates a Next.js request, server to client →",
+      "step1": "Browser: GET /tickets/8842",
+      "step2": "Server: renders <TicketPage/> to HTML",
+      "step3": "Server: streams HTML — content visible immediately",
+      "step4": "Client: downloads React bundle in background",
+      "step5": "Client: hydrates — page is now interactive",
+      "hydratedButton": "✓ Hydrated — click me ({{count}})"
+    }
   },
   "hero": {
     "eyebrow": "Senior React Native Engineer · 10th of Ramadan, Egypt",
@@ -53,15 +291,51 @@
     "ctaSecondary": "Get in touch",
     "stackLabel": "Where I work",
     "layers": [
-      { "name": "Native host app", "detail": "iOS/Android shell app that embeds the RN module as a versioned binary", "tag": "Swift · Kotlin · Xcode/Gradle" },
-      { "name": "Layered Component Architecture", "detail": "Screens → HOCs → Hooks/Helpers → Components → Styles — adopted as the standard pattern across modals and navigation", "tag": "HOCs · hooks · components · styles" },
-      { "name": "Feature-Based / Domain-Driven Structure", "detail": "Code organized by feature, not by type — each domain owns its screens, hooks, and styles for faster team collaboration", "tag": "domain-driven · feature folders" },
-      { "name": "In-App AI Chat", "detail": "WebSocket-streamed LLM responses with native-bridge actions for ticket navigation and filters", "tag": "WebSockets · native bridge · LLM streaming" },
-      { "name": "State & real-time data", "detail": "Domain-specific contexts split from a monolithic RootContext; powers the DMS module's offline-first sync", "tag": "Context API · React Query · JSON:API" },
-      { "name": "New Architecture bridge", "detail": "Hermes + TurboModules/Fabric — synchronous JS↔native calls, no serialization overhead", "tag": "Fabric · TurboModules · JSI" },
-      { "name": "Native binaries", "detail": "Versioned XCFramework + AAR, decoupled from native host toolchains", "tag": "XCFramework · AAR" },
-      { "name": "Persistence", "detail": "Migrated from AsyncStorage to MMKV — encrypted, synchronous, offline-first queueing", "tag": "MMKV · Keychain/Keystore" },
-      { "name": "AI Pair Programming", "detail": "Claude Code woven into the daily workflow — scaffolding, refactors, test generation — sped up feature delivery ~25-30% across sprint cycles", "tag": "Claude Code · Cursor AI · GitHub Copilot" }
+      {
+        "name": "Native host app",
+        "detail": "iOS/Android shell app that embeds the RN module as a versioned binary",
+        "tag": "Swift · Kotlin · Xcode/Gradle"
+      },
+      {
+        "name": "Layered Component Architecture",
+        "detail": "Screens → HOCs → Hooks/Helpers → Components → Styles — adopted as the standard pattern across modals and navigation",
+        "tag": "HOCs · hooks · components · styles"
+      },
+      {
+        "name": "Feature-Based / Domain-Driven Structure",
+        "detail": "Code organized by feature, not by type — each domain owns its screens, hooks, and styles for faster team collaboration",
+        "tag": "domain-driven · feature folders"
+      },
+      {
+        "name": "In-App AI Chat",
+        "detail": "WebSocket-streamed LLM responses with native-bridge actions for ticket navigation and filters",
+        "tag": "WebSockets · native bridge · LLM streaming"
+      },
+      {
+        "name": "State & real-time data",
+        "detail": "Domain-specific contexts split from a monolithic RootContext; powers the DMS module's offline-first sync",
+        "tag": "Context API · React Query · JSON:API"
+      },
+      {
+        "name": "New Architecture bridge",
+        "detail": "Hermes + TurboModules/Fabric — synchronous JS↔native calls, no serialization overhead",
+        "tag": "Fabric · TurboModules · JSI"
+      },
+      {
+        "name": "Native binaries",
+        "detail": "Versioned XCFramework + AAR, decoupled from native host toolchains",
+        "tag": "XCFramework · AAR"
+      },
+      {
+        "name": "Persistence",
+        "detail": "Migrated from AsyncStorage to MMKV — encrypted, synchronous, offline-first queueing",
+        "tag": "MMKV · Keychain/Keystore"
+      },
+      {
+        "name": "AI Pair Programming",
+        "detail": "Claude Code woven into the daily workflow — scaffolding, refactors, test generation — sped up feature delivery ~25-30% across sprint cycles",
+        "tag": "Claude Code · Cursor AI · GitHub Copilot"
+      }
     ]
   },
   "work": {
@@ -99,7 +373,9 @@
       "tv": "Smart TV",
       "wearables": "Wearables",
       "aiassistant": "AI Chat",
-      "gesture": "Gesture Physics"
+      "gesture": "Gesture Physics",
+      "nodeapi": "Node.js API",
+      "reactweb": "React & Next.js"
     }
   },
   "experience": {
@@ -150,30 +426,96 @@
     "heading": "Skills",
     "subheading": "What I reach for day to day.",
     "groups": [
-      { "title": "Core Framework & Languages" },
-      { "title": "New Architecture & Native" },
-      { "title": "AI Product Features" },
-      { "title": "Native Packaging" },
-      { "title": "UI, Navigation & Lists" },
-      { "title": "State Management" },
-      { "title": "Data & Real-Time" },
-      { "title": "Storage & Security" },
-      { "title": "Testing & Performance" },
-      { "title": "DevOps & Release" },
-      { "title": "Cloud & Backend" },
-      { "title": "Tools & AI-Assisted Dev" },
-      { "title": "Localization" },
-      { "title": "Ways of Working" },
-      { "title": "Systems & Business Analysis", "desc": "MIS background shapes how I approach engineering — requirements gathering, business process mapping, and translating business needs into technical specs, as demonstrated in ERP and financial-system design at Micro Arabs." },
-      { "title": "Technical Background", "desc": "Prior enterprise desktop software experience at Micro Arabs, before moving into mobile — corporate line-of-business applications built on C# and WinForms." },
-      { "title": "Multi-Device Integration", "desc": "Comfortable with expanding React Native applications to Smart TV and Wearables using platform forks (react-native-tvos), focus controls, and Native Bridge / Companion App architecture for watchOS & Wear OS." },
-      { "title": "Additional", "desc": "Familiar with React.js and Next.js fundamentals (component architecture, server-side rendering, hooks, state management) through a React Native background — open to web roles. This portfolio itself is built with React." }
+      {
+        "title": "Core Framework & Languages"
+      },
+      {
+        "title": "New Architecture & Native"
+      },
+      {
+        "title": "AI Product Features"
+      },
+      {
+        "title": "Native Packaging"
+      },
+      {
+        "title": "UI, Navigation & Lists"
+      },
+      {
+        "title": "State Management"
+      },
+      {
+        "title": "Data & Real-Time"
+      },
+      {
+        "title": "Storage & Security"
+      },
+      {
+        "title": "Testing & Performance"
+      },
+      {
+        "title": "DevOps & Release"
+      },
+      {
+        "title": "Cloud & Backend"
+      },
+      {
+        "title": "Tools & AI-Assisted Dev"
+      },
+      {
+        "title": "Localization"
+      },
+      {
+        "title": "Ways of Working"
+      },
+      {
+        "title": "Systems & Business Analysis",
+        "desc": "MIS background shapes how I approach engineering — requirements gathering, business process mapping, and translating business needs into technical specs, as demonstrated in ERP and financial-system design at Micro Arabs."
+      },
+      {
+        "title": "Technical Background",
+        "desc": "Prior enterprise desktop software experience at Micro Arabs, before moving into mobile — corporate line-of-business applications built on C# and WinForms."
+      },
+      {
+        "title": "Multi-Device Integration",
+        "desc": "Comfortable with expanding React Native applications to Smart TV and Wearables using platform forks (react-native-tvos), focus controls, and Native Bridge / Companion App architecture for watchOS & Wear OS."
+      },
+      {
+        "title": "Additional",
+        "desc": "Familiar with React.js and Next.js fundamentals (component architecture, server-side rendering, hooks, state management) through a React Native background — open to web roles. This portfolio itself is built with React."
+      }
     ]
   },
   "contact": {
     "heading": "Let's build something.",
     "subheading": "Open to senior React Native roles — remote, 10th of Ramadan-based, or open to relocate.",
     "resumeLabel": "My Resume ↗",
-    "footnote": "Designed & built by me — React, TypeScript, plain CSS, deployed on Vercel. No template."
+    "footnote": "Designed & built by me — React, TypeScript, plain CSS, deployed on Vercel. No template.",
+    "formHeading": "Send a message",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "Your email",
+    "messagePlaceholder": "What are you looking to build?",
+    "sendButton": "Send message",
+    "sendingButton": "Sending…",
+    "successMessage": "Thanks — your message is in, I'll reply soon.",
+    "errorMessage": "Something went wrong — email me directly instead.",
+    "whatsappCta": "Chat on WhatsApp",
+    "orDivider": "or",
+    "attachmentLabel": "Attach files (optional)",
+    "removeFileAria": "Remove file"
+  },
+  "gallery": {
+    "heading": "Gallery",
+    "subheading": "Screens from real, shipped apps — a closer look beyond the store listing.",
+    "items": {
+      "chefRulerClient": "Chef Ruler — Client: browse home chefs, order dishes, track delivery.",
+      "chefRulerProvider": "Chef Ruler — Provider: manage incoming orders, chat with customers, track sales stats.",
+      "geetClient": "Geet — Client: request a delivery, compare courier offers, track it live.",
+      "geetProvider": "Geet — Provider: accept delivery offers, navigate pickup and drop-off.",
+      "flowDashboard": "Flow: home dashboard for purchases, sales, customers, and branches at a glance.",
+      "flowLedger": "Flow: per-customer ledger and outstanding balances, tracked automatically.",
+      "flowInvoicing": "Flow: multi-currency setup and fast invoice creation.",
+      "responsive": "One React Native codebase, responsive across phone and tablet."
+    }
   }
 }

@@ -23,6 +23,8 @@ export const DEMO_IDS = [
   'release',
   'testing',
   'ota',
+  'nodeapi',
+  'reactweb',
   'tv',
   'wearables',
 ] as const;
