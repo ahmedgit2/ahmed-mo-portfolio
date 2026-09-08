@@ -1,0 +1,521 @@
+{
+  "nav": {
+    "work": "Arbete",
+    "demos": "Demos",
+    "experience": "Erfarenhet",
+    "contact": "Kontakt",
+    "home": "Hem",
+    "skills": "Kompetenser"
+  },
+  "common": {
+    "old": "Gammal",
+    "new": "Ny",
+    "live": "Live",
+    "code": "Kod"
+  },
+  "demoText": {
+    "list": {
+      "desc": "På mitt nuvarande jobb gjorde markering av en rad i en stor lista att varje rad rendrerades om via en array-identitetsjämförelse — O(n²). Jag ersatte det med en Set-medlemskontroll, så bara den berörda raden rendreras om. Klicka på raderna nedan.",
+      "note": "// Gammal: hela listan rendreras om vid varje markering. Ny: bara den berörda raden uppdateras."
+    },
+    "storage": {
+      "desc": "Migrerade en produktionsapps beständiga lagring från AsyncStorage till MMKV — synkront, krypterat, snabbare läsningar.",
+      "note": "// MMKV-skrivningar är synkrona — inget await, ingen flimmer vid läsning."
+    },
+    "sync": {
+      "desc": "En av kärnmodulerna i mitt nuvarande arbete är offline-first och realtid via WebSockets — åtgärder köas offline och skickas vid återanslutning. Växla offline nedan och gör ändringar.",
+      "note": "// Köade åtgärder skickas i ordning när socketen återansluter."
+    },
+    "firebase": {
+      "desc": "Firebase ligger till grund för observability i produktionsappar jag byggt, inklusive Index Groups — Analytics för användningsspårning, Crashlytics för crash-free-övervakning, och FCM som transport för push. Utlös ett SDK-anrop nedan.",
+      "note": "// Crashlytics-kontext (användar-id, brödsmulor) sätts före kraschen, inte efter — annars kommer rapporten utan någon aning om vad som ledde fram till den."
+    },
+    "restapi": {
+      "desc": "Produktionsappar jag byggt, inklusive Index Groups, pratar med backend via ett typat REST/JSON:API-lager — en Axios-klient med interceptors för att bifoga auth-token, 401-refresh, och centraliserad felnormalisering, inkapslad i resource hooks som komponenter anropar direkt. Hämta nedan för att spåra pipelinen.",
+      "note": "// Request-interceptorn delar en pågående refresh mellan samtidiga 401:or istället för att köra en refresh per request."
+    },
+    "anim": {
+      "desc": "Reanimated / Animated API driver modal- och navigeringsövergångar i mitt nuvarande arbete. Två exempel nedan.",
+      "note": "// Reanimated-worklets körs på UI-tråden — ingen JS-tråds-hackighet under belastning."
+    },
+    "deeplink": {
+      "desc": "På Index Group öppnade notiser och delade länkar appen direkt till en specifik order- eller förarskärm.",
+      "note": "// Omatchade sökvägar faller tillbaka till en standardrutt istället för att krascha navigatorn."
+    },
+    "ulink": {
+      "desc": "Universal Links (iOS) och App Links (Android) hoppar helt över prompten för anpassat schema — en riktig https://-länk öppnar appen direkt om den är installerad, annars webbsidan.",
+      "note": "// Ingen installerad app → samma URL öppnar mobilwebb-alternativet istället."
+    },
+    "push": {
+      "desc": "Push-notiser via FCM, kopplade till deep links så att ett tryck leder direkt till rätt skärm.",
+      "note": "// getInitialNotification() täcker cold-start-fallet som FCM:s foreground-hanterare missar."
+    },
+    "cicd": {
+      "desc": "Fullt releaseansvar över produktionsappar, inklusive Index Group — GitLab CI/CD, EAS Build, TestFlight och Play Console. Kör pipelinen nedan.",
+      "note": "// Samma pipelineform för båda apparna: test → build → submit, spärrat på gröna tester."
+    },
+    "i18n": {
+      "desc": "Stöd för flera språk via i18next och react-native-localize, inklusive RTL för arabiska.",
+      "note": "// react-native-localize upptäcker enhetens språk; I18nManager vänder layoutriktningen."
+    },
+    "newarch": {
+      "desc": "Ledde en produktionsapps migrering till React Native 0.85 — Hermes + New Architecture. JSI ersätter den gamla asynkrona, JSON-serialiserade bryggan med direkta synkrona native-anrop. Klicka för att jämföra.",
+      "note": "// JSI ger JS en direkt referens till native-objekt — ingen serialize/queue/deserialize-rundtur."
+    },
+    "release": {
+      "desc": "Sam-arkitekterade RN:s paketering som en versionerad native-binär (XCFramework + AAR) — frikopplar RN-lagret från native-värdappar, inget Node/Yarn-verktygskrav för native-team.",
+      "note": "// Native-team höjer bara en versionssträng — ingen RN-verktygsinstallation, ingen Metro, ingen Yarn."
+    },
+    "testing": {
+      "desc": "1 500+ commits över 200+ ärenden i min nuvarande roll, skyddade av en testsvit på 3 500+ i GitLab CI/CD. Kör en exempelsvit.",
+      "note": "// CI blockerar merge på röda tester — täckningsspärren håller refaktoreringar säkra över 200+ ärenden."
+    },
+    "ota": {
+      "desc": "CodePush OTA-leverans på Index Group — släpp JS-/tillgångsuppdateringar utan en app-store-granskningscykel, stegvis och reversibel.",
+      "note": "// Dålig bundel i vilket steg som helst → rollback återställer enheter till senaste kända fungerande version."
+    },
+    "tv": {
+      "desc": "Utökar React Native till Smart-TV — tvOS och Android TV via react-native-tvos — byter touch mot D-pad-fokusnavigering. Ingen skickad produktionsapp än — arkitekturen nedan är hur jag skulle angripa det.",
+      "note": "// Samma komponentmodell, annat inmatningssystem — fokus/spatial nav ersätter touch-gester."
+    },
+    "wearables": {
+      "desc": "Wearables (watchOS, Wear OS) parkopplas via en native companion-brygga, inte en nedskalad RN-skärm — i båda riktningarna. Ingen skickad produktionsapp än — arkitekturen nedan är hur jag skulle angripa det.",
+      "note": "// Bryggan är native-till-native — RN skickar/tar bara emot payloaden, klockappen renderar den."
+    },
+    "aiassistant": {
+      "desc": "En AI-assistent i appen som jag byggde RN-klienten för — WebSocket-strömmade stegvisa svar (tänker → svar), ärende-/dokumentkontextbilagor, och användningsnivåspärr. Arkitektur nedan, omdöpt från den verkliga implementationen. Välj en prompt nedan.",
+      "note": "// Strömmas via WebSockets, inte pollas — tänkesteget renderas medan modellen fortfarande arbetar."
+    },
+    "gesture": {
+      "desc": "En fysikbaserad swipe-stack — fjäderretur, hastighetsmedveten flick-to-dismiss, och gummibandsrotation. Dra det främre kortet.",
+      "note": "// Direkt DOM-mutation under drag, React-tillstånd rörs bara vid släpp — ingen omrendering per bildruta."
+    },
+    "nodeapi": {
+      "desc": "Backend-arbete är inte begränsat till att konsumera REST-API:er från RN-klienten — jag har också byggt och underhållit Node.js/Express-tjänster, med en autentiserad middleware-pipeline framför affärslogiken. Kör den nedan.",
+      "note": "// Varje middleware anropar antingen next() eller avslutar svaret — kontrollern körs bara när varje grind passerats."
+    },
+    "reactweb": {
+      "desc": "Bortom React Native arbetar jag med React.js- och Next.js-grunder — den här portfolion är själv ett exempel. Nedan: hur en sida går från ett serverrendrerat svar till fullt interaktiv, via hydrering.",
+      "note": "// Servern skickar riktig HTML direkt — hydrering fäster event-lyssnare på den, den rendrerar inte om från grunden."
+    }
+  },
+  "demoUI": {
+    "list": {
+      "taskItem": "Uppgift #{{n}}"
+    },
+    "storage": {
+      "keyPlaceholder": "nyckel",
+      "valuePlaceholder": "värde",
+      "setButton": "Ange",
+      "noKeysYet": "inga nycklar än",
+      "emptyValue": "(tom)"
+    },
+    "sync": {
+      "online": "Online",
+      "offline": "Offline",
+      "queuedBadge": "{{count}} köade",
+      "approveButton": "Godkänn objekt",
+      "logPlaceholder": "Åtgärder loggas här →",
+      "logReconnected": "↺ Återansluten — skickar {{count}} köade åtgärd(er)...",
+      "logSent": "✓ Skickat via WebSocket — godkänt direkt",
+      "logQueued": "⏸ Offline — åtgärd köad ({{count}})"
+    },
+    "firebase": {
+      "analyticsButton": "Logga Analytics-händelse",
+      "crashlyticsButton": "Rapportera till Crashlytics",
+      "fcmButton": "Registrera FCM-token",
+      "placeholder": "Utlös ett SDK-anrop för att se det spåras →",
+      "analyticsStep1": "analytics().logEvent('ticket_approved', { ticket_id: 'ITEM-4821' })",
+      "analyticsStep2": "✓ händelse köad — buntas med nästa flush-intervall",
+      "crashlyticsStep1": "crashlytics().setAttributes({ screen: 'TicketDetail', ticketId: 'ITEM-4821' })",
+      "crashlyticsStep2": "crashlytics().recordError(err, 'Approval sync failed')",
+      "crashlyticsStep3": "✓ rapport köad — skickas vid nästa app-foreground",
+      "fcmStep1": "messaging().requestPermission() → beviljad",
+      "fcmStep2": "messaging().getToken() → 'fN3x…aP9q'",
+      "fcmStep3": "✓ token registrerad hos backend, kopplad till användarsessionen"
+    },
+    "restapi": {
+      "fetchButton": "Hämta ärenden",
+      "placeholder": "Utlös en hämtning för att spåra pipelinen →",
+      "step1": "→ request-interceptor: bifogar Authorization-header",
+      "step2": "→ GET /projects/8842/tickets",
+      "step3": "← response-interceptor: 200 OK",
+      "step4": "✓ hook löst — 3 objekt",
+      "item1": "ITEM-4821 · Takläckage, västra flygeln",
+      "item2": "ITEM-4822 · Elbesiktning försenad",
+      "item3": "ITEM-4823 · Betonggjutning schemalagd"
+    },
+    "anim": {
+      "slideButton": "Slide-övergång",
+      "popTitle": "Dokument godkänt",
+      "popSubtitle": "Fjäder-pop-in, som en modal-bekräftelse.",
+      "springButton": "Fjäder-pop-in"
+    },
+    "deeplink": {
+      "pickLink": "Välj en länk för att lösa den →",
+      "linkOrder": "→ löser till OrderDetails, orderId: 8842",
+      "linkDriver": "→ löser till DriverProfile, driverId: 119",
+      "linkUnknown": "→ ingen träff — getStateFromPath faller tillbaka till Home"
+    },
+    "ulink": {
+      "openButton": "Öppna https://geet.app/order/8842",
+      "placeholder": "Simulerar hur iOS löser länken →",
+      "step1": "iOS: användaren trycker på https://geet.app/order/8842",
+      "step2": "Systemet kontrollerar apple-app-site-association på geet.app",
+      "step3": "App-ID matchar installerad app → öppnas nativt, ingen Safari-omväg",
+      "step4": "RN:s linking-konfiguration löser till OrderDetails, orderId: 8842 ✓"
+    },
+    "push": {
+      "triggerButton": "Simulera inkommande push",
+      "notifTitle": "Ny order tilldelad",
+      "notifBody": "Order #8842 är redo för upphämtning — tryck för att visa."
+    },
+    "cicd": {
+      "runButton": "Kör pipeline",
+      "step1": "Installera beroenden",
+      "step2": "Kör tester (Jest)",
+      "step3": "EAS Build (iOS + Android)",
+      "step4": "Skicka in → TestFlight",
+      "step5": "Skicka in → Play Console"
+    },
+    "newarch": {
+      "runButton": "Anropa native-modul: getScannerState()",
+      "placeholder": "Kör den på gamla bryggan, sedan på JSI →",
+      "step1": "Gamla bryggan: serialisera argument → JSON",
+      "step2": "Gamla bryggan: kö → native tråd → deserialisera",
+      "step3": "Gamla bryggan: resultat ≈ 40ms tur och retur",
+      "step4": "JSI: direkt anrop, ingen kö, ingen serialisering",
+      "step5": "JSI: resultat ≈ 0,6ms tur och retur ✓"
+    },
+    "release": {
+      "runButton": "Skapa release v4.12.0",
+      "step1": "Höj version → 4.12.0",
+      "step2": "Bygg XCFramework (iOS)",
+      "step3": "Bygg AAR (Android)",
+      "step4": "Publicera till internt register",
+      "step5": "Native-team konsumerar via SPM/Gradle"
+    },
+    "testing": {
+      "runButton": "Kör svit",
+      "testsLabel": "Tester:",
+      "coverageLabel": "Täckning:",
+      "allGreen": "✓ allt grönt"
+    },
+    "ota": {
+      "stageButton": "Stegvis {{pct}}%",
+      "rollbackButton": "Rollback",
+      "placeholder": "Välj ett utrullningssteg →",
+      "bundlePushed": "⇪ Bundel v2.3.1 skickad till {{pct}}% av enheterna — övervakar crash-free rate...",
+      "rolloutComplete": "✓ Utrullning klar, ingen kraschtopp upptäckt",
+      "rolledBack": "↩ Återställd — enheter återgick till senaste kända fungerande version"
+    },
+    "tv": {
+      "placeholder": "Använd D-pad för att flytta fokus →",
+      "okButton": "OK",
+      "onFocusFired": "✓ onFocus → onPress utlöst på \"{{label}}\"",
+      "focusMoved": "→ TVEventHandler: fokus flyttat till \"{{label}}\"",
+      "labels": [
+        "Hem",
+        "Sök",
+        "Bibliotek",
+        "Live",
+        "Inställningar",
+        "Profil",
+        "Nedladdningar",
+        "Guide",
+        "Avsluta"
+      ]
+    },
+    "wearables": {
+      "sendLabel": "Skicka status till klockan",
+      "receiveLabel": "Ta emot tryck från klockan",
+      "placeholder": "Simulerar den native companion-bryggan, i båda riktningarna →",
+      "sendStep1": "RN: WCSession.sendMessage({ orderStatus: \"approved\" })",
+      "sendStep2": "watchOS: WatchConnectivity levererar meddelande till companion-appen",
+      "sendStep3": "Wear OS: MessageClient levererar till companion-appen (Android-vägen)",
+      "sendStep4": "✓ Klockans urtavla uppdaterad — ingen omväg via telefonens UI",
+      "receiveStep1": "Klocka: användaren trycker på \"Godkänn\"-komplikationen på handleden",
+      "receiveStep2": "watchOS/Wear OS: companion-appen skickar tillbaka åtgärden via bryggan",
+      "receiveStep3": "RN: session.onMessage utlöses med { action: \"approve\", id }",
+      "receiveStep4": "✓ Samma hanterare som telefonens UI använder — en sanningskälla"
+    },
+    "aiassistant": {
+      "emptyState": "Fråga mig om det här projektet — prova en prompt nedan.",
+      "usageLabel": "{{usage}} / {{max}} meddelanden denna cykel",
+      "overdueLabel": "Försenade ärenden",
+      "overdueQuestion": "Visa mig försenade ärenden i det här projektet",
+      "overdueAnswer": "Hittade <b>3 försenade ärenden</b> i det här projektet, alla tilldelade dig.<div class=\"chat-ticket-chip\">🎫 ITEM-4821 · Takläckage, västra flygeln</div>",
+      "summaryLabel": "Sammanfatta det här projektet",
+      "summaryQuestion": "Sammanfatta det här projektet",
+      "summaryAnswer": "<b>West Tower Renovation</b> — 42 ärenden totalt, 34 lösta, 8 öppna. 2 dokument väntar på granskning, på rätt spår för milstolpen 15 mars.<div class=\"chat-ticket-chip\">📄 site-inspection-report.pdf</div>",
+      "similarLabel": "Hitta liknande tidigare ärenden",
+      "similarQuestion": "Hitta liknande tidigare ärenden",
+      "similarAnswer": "Hittade <b>2 liknande ärenden</b> från tidigare projekt — samma grundorsak (flashing-glapp).<div class=\"chat-ticket-chip\">🎫 ITEM-2210 · Östra flygeln, löst</div>"
+    },
+    "gesture": {
+      "hint": "← dra för att lösa →",
+      "card1Sub": "Takläckage, västra flygeln — godkänn?",
+      "card2Sub": "Elbesiktning försenad",
+      "card3Sub": "Betonggjutning schemalagd",
+      "card4Sub": "Platsfoton behöver granskas",
+      "allDismissed": "Allt löst — snyggt jobbat.",
+      "resetButton": "Återställ stapel"
+    },
+    "heroDiagramAriaLabel": "Diagram över React Native-arkitekturlager: JavaScript, New Architecture-bryggan och native-binärer.",
+    "nodeapi": {
+      "runButton": "Hantera POST /tickets",
+      "step1": "Auth-middleware: verifiera JWT",
+      "step2": "Valideringsmiddleware: kontrollera request-body",
+      "step3": "Rate limiter: 42/100 förfrågningar denna minut",
+      "step4": "Controller: skapa ärende i DB",
+      "step5": "201 Created → { id: 'ITEM-4824' }"
+    },
+    "reactweb": {
+      "runButton": "Simulera en sidladdning",
+      "placeholder": "Simulerar en Next.js-förfrågan, från server till klient →",
+      "step1": "Webbläsare: GET /tickets/8842",
+      "step2": "Server: rendrerar <TicketPage/> till HTML",
+      "step3": "Server: strömmar HTML — innehåll synligt direkt",
+      "step4": "Klient: laddar ner React-bundeln i bakgrunden",
+      "step5": "Klient: hydrerar — sidan är nu interaktiv",
+      "hydratedButton": "✓ Hydrerad — klicka på mig ({{count}})"
+    }
+  },
+  "hero": {
+    "eyebrow": "Senior mjukvaruingenjör · React Native i kärnan · Tionde Ramadan, Egypten",
+    "h1Line1": "Jag bygger lagret där",
+    "h1Pre": "JavaScript möter ",
+    "h1Accent": "native",
+    "tagline": "Senior mjukvaruingenjör med <0>6 års</0> erfarenhet av mjukvaruutveckling, varav <0>5 år</0> med att bygga produktions-React Native-applikationer inom enterprise-SaaS (bygg), e-handel och logistik. Utöver kärnan i React Native har jag praktisk erfarenhet av <0>native iOS- och Android-integration</0> — Swift/Kotlin, egna native-moduler, versionerade native-binärer och inbäddade RN-värdarkitekturer. Jag är specialiserad på prestandaoptimering, införande av <0>New Architecture</0>, och standardisering av kodbasen, inklusive arkitektur av modulära container-mönster som antagits inom hela verksamheten. Fokuserad på att leverera högeffektiva, testsäkrade mobila lösningar, med långsiktig ambition att växa in i en <0>Team Lead</0>-roll.",
+    "ctaPrimary": "Se det i praktiken",
+    "ctaSecondary": "Kom i kontakt",
+    "stackLabel": "Var jag arbetar",
+    "layers": [
+      {
+        "name": "Native värdapp",
+        "detail": "iOS/Android-skalapp som bäddar in RN-modulen som en versionerad binär",
+        "tag": "Swift · Kotlin · Xcode/Gradle"
+      },
+      {
+        "name": "Skiktad komponentarkitektur",
+        "detail": "Skärmar → HOCs → Hooks/Helpers → Komponenter → Stilar — antagen som standardmönster för modaler och navigering",
+        "tag": "HOCs · hooks · komponenter · stilar"
+      },
+      {
+        "name": "Funktionsbaserad / domändriven struktur",
+        "detail": "Kod organiserad efter funktion, inte typ — varje domän äger sina skärmar, hooks och stilar för snabbare teamsamarbete",
+        "tag": "domändriven · funktionsmappar"
+      },
+      {
+        "name": "AI-chatt i appen",
+        "detail": "WebSocket-strömmade LLM-svar med native-bridge-åtgärder för ärendenavigering och filter",
+        "tag": "WebSockets · native bridge · LLM-strömning"
+      },
+      {
+        "name": "Tillstånd & realtidsdata",
+        "detail": "Domänspecifika kontexter uppdelade från en monolitisk RootContext; driver DMS-modulens offline-first-synk",
+        "tag": "Context API · React Query · JSON:API"
+      },
+      {
+        "name": "New Architecture-brygga",
+        "detail": "Hermes + TurboModules/Fabric — synkrona JS↔native-anrop utan serialiseringsoverhead",
+        "tag": "Fabric · TurboModules · JSI"
+      },
+      {
+        "name": "Native-binärer",
+        "detail": "Versionerade XCFramework + AAR, frikopplade från native värd-toolchains",
+        "tag": "XCFramework · AAR"
+      },
+      {
+        "name": "Persistens",
+        "detail": "Migrerad från AsyncStorage till MMKV — krypterad, synkron, offline-first-köning",
+        "tag": "MMKV · Keychain/Keystore"
+      },
+      {
+        "name": "AI-parprogrammering",
+        "detail": "Claude Code invävt i det dagliga arbetsflödet — scaffolding, refaktorering, testgenerering — snabbade upp funktionsleverans med ~25-30% över sprintcykler",
+        "tag": "Claude Code · Cursor AI · GitHub Copilot"
+      }
+    ]
+  },
+  "work": {
+    "heading": "Levererade appar",
+    "subheading": "7 av 10+ levererade — de mest sevärda. Alla live på App Store och Google Play.",
+    "projects": {
+      "planradar": "SaaS för bygg- och fastighetsbranschen. RN-modul inbäddad i native iOS/Android-värdappar, paketerad som en versionerad binär.",
+      "chefRulerClient": "Beställningsplattform som kopplar samman användare med hemlagad mat från lokala kockar.",
+      "chefRulerProvider": "Leverantörssidans motsvarighet för kockar att lista rätter, hantera menyer och hantera inkommande beställningar.",
+      "geetClient": "Konsumentleveransapp för butiker, paket och on-demand-kurirförfrågningar.",
+      "geetProvider": "Leverantörsapp för att hantera leveranserbjudanden, ruttplanering och orderöverlämning.",
+      "flow": "Lagerhanteringsapp byggd för att förbättra den dagliga operativa effektiviteten.",
+      "sanabel": "Kopplar samman användare med välgörenhetsinitiativ i lokalsamhället som behöver stöd."
+    }
+  },
+  "demos": {
+    "heading": "Kompetensdemos",
+    "subheading": "Live, interaktivt — inga skärmdumpar. Varje demo speglar riktigt arbete från min erfarenhet.",
+    "labels": {
+      "list": "Listprestanda",
+      "storage": "Offline-lagring",
+      "sync": "Offline-first-synk",
+      "firebase": "Firebase",
+      "restapi": "REST API",
+      "anim": "Animationer",
+      "deeplink": "Deep Linking",
+      "ulink": "Universal Links",
+      "push": "Push-notiser",
+      "cicd": "CI/CD-pipeline",
+      "i18n": "Lokalisering",
+      "newarch": "New Architecture",
+      "release": "Native Binary Release",
+      "testing": "Testsvit",
+      "ota": "CodePush OTA",
+      "tv": "Smart-TV",
+      "wearables": "Wearables",
+      "aiassistant": "AI-chatt",
+      "gesture": "Gestfysik",
+      "nodeapi": "Node.js API",
+      "reactweb": "React & Next.js"
+    }
+  },
+  "experience": {
+    "heading": "Erfarenhet",
+    "subheading": "Sex år inom mobil, e-handel, logistik och enterprise-desktopsystem.",
+    "jobs": [
+      {
+        "role": "Senior React Native Engineer — PlanRadar",
+        "period": "Sep 2024 — Nu",
+        "meta": "Distans (Wien, Österrike) · SaaS för bygg- och fastighetsbranschen",
+        "bullets": [
+          "Sam-arkitekterade React Natives paketering som en versionerad native-binär (XCFramework + AAR), vilket tog bort kravet på Node/Yarn-verktygskedja för native-team.",
+          "Ledde plattformsmigreringen till React Native 0.85, vilket möjliggjorde Hermes och New Architecture (TurboModules/Fabric).",
+          "Etablerade ett skiktat containermönster — skärmar → HOCs → hooks/helpers — antaget som standard för modaler och navigering, med Animated API som drev övergångarna.",
+          "Refaktorerade DMS-modulen — ett offline-first, realtidssystem på WebSockets och JSON:API — produktens största yta med högst trafik för fil-/mapphantering, massåtgärder och godkännanden.",
+          "Åtgärdade en kritisk renderingsflaskhals — ersatte en O(n²)-omrenderingsväg med en O(1)-uppslagning.",
+          "Refaktorerade persistens från AsyncStorage till MMKV; delade upp en monolitisk kontext i domänspecifika kontexter.",
+          "Byggde AI-assistenten i appen: WebSocket-strömmade stegvisa svar (tänker/svar), ärende- och dokumentkontextinjektion, spårning av AI-indexstatus, och användningsnivåspärr med uppgraderingsflöde.",
+          "Vävde in Claude Code i det dagliga arbetsflödet för scaffolding, refaktorering och testgenerering — ungefär 25-30% snabbare funktionsleverans över sprintcykler.",
+          "Levererade 1 500+ commits över 200+ ärenden under två år, skyddade av en testsvit på 3 500+ i GitLab CI/CD."
+        ]
+      },
+      {
+        "role": "React Native Developer — Index Group",
+        "period": "Nov 2021 — Aug 2024",
+        "meta": "På plats (Ismailia, Egypten) · E-handel & logistik",
+        "bullets": [
+          "Minskade API-svarstider med 40% under hög datalast genom optimering av hämtningsstrategier.",
+          "Designade en modulär mappstruktur som minskade underhållstiden för koden med 30%.",
+          "Integrerade push-notiser, deep linking, Universal Links och chattfunktionalitet i produktionsappar, med React Query, Redux Toolkit och React Navigation för data och tillstånd, Reanimated för animation, och CodePush för OTA-leverans.",
+          "Samarbetade med produkt- och designteam för att översätta Figma-design till tekniska specifikationer och flagga implementationsbegränsningar under sprintplanering."
+        ]
+      },
+      {
+        "role": "Windows Application Developer — Micro Arabs",
+        "period": "Aug 2020 — Nov 2021",
+        "meta": "Distans (Irak) · Enterprise-desktopsystem",
+        "bullets": [
+          "Byggde enterprise-desktopapplikationer med C#, WinForms och DevExpress.",
+          "Optimerade SQL Server-frågor och integrerade realtidskommunikation via RestSharp och Twilio.",
+          "Designade ett ekonomisystem, och översatte kundens affärsbehov till en lösning för centrala operativa problem.",
+          "Analyserade affärsflöden och designade ERP-moduler för kassasystem, lagerkontroll och lagerhantering över flera filialer."
+        ]
+      }
+    ]
+  },
+  "skills": {
+    "heading": "Kompetenser",
+    "subheading": "Det jag använder dagligen.",
+    "groups": [
+      {
+        "title": "Kärnramverk & språk"
+      },
+      {
+        "title": "New Architecture & Native"
+      },
+      {
+        "title": "AI-produktfunktioner"
+      },
+      {
+        "title": "Native-paketering"
+      },
+      {
+        "title": "UI, navigering & listor"
+      },
+      {
+        "title": "Tillståndshantering"
+      },
+      {
+        "title": "Data & realtid"
+      },
+      {
+        "title": "Lagring & säkerhet"
+      },
+      {
+        "title": "Testning & prestanda"
+      },
+      {
+        "title": "DevOps & release"
+      },
+      {
+        "title": "Moln & backend"
+      },
+      {
+        "title": "Verktyg & AI-assisterad utveckling"
+      },
+      {
+        "title": "Lokalisering"
+      },
+      {
+        "title": "Arbetssätt"
+      },
+      {
+        "title": "System & verksamhetsanalys",
+        "desc": "Min MIS-bakgrund präglar hur jag angriper ingenjörsarbete — kravinsamling, kartläggning av affärsprocesser, och att översätta affärsbehov till tekniska specifikationer, vilket visades i ERP- och ekonomisystemdesign hos Micro Arabs."
+      },
+      {
+        "title": "Teknisk bakgrund",
+        "desc": "Tidigare erfarenhet av enterprise-desktopprogramvara hos Micro Arabs, innan övergången till mobil — företagsinterna verksamhetsapplikationer byggda på C# och WinForms."
+      },
+      {
+        "title": "Multi-enhetsintegration",
+        "desc": "Bekväm med att utöka React Native-applikationer till Smart-TV och wearables med hjälp av plattformsforkar (react-native-tvos), fokuskontroller, och Native Bridge-/Companion-App-arkitektur för watchOS & Wear OS."
+      },
+      {
+        "title": "Övrigt",
+        "desc": "Bekant med grunderna i React.js och Next.js (komponentarkitektur, server-side rendering, hooks, tillståndshantering) genom en React Native-bakgrund — öppen för webbroller. Den här portfolion är själv byggd med React."
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Låt oss bygga något.",
+    "subheading": "Öppen för seniora React Native-roller — distans, baserad i Tionde Ramadan, eller villig att flytta.",
+    "resumeLabel": "Mitt CV ↗",
+    "footnote": "Designad & byggd av mig — React, TypeScript, ren CSS, driftsatt på Vercel. Ingen mall.",
+    "formHeading": "Skicka ett meddelande",
+    "namePlaceholder": "Ditt namn",
+    "emailPlaceholder": "Din e-post",
+    "messagePlaceholder": "Vad vill du bygga?",
+    "sendButton": "Skicka meddelande",
+    "sendingButton": "Skickar…",
+    "successMessage": "Tack — ditt meddelande har kommit fram, jag svarar snart.",
+    "errorMessage": "Något gick fel — mejla mig direkt istället.",
+    "whatsappCta": "Chatta på WhatsApp",
+    "orDivider": "eller",
+    "attachmentLabel": "Bifoga filer (valfritt)",
+    "removeFileAria": "Ta bort fil"
+  },
+  "gallery": {
+    "heading": "Galleri",
+    "subheading": "Skärmar från riktiga, lanserade appar — en närmare titt bortom butiksinlägget.",
+    "items": {
+      "chefRulerClient": "Chef Ruler — Kund: bläddra bland hemmakockar, beställ rätter, följ leveransen.",
+      "chefRulerProvider": "Chef Ruler — Leverantör: hantera inkommande beställningar, chatta med kunder, följ försäljningsstatistik.",
+      "geetClient": "Geet — Kund: begär en leverans, jämför kurirerbjudanden, följ den live.",
+      "geetProvider": "Geet — Leverantör: acceptera leveranserbjudanden, navigera upphämtning och avlämning.",
+      "flowDashboard": "Flow: startpanel för inköp, försäljning, kunder och filialer i en överblick.",
+      "flowLedger": "Flow: kundreskontra per kund och utestående saldon, spårade automatiskt.",
+      "responsive": "En React Native-kodbas, responsiv på både telefon och surfplatta.",
+      "chefRulerMenu": "Chef Ruler — Leverantör: bilder på rätterna en kock listar i sin meny."
+    }
+  }
+}

@@ -15,27 +15,27 @@
   },
   "demoText": {
     "list": {
-      "desc": "En PlanRadar, seleccionar una fila en una lista grande re-renderizaba cada fila mediante comparación de identidad de array — O(n²). Lo cambié por una búsqueda de pertenencia a un Set, así solo se re-renderiza la fila tocada. Haz clic en las filas de abajo.",
+      "desc": "En mi puesto actual, seleccionar una fila en una lista grande re-renderizaba cada fila mediante comparación de identidad de array — O(n²). Lo cambié por una búsqueda de pertenencia a un Set, así solo se re-renderiza la fila tocada. Haz clic en las filas de abajo.",
       "note": "// Antes: toda la lista se re-renderiza en cada selección. Ahora: solo se actualiza la fila tocada."
     },
     "storage": {
-      "desc": "Migración de la persistencia de PlanRadar de AsyncStorage a MMKV — síncrono, cifrado, lecturas más rápidas.",
+      "desc": "Migración de la persistencia de una app en producción de AsyncStorage a MMKV — síncrono, cifrado, lecturas más rápidas.",
       "note": "// Las escrituras de MMKV son síncronas — sin await, sin parpadeo al leer."
     },
     "sync": {
-      "desc": "Uno de los módulos principales de PlanRadar es offline-first y en tiempo real vía WebSockets — las acciones se encolan sin conexión y se envían al reconectar. Alterna el modo offline abajo y haz cambios.",
+      "desc": "Uno de los módulos principales de mi puesto actual es offline-first y en tiempo real vía WebSockets — las acciones se encolan sin conexión y se envían al reconectar. Alterna el modo offline abajo y haz cambios.",
       "note": "// Las acciones encoladas se envían en orden una vez que el socket se reconecta."
     },
     "firebase": {
-      "desc": "Firebase sostiene la observabilidad en las apps de PlanRadar e Index Group — Analytics para el seguimiento de uso, Crashlytics para la tasa de crash-free y FCM como transporte para las push. Dispara una llamada al SDK abajo.",
+      "desc": "Firebase sostiene la observabilidad en apps en producción que he construido, incluida la de Index Group — Analytics para el seguimiento de uso, Crashlytics para la tasa de crash-free y FCM como transporte para las push. Dispara una llamada al SDK abajo.",
       "note": "// El contexto de Crashlytics (id de usuario, breadcrumbs) se fija antes del throw, no después — si no, el reporte llega sin ninguna pista de qué lo provocó."
     },
     "restapi": {
-      "desc": "PlanRadar e Index Group hablan con el backend mediante una capa REST/JSON:API tipada — un cliente Axios con interceptores para adjuntar el token de auth, refrescar en 401 y normalizar errores de forma centralizada, envuelto en hooks de recursos que los componentes llaman directamente. Haz fetch abajo para trazar el pipeline.",
+      "desc": "Apps en producción que he construido, incluida la de Index Group, hablan con el backend mediante una capa REST/JSON:API tipada — un cliente Axios con interceptores para adjuntar el token de auth, refrescar en 401 y normalizar errores de forma centralizada, envuelto en hooks de recursos que los componentes llaman directamente. Haz fetch abajo para trazar el pipeline.",
       "note": "// El interceptor de request comparte un único refresh en curso entre 401 concurrentes, en vez de lanzar un refresh por cada petición."
     },
     "anim": {
-      "desc": "La API Reanimated / Animated impulsa las transiciones de modales y navegación en PlanRadar. Dos ejemplos abajo.",
+      "desc": "La API Reanimated / Animated impulsa las transiciones de modales y navegación en mi puesto actual. Dos ejemplos abajo.",
       "note": "// Los worklets de Reanimated corren en el hilo de UI — sin tirones del hilo JS bajo carga."
     },
     "deeplink": {
@@ -51,7 +51,7 @@
       "note": "// getInitialNotification() cubre el caso de cold start que el handler en primer plano de FCM no captura."
     },
     "cicd": {
-      "desc": "Responsabilidad completa de releases en PlanRadar e Index Group — GitLab CI/CD, EAS Build, TestFlight y Play Console. Ejecuta el pipeline abajo.",
+      "desc": "Responsabilidad completa de releases en varias apps en producción, incluida Index Group — GitLab CI/CD, EAS Build, TestFlight y Play Console. Ejecuta el pipeline abajo.",
       "note": "// Misma forma de pipeline en ambas apps: test → build → submit, condicionado a tests en verde."
     },
     "i18n": {
@@ -59,7 +59,7 @@
       "note": "// react-native-localize detecta el idioma del dispositivo; I18nManager invierte la dirección del layout."
     },
     "newarch": {
-      "desc": "Lideró la migración de PlanRadar a React Native 0.85 — Hermes + New Architecture. JSI reemplaza el antiguo puente asíncrono serializado en JSON por llamadas nativas síncronas directas. Haz clic para comparar.",
+      "desc": "Lideró la migración de una app en producción a React Native 0.85 — Hermes + New Architecture. JSI reemplaza el antiguo puente asíncrono serializado en JSON por llamadas nativas síncronas directas. Haz clic para comparar.",
       "note": "// JSI le da a JS una referencia directa a objetos nativos — sin ida y vuelta de serializar/encolar/deserializar."
     },
     "release": {
@@ -67,7 +67,7 @@
       "note": "// Los equipos nativos solo incrementan una cadena de versión — sin instalar toolchain de RN, sin Metro, sin Yarn."
     },
     "testing": {
-      "desc": "Más de 1.500 commits en más de 200 tickets en PlanRadar, protegidos por una suite de más de 3.500 pruebas en GitLab CI/CD. Ejecuta una suite de ejemplo.",
+      "desc": "Más de 1.500 commits en más de 200 tickets en mi puesto actual, protegidos por una suite de más de 3.500 pruebas en GitLab CI/CD. Ejecuta una suite de ejemplo.",
       "note": "// CI bloquea merges con pruebas en rojo — el umbral de cobertura mantiene seguros los refactors en 200+ tickets."
     },
     "ota": {
@@ -83,7 +83,7 @@
       "note": "// El puente es nativo a nativo — RN solo envía/recibe el payload, la app del reloj lo renderiza."
     },
     "aiassistant": {
-      "desc": "El Asistente de IA integrado de PlanRadar — construí el cliente RN: respuestas por etapas transmitidas vía WebSocket (pensando → respuesta), adjuntos de contexto de tickets/documentos, y limitación por nivel de uso. Arquitectura abajo, renombrada respecto a la implementación real. Elige un prompt.",
+      "desc": "Un Asistente de IA integrado para el que construí el cliente RN — respuestas por etapas transmitidas vía WebSocket (pensando → respuesta), adjuntos de contexto de tickets/documentos, y limitación por nivel de uso. Arquitectura abajo, renombrada respecto a la implementación real. Elige un prompt.",
       "note": "// Transmitido vía WebSockets, no mediante polling — la etapa de pensamiento se muestra mientras el modelo sigue trabajando."
     },
     "gesture": {

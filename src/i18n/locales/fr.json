@@ -15,27 +15,27 @@
   },
   "demoText": {
     "list": {
-      "desc": "Chez PlanRadar, sélectionner une ligne dans une longue liste re-rendait chaque ligne via une comparaison d'identité de tableau — O(n²). Je l'ai remplacé par une recherche d'appartenance à un Set, donc seule la ligne touchée se re-rend. Cliquez sur les lignes ci-dessous.",
+      "desc": "Dans mon poste actuel, sélectionner une ligne dans une longue liste re-rendait chaque ligne via une comparaison d'identité de tableau — O(n²). Je l'ai remplacé par une recherche d'appartenance à un Set, donc seule la ligne touchée se re-rend. Cliquez sur les lignes ci-dessous.",
       "note": "// Avant : toute la liste se re-rend à chaque sélection. Après : seule la ligne touchée est mise à jour."
     },
     "storage": {
-      "desc": "Migration de la persistance de PlanRadar d'AsyncStorage vers MMKV — synchrone, chiffré, lectures plus rapides.",
+      "desc": "Migration de la persistance d'une application en production d'AsyncStorage vers MMKV — synchrone, chiffré, lectures plus rapides.",
       "note": "// Les écritures MMKV sont synchrones — pas d'await, pas de scintillement à la lecture."
     },
     "sync": {
-      "desc": "L'un des modules principaux de PlanRadar est offline-first et temps réel via WebSockets — les actions sont mises en file hors ligne et rejouées à la reconnexion. Basculez hors ligne ci-dessous et effectuez des modifications.",
+      "desc": "L'un des modules principaux de mon poste actuel est offline-first et temps réel via WebSockets — les actions sont mises en file hors ligne et rejouées à la reconnexion. Basculez hors ligne ci-dessous et effectuez des modifications.",
       "note": "// Les actions en file sont rejouées dans l'ordre une fois le socket reconnecté."
     },
     "firebase": {
-      "desc": "Firebase soutient l'observabilité des apps PlanRadar et Index Group — Analytics pour le suivi d'usage, Crashlytics pour le taux de crash-free, et FCM comme transport pour les push. Déclenchez un appel SDK ci-dessous.",
+      "desc": "Firebase soutient l'observabilité des applications en production que j'ai construites, dont celle d'Index Group — Analytics pour le suivi d'usage, Crashlytics pour le taux de crash-free, et FCM comme transport pour les push. Déclenchez un appel SDK ci-dessous.",
       "note": "// Le contexte Crashlytics (id utilisateur, breadcrumbs) est défini avant le throw, pas après — sinon le rapport arrive sans aucune idée de ce qui l'a précédé."
     },
     "restapi": {
-      "desc": "PlanRadar et Index Group communiquent tous deux avec le backend via une couche REST/JSON:API typée — un client Axios avec des intercepteurs pour attacher le jeton d'auth, gérer le refresh sur 401 et normaliser les erreurs de façon centralisée, le tout enveloppé dans des hooks de ressources appelés directement par les composants. Lancez un fetch ci-dessous pour tracer le pipeline.",
+      "desc": "Les applications en production que j'ai construites, dont celle d'Index Group, communiquent avec le backend via une couche REST/JSON:API typée — un client Axios avec des intercepteurs pour attacher le jeton d'auth, gérer le refresh sur 401 et normaliser les erreurs de façon centralisée, le tout enveloppé dans des hooks de ressources appelés directement par les composants. Lancez un fetch ci-dessous pour tracer le pipeline.",
       "note": "// L'intercepteur de requête partage un seul refresh en cours entre plusieurs 401 concurrents, au lieu de lancer un refresh par requête."
     },
     "anim": {
-      "desc": "L'API Reanimated / Animated pilote les transitions de modales et de navigation chez PlanRadar. Deux exemples ci-dessous.",
+      "desc": "L'API Reanimated / Animated pilote les transitions de modales et de navigation dans mon poste actuel. Deux exemples ci-dessous.",
       "note": "// Les worklets Reanimated s'exécutent sur le thread UI — pas de saccades dues au thread JS sous charge."
     },
     "deeplink": {
@@ -51,7 +51,7 @@
       "note": "// getInitialNotification() couvre le cas du cold start que le handler foreground de FCM manque."
     },
     "cicd": {
-      "desc": "Responsabilité complète des releases chez PlanRadar et Index Group — GitLab CI/CD, EAS Build, TestFlight et Play Console. Lancez le pipeline ci-dessous.",
+      "desc": "Responsabilité complète des releases sur plusieurs applications en production, dont Index Group — GitLab CI/CD, EAS Build, TestFlight et Play Console. Lancez le pipeline ci-dessous.",
       "note": "// Même forme de pipeline dans les deux applications : test → build → submit, conditionné par des tests au vert."
     },
     "i18n": {
@@ -59,7 +59,7 @@
       "note": "// react-native-localize détecte la locale de l'appareil ; I18nManager inverse la direction de la mise en page."
     },
     "newarch": {
-      "desc": "A dirigé la migration de PlanRadar vers React Native 0.85 — Hermes + New Architecture. JSI remplace l'ancien pont asynchrone sérialisé en JSON par des appels natifs synchrones directs. Cliquez pour comparer.",
+      "desc": "A dirigé la migration d'une application en production vers React Native 0.85 — Hermes + New Architecture. JSI remplace l'ancien pont asynchrone sérialisé en JSON par des appels natifs synchrones directs. Cliquez pour comparer.",
       "note": "// JSI donne à JS une référence directe aux objets natifs — pas d'aller-retour de sérialisation/mise en file/désérialisation."
     },
     "release": {
@@ -67,7 +67,7 @@
       "note": "// Les équipes natives incrémentent juste un numéro de version — pas d'installation de toolchain RN, pas de Metro, pas de Yarn."
     },
     "testing": {
-      "desc": "Plus de 1 500 commits sur plus de 200 tickets chez PlanRadar, protégés par une suite de plus de 3 500 tests dans GitLab CI/CD. Lancez une suite d'exemple.",
+      "desc": "Plus de 1 500 commits sur plus de 200 tickets dans mon poste actuel, protégés par une suite de plus de 3 500 tests dans GitLab CI/CD. Lancez une suite d'exemple.",
       "note": "// La CI bloque les merges en cas de tests rouges — le seuil de couverture sécurise les refactorings sur 200+ tickets."
     },
     "ota": {
@@ -83,7 +83,7 @@
       "note": "// Le pont est natif-à-natif — RN envoie/reçoit seulement la charge utile, l'app watch la rend."
     },
     "aiassistant": {
-      "desc": "L'assistant IA intégré de PlanRadar — j'ai construit le client RN : réponses par étapes diffusées via WebSocket (réflexion → réponse), pièces jointes de contexte tickets/documents, et limitation par palier d'usage. Architecture ci-dessous, renommée par rapport à l'implémentation réelle. Choisissez un prompt.",
+      "desc": "Un assistant IA intégré pour lequel j'ai construit le client RN — réponses par étapes diffusées via WebSocket (réflexion → réponse), pièces jointes de contexte tickets/documents, et limitation par palier d'usage. Architecture ci-dessous, renommée par rapport à l'implémentation réelle. Choisissez un prompt.",
       "note": "// Diffusé via WebSockets, pas en polling — l'étape de réflexion s'affiche pendant que le modèle travaille encore."
     },
     "gesture": {

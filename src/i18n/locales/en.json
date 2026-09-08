@@ -15,27 +15,27 @@
   },
   "demoText": {
     "list": {
-      "desc": "At PlanRadar, selecting a row in a large list re-rendered every row via array-identity comparison — O(n²). I swapped it for a Set-membership lookup, so only the touched row re-renders. Click rows below.",
+      "desc": "At my current company, selecting a row in a large list re-rendered every row via array-identity comparison — O(n²). I swapped it for a Set-membership lookup, so only the touched row re-renders. Click rows below.",
       "note": "// Old: full list re-renders on every selection. New: only the touched row updates."
     },
     "storage": {
-      "desc": "Migrated PlanRadar's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads.",
+      "desc": "Migrated a production app's persistence from AsyncStorage to MMKV — synchronous, encrypted, faster reads.",
       "note": "// MMKV writes are synchronous — no await, no flicker on read."
     },
     "sync": {
-      "desc": "One of PlanRadar's core modules is offline-first and real-time over WebSockets — actions queue while offline and flush on reconnect. Toggle offline below and make changes.",
+      "desc": "One of the core modules in my current work is offline-first and real-time over WebSockets — actions queue while offline and flush on reconnect. Toggle offline below and make changes.",
       "note": "// Queued actions flush in order once the socket reconnects."
     },
     "firebase": {
-      "desc": "Firebase underpins observability on both PlanRadar and Index Group apps — Analytics for usage tracking, Crashlytics for crash-free-rate monitoring, and FCM as the transport for push. Trigger an SDK call below.",
+      "desc": "Firebase underpins observability across production apps I've built, including Index Group's — Analytics for usage tracking, Crashlytics for crash-free-rate monitoring, and FCM as the transport for push. Trigger an SDK call below.",
       "note": "// Crashlytics context (user id, breadcrumbs) is set before the throw, not after — otherwise the report arrives with no idea what led up to it."
     },
     "restapi": {
-      "desc": "PlanRadar and Index Group both talk to the backend over a typed REST/JSON:API layer — an Axios client with interceptors for auth-token attach, 401 refresh, and centralized error normalization, wrapped in resource hooks components call directly. Fetch below to trace the pipeline.",
+      "desc": "Production apps I've built, including Index Group's, talk to the backend over a typed REST/JSON:API layer — an Axios client with interceptors for auth-token attach, 401 refresh, and centralized error normalization, wrapped in resource hooks components call directly. Fetch below to trace the pipeline.",
       "note": "// The request interceptor shares one in-flight refresh across concurrent 401s instead of racing a refresh per request."
     },
     "anim": {
-      "desc": "Reanimated / Animated API drives modal and navigation transitions at PlanRadar. Two examples below.",
+      "desc": "Reanimated / Animated API drives modal and navigation transitions in my current work. Two examples below.",
       "note": "// Reanimated worklets run on the UI thread — no JS-thread jank under load."
     },
     "deeplink": {
@@ -51,7 +51,7 @@
       "note": "// getInitialNotification() covers the cold-start case FCM's foreground handler misses."
     },
     "cicd": {
-      "desc": "Full release ownership at PlanRadar and Index Group — GitLab CI/CD, EAS Build, TestFlight, and Play Console. Run the pipeline below.",
+      "desc": "Full release ownership across production apps, including Index Group — GitLab CI/CD, EAS Build, TestFlight, and Play Console. Run the pipeline below.",
       "note": "// Same pipeline shape across both apps: test → build → submit, gated on green tests."
     },
     "i18n": {
@@ -59,7 +59,7 @@
       "note": "// react-native-localize detects device locale; I18nManager flips layout direction."
     },
     "newarch": {
-      "desc": "Led PlanRadar's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare.",
+      "desc": "Led a production app's migration to React Native 0.85 — Hermes + New Architecture. JSI replaces the old async, JSON-serialized bridge with direct synchronous native calls. Click to compare.",
       "note": "// JSI gives JS a direct reference to native objects — no serialize/queue/deserialize round trip."
     },
     "release": {
@@ -67,7 +67,7 @@
       "note": "// Native teams bump one version string — no RN toolchain install, no Metro, no Yarn."
     },
     "testing": {
-      "desc": "1,500+ commits across 200+ tickets at PlanRadar, guarded by a 3,500+ test suite in GitLab CI/CD. Run a sample suite.",
+      "desc": "1,500+ commits across 200+ tickets in my current role, guarded by a 3,500+ test suite in GitLab CI/CD. Run a sample suite.",
       "note": "// CI blocks merge on red tests — coverage gate keeps refactors safe across 200+ tickets."
     },
     "ota": {
@@ -83,7 +83,7 @@
       "note": "// The bridge is native-to-native — RN only sends/receives the payload, the watch app renders it."
     },
     "aiassistant": {
-      "desc": "PlanRadar's in-app AI Assistant — I built the RN client: WebSocket-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Architecture below, renamed from the real implementation. Pick a prompt below.",
+      "desc": "An in-app AI Assistant I built the RN client for — WebSocket-streamed staged responses (thinking → response), ticket/document context attachments, and usage-tier gating. Architecture below, renamed from the real implementation. Pick a prompt below.",
       "note": "// Streamed over WebSockets, not polled — the thinking stage renders while the model is still working."
     },
     "gesture": {

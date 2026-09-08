@@ -15,27 +15,27 @@
   },
   "demoText": {
     "list": {
-      "desc": "PlanRadar'da, büyük bir listede bir satırı seçmek, array-identity karşılaştırması nedeniyle her satırı yeniden render ediyordu — O(n²). Bunu bir Set-üyelik aramasıyla değiştirdim, böylece yalnızca dokunulan satır yeniden render edilir. Aşağıdaki satırlara tıklayın.",
+      "desc": "Mevcut işimde, büyük bir listede bir satırı seçmek, array-identity karşılaştırması nedeniyle her satırı yeniden render ediyordu — O(n²). Bunu bir Set-üyelik aramasıyla değiştirdim, böylece yalnızca dokunulan satır yeniden render edilir. Aşağıdaki satırlara tıklayın.",
       "note": "// Eski: her seçimde tüm liste yeniden render olur. Yeni: yalnızca dokunulan satır güncellenir."
     },
     "storage": {
-      "desc": "PlanRadar'ın kalıcılığını AsyncStorage'dan MMKV'ye taşıdım — senkron, şifreli, daha hızlı okumalar.",
+      "desc": "Bir production uygulamasının kalıcılığını AsyncStorage'dan MMKV'ye taşıdım — senkron, şifreli, daha hızlı okumalar.",
       "note": "// MMKV yazmaları senkrondur — await yok, okumada titreme yok."
     },
     "sync": {
-      "desc": "PlanRadar'ın temel modüllerinden biri offline-first ve WebSocket üzerinden gerçek zamanlıdır — işlemler çevrimdışıyken kuyruğa alınır ve yeniden bağlanınca gönderilir. Aşağıda çevrimdışını açıp değişiklik yapın.",
+      "desc": "Mevcut işimin temel modüllerinden biri offline-first ve WebSocket üzerinden gerçek zamanlıdır — işlemler çevrimdışıyken kuyruğa alınır ve yeniden bağlanınca gönderilir. Aşağıda çevrimdışını açıp değişiklik yapın.",
       "note": "// Kuyruğa alınan işlemler soket yeniden bağlandığında sırayla gönderilir."
     },
     "firebase": {
-      "desc": "Firebase, hem PlanRadar hem de Index Group uygulamalarında gözlemlenebilirliğin temelini oluşturuyor — kullanım takibi için Analytics, crash-free oranı izleme için Crashlytics ve push taşıyıcısı olarak FCM. Aşağıdan bir SDK çağrısı tetikleyin.",
+      "desc": "Firebase, Index Group'unki de dahil olmak üzere geliştirdiğim production uygulamalarında gözlemlenebilirliğin temelini oluşturuyor — kullanım takibi için Analytics, crash-free oranı izleme için Crashlytics ve push taşıyıcısı olarak FCM. Aşağıdan bir SDK çağrısı tetikleyin.",
       "note": "// Crashlytics bağlamı (kullanıcı id'si, breadcrumb'lar) throw'dan önce ayarlanır, sonra değil — yoksa rapor, ondan önce ne olduğuna dair hiçbir fikir olmadan gelir."
     },
     "restapi": {
-      "desc": "PlanRadar ve Index Group, backend ile tipli bir REST/JSON:API katmanı üzerinden konuşur — auth token eklemek, 401'de refresh yapmak ve hataları merkezi olarak normalize etmek için interceptor'lara sahip bir Axios istemcisi, bileşenlerin doğrudan çağırdığı resource hook'ların içine sarılmış. Pipeline'ı izlemek için aşağıdan fetch tetikleyin.",
+      "desc": "Index Group'unki de dahil olmak üzere geliştirdiğim production uygulamaları, backend ile tipli bir REST/JSON:API katmanı üzerinden konuşur — auth token eklemek, 401'de refresh yapmak ve hataları merkezi olarak normalize etmek için interceptor'lara sahip bir Axios istemcisi, bileşenlerin doğrudan çağırdığı resource hook'ların içine sarılmış. Pipeline'ı izlemek için aşağıdan fetch tetikleyin.",
       "note": "// Request interceptor, eşzamanlı 401'ler arasında her istek için ayrı bir refresh başlatmak yerine tek bir devam eden refresh'i paylaşır."
     },
     "anim": {
-      "desc": "Reanimated / Animated API, PlanRadar'da modal ve navigasyon geçişlerini yönetir. Aşağıda iki örnek.",
+      "desc": "Reanimated / Animated API, mevcut işimde modal ve navigasyon geçişlerini yönetir. Aşağıda iki örnek.",
       "note": "// Reanimated worklet'leri UI thread'inde çalışır — yük altında JS thread takılması olmaz."
     },
     "deeplink": {
@@ -51,7 +51,7 @@
       "note": "// getInitialNotification(), FCM'nin foreground handler'ının kaçırdığı cold start durumunu kapsar."
     },
     "cicd": {
-      "desc": "PlanRadar ve Index Group'ta tam release sorumluluğu — GitLab CI/CD, EAS Build, TestFlight ve Play Console. Aşağıdaki pipeline'ı çalıştırın.",
+      "desc": "Index Group dahil birden fazla production uygulamasında tam release sorumluluğu — GitLab CI/CD, EAS Build, TestFlight ve Play Console. Aşağıdaki pipeline'ı çalıştırın.",
       "note": "// Her iki uygulamada da aynı pipeline yapısı: test → build → submit, yeşil testlerle koşullu."
     },
     "i18n": {
@@ -59,7 +59,7 @@
       "note": "// react-native-localize cihaz dilini algılar; I18nManager layout yönünü tersine çevirir."
     },
     "newarch": {
-      "desc": "PlanRadar'ın React Native 0.85'e göçünü yönetti — Hermes + New Architecture. JSI, eski asenkron, JSON serileştirilmiş köprüyü doğrudan senkron native çağrılarla değiştirir. Karşılaştırmak için tıklayın.",
+      "desc": "Bir production uygulamasının React Native 0.85'e göçünü yönetti — Hermes + New Architecture. JSI, eski asenkron, JSON serileştirilmiş köprüyü doğrudan senkron native çağrılarla değiştirir. Karşılaştırmak için tıklayın.",
       "note": "// JSI, JS'ye native nesnelere doğrudan bir referans verir — serileştirme/kuyruklama/serileştirmeyi geri alma gidiş-dönüşü yok."
     },
     "release": {
@@ -67,7 +67,7 @@
       "note": "// Native ekipler sadece bir sürüm dizesini artırır — RN araç zinciri kurulumu yok, Metro yok, Yarn yok."
     },
     "testing": {
-      "desc": "PlanRadar'da 200'den fazla bilette 1.500'den fazla commit, GitLab CI/CD'de 3.500'den fazla testlik bir paketle korunuyor. Örnek bir paket çalıştırın.",
+      "desc": "Mevcut işimde 200'den fazla bilette 1.500'den fazla commit, GitLab CI/CD'de 3.500'den fazla testlik bir paketle korunuyor. Örnek bir paket çalıştırın.",
       "note": "// CI, kırmızı testlerde birleştirmeyi engeller — kapsama eşiği, 200+ bilette refactor'ları güvenli tutar."
     },
     "ota": {
@@ -83,7 +83,7 @@
       "note": "// Köprü native-native'dir — RN yalnızca payload'ı gönderir/alır, watch uygulaması onu render eder."
     },
     "aiassistant": {
-      "desc": "PlanRadar'ın uygulama içi Yapay Zeka Asistanı — RN istemcisini oluşturdum: WebSocket üzerinden akan aşamalı yanıtlar (düşünme → yanıt), bilet/doküman bağlam ekleri, ve kullanım seviyesi sınırlaması. Aşağıdaki mimari, gerçek uygulamaya göre yeniden adlandırıldı. Bir prompt seçin.",
+      "desc": "RN istemcisini oluşturduğum bir uygulama içi Yapay Zeka Asistanı — WebSocket üzerinden akan aşamalı yanıtlar (düşünme → yanıt), bilet/doküman bağlam ekleri, ve kullanım seviyesi sınırlaması. Aşağıdaki mimari, gerçek uygulamaya göre yeniden adlandırıldı. Bir prompt seçin.",
       "note": "// Polling değil, WebSocket üzerinden akış — model hâlâ çalışırken düşünme aşaması render edilir."
     },
     "gesture": {

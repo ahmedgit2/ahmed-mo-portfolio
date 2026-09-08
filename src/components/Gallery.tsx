@@ -8,7 +8,7 @@ type Shot = { base: string; key: string };
 // text included) and a same-layout twin per other locale with only that
 // on-image text redrawn in that language — screenshots, photos, and layout
 // are identical, only the overlay headline/caption text changes.
-const LOCALIZED_LANGS = ['en', 'de', 'fr', 'es', 'it', 'pt', 'ro', 'tr', 'ru'];
+const LOCALIZED_LANGS = ['en', 'de', 'fr', 'es', 'it', 'pt', 'ro', 'tr', 'ru', 'sv'];
 const SHOTS: Shot[] = [
   { base: 'chef-ruler-client', key: 'chefRulerClient' },
   { base: 'chef-ruler-provider', key: 'chefRulerProvider' },
