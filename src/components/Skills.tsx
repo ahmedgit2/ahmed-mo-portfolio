@@ -10,7 +10,7 @@ const PILLS: string[][] = [
   ['XCFramework', 'Android AAR', 'Versioned Binary Distribution'],
   ['React Navigation', 'Reanimated v2/v3', 'FlashList', 'Accessibility (a11y)', 'Community UI Libs'],
   ['Redux Toolkit', 'Redux Persist', 'Context API'],
-  ['REST APIs', 'JSON:API', 'React Query', 'Axios', 'WebSockets'],
+  ['REST APIs', 'JSON:API', 'Mobile BFF', 'React Query', 'Axios', 'WebSockets'],
   ['MMKV', 'AsyncStorage', 'Offline-First', 'Keychain/Keystore', 'AES-GCM Encryption', 'react-native-quick-crypto', 'Certificate Pinning', 'Biometric Auth'],
   ['Jest', 'RN Testing Library', 'Maestro', 'Detox', 'React Native DevTools', 'Profiling', 'Memoization'],
   ['GitLab CI/CD', 'GitHub Actions', 'EAS Build', 'Fastlane', 'TestFlight', 'Play Console'],

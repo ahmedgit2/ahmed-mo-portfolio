@@ -13,6 +13,7 @@ export const DEMO_IDS = [
   'sync',
   'storage',
   'security',
+  'bff',
   'firebase',
   'restapi',
   'newarch',

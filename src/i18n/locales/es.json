@@ -101,6 +101,10 @@
     "security": {
       "desc": "Reproducir un contrato AES de nivel bancario es una petición frecuente que aún no he entregado, pero la misma disciplina de almacenamiento seguro es real — migré la persistencia de una app en producción a MMKV, con la clave de cifrado guardada en el Keychain. Abajo: cómo conectaría un contrato de solicitud/respuesta AES-256-GCM de extremo a extremo.",
       "note": "// La clave AES nunca viaja en el bundle de JS — proviene de un handshake y vive solo en memoria o en el Keychain."
+    },
+    "bff": {
+      "desc": "El cliente móvil nunca habla directamente con los servicios — un Mobile BFF se sitúa delante, da forma a cada respuesta según lo que la pantalla realmente necesita y reduce los round trips. Abajo: cinco llamadas separadas condensadas en una sola respuesta del BFF, y cómo señala una actualización obligatoria.",
+      "note": "// El BFF también gestiona el versionado — un cliente desactualizado recibe un indicador minSupportedVersion antes de recibir cualquier dato."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ texto cifrado ‖ tag)",
       "step4": "El servidor verifica el tag de autenticación y descifra",
       "step5": "✓ Respuesta descifrada — el tag coincide, sin manipulación"
+    },
+    "bff": {
+      "runButton": "Cargar pantalla de inicio",
+      "placeholder": "Dispara la solicitud para ver la diferencia →",
+      "step1": "Sin BFF: 5 llamadas separadas — /accounts /cards /offers /profile /notifications",
+      "step2": "Con BFF: GET /mobile/home → una respuesta agregada",
+      "step3": "Cabecera de respuesta: X-Min-Supported-Version: 4.2.0",
+      "step4": "La build del cliente 4.1.0 está por debajo del mínimo → actualización obligatoria",
+      "step5": "✓ Un solo round trip, ya moldeado para esta pantalla"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Física de Gestos",
       "nodeapi": "API de Node.js",
       "reactweb": "React y Next.js",
-      "security": "Seguridad y criptografía"
+      "security": "Seguridad y criptografía",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

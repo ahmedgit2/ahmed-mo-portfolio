@@ -101,6 +101,10 @@
     "security": {
       "desc": "Einen Bank-AES-Vertrag nachzubauen ist eine häufige Anforderung, die ich noch nicht ausgeliefert habe, aber die gleiche Secure-Storage-Disziplin ist real — ich habe die Persistenz einer Produktions-App zu MMKV migriert, mit dem Verschlüsselungsschlüssel in der Keychain. Unten: wie ich einen AES-256-GCM-Request/Response-Vertrag Ende-zu-Ende verdrahten würde.",
       "note": "// Der AES-Schlüssel wird nie im JS-Bundle ausgeliefert — er kommt aus einem Handshake und lebt nur im Speicher oder in der Keychain."
+    },
+    "bff": {
+      "desc": "Der mobile Client spricht nie direkt mit Services — ein Mobile BFF steht davor, formt jede Antwort genau nach dem, was der Screen braucht, und reduziert Roundtrips. Unten: fünf einzelne Service-Aufrufe zusammengefasst in eine BFF-Antwort, plus wie ein Pflicht-Update signalisiert wird.",
+      "note": "// Der BFF übernimmt auch das Versioning — ein veralteter Client bekommt ein minSupportedVersion-Flag, bevor er irgendwelche Daten bekommt."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ Chiffretext ‖ Tag)",
       "step4": "Server prüft den Auth-Tag, entschlüsselt",
       "step5": "✓ Antwort entschlüsselt — Tag stimmte überein, keine Manipulation"
+    },
+    "bff": {
+      "runButton": "Startbildschirm laden",
+      "placeholder": "Anfrage auslösen, um den Unterschied zu sehen →",
+      "step1": "Ohne BFF: 5 einzelne Aufrufe — /accounts /cards /offers /profile /notifications",
+      "step2": "Mit BFF: GET /mobile/home → eine gebündelte Antwort",
+      "step3": "Antwort-Header: X-Min-Supported-Version: 4.2.0",
+      "step4": "Client-Build 4.1.0 liegt unter dem Minimum → Pflicht-Update",
+      "step5": "✓ Ein Roundtrip, bereits für diesen Screen geformt"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Gesten-Physik",
       "nodeapi": "Node.js-API",
       "reactweb": "React & Next.js",
-      "security": "Sicherheit & Kryptografie"
+      "security": "Sicherheit & Kryptografie",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

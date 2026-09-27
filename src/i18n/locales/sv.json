@@ -101,6 +101,10 @@
     "security": {
       "desc": "Att återskapa ett bank-AES-kontrakt är en vanlig begäran jag inte levererat ännu, men samma disciplin för säker lagring är verklig — jag migrerade en produktionsapps beständiga lagring till MMKV, med krypteringsnyckeln i Keychain. Nedan: hur jag skulle koppla ett AES-256-GCM-request/response-kontrakt end-to-end.",
       "note": "// AES-nyckeln skickas aldrig i JS-bundeln — den kommer från en handskakning och lever bara i minnet eller i Keychain."
+    },
+    "bff": {
+      "desc": "Mobilklienten pratar aldrig direkt med tjänsterna — en Mobile BFF står framför dem, formar varje svar efter vad skärmen faktiskt behöver och minskar antalet round trips. Nedan: fem separata anrop sammanslagna till ett enda BFF-svar, och hur den signalerar en obligatorisk uppdatering.",
+      "note": "// BFF:en äger även versionshanteringen — en föråldrad klient får en minSupportedVersion-flagga innan den får någon data alls."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ chiffertext ‖ tag)",
       "step4": "Servern verifierar auth-taggen, dekrypterar",
       "step5": "✓ Svar dekrypterat — tagg matchade, ingen manipulation"
+    },
+    "bff": {
+      "runButton": "Ladda startskärmen",
+      "placeholder": "Utlös förfrågan för att se skillnaden →",
+      "step1": "Utan BFF: 5 separata anrop — /accounts /cards /offers /profile /notifications",
+      "step2": "Med BFF: GET /mobile/home → ett samlat svar",
+      "step3": "Svarshuvud: X-Min-Supported-Version: 4.2.0",
+      "step4": "Klientbygget 4.1.0 är under minimum → obligatorisk uppdatering",
+      "step5": "✓ En enda round trip, redan formad för den här skärmen"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Gestfysik",
       "nodeapi": "Node.js API",
       "reactweb": "React & Next.js",
-      "security": "Säkerhet & kryptering"
+      "security": "Säkerhet & kryptering",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

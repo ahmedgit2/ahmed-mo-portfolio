@@ -107,6 +107,27 @@ class NativeSecurityModule(ctx: ReactApplicationContext) : NativeSecuritySpec(ct
   }
 }`,
           },
+          {
+            name: 'sslPinning.ts',
+            code: `// SSL/certificate pinning: trust only a known public key hash for this
+// host, not just "any cert a public CA signed" — blocks MITM even if a
+// CA is compromised. Always ship a backup pin or a bad cert rotation
+// bricks the app until an update ships.
+import { initializeSslPinning } from 'react-native-ssl-public-key-pinning';
+
+await initializeSslPinning({
+  'api.bank.com': {
+    includeSubdomains: true,
+    publicKeyHashes: [
+      'znZeAzewrCoVCz5t4a0Yz3MpKgCyRUhV0lRQ8YyGpuY=', // current leaf key
+      'e0Z3G3EMepz3q5PzZjZGQmSKQzZDVJK2y+65Q3Ymz3c=', // backup — for the next rotation
+    ],
+  },
+});
+
+// pairs with the axios client from the REST API demo — a pin mismatch
+// fails the TLS handshake before the request interceptor ever runs`,
+          },
         ]}
       />
     </DemoPanel>

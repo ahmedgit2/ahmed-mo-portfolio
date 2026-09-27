@@ -101,6 +101,10 @@
     "security": {
       "desc": "Reproducing a bank-grade AES contract is a common ask I haven't shipped yet, but the same secure-storage discipline is real — I migrated a production app's persistence to MMKV with the encryption key held in the Keychain. Below: how I'd wire an AES-256-GCM request/response contract end to end.",
       "note": "// The AES key never ships in the JS bundle — it comes from a handshake and lives only in memory or the Keychain."
+    },
+    "bff": {
+      "desc": "The mobile client never calls services directly — a Mobile BFF sits in front of them, shaping each response to what the screen actually needs and cutting round trips. Below: five separate service calls collapsed into one BFF response, plus how it signals a mandatory update.",
+      "note": "// The BFF also owns versioning — an outdated client gets a minSupportedVersion flag before it gets any data."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ ciphertext ‖ tag)",
       "step4": "Server verifies the auth tag, decrypts",
       "step5": "✓ Response decrypted — tag matched, no tampering"
+    },
+    "bff": {
+      "runButton": "Load Home Screen",
+      "placeholder": "Trigger the request to see the difference →",
+      "step1": "Without a BFF: 5 separate calls — /accounts /cards /offers /profile /notifications",
+      "step2": "With a BFF: GET /mobile/home → one aggregated response",
+      "step3": "Response header: X-Min-Supported-Version: 4.2.0",
+      "step4": "Client build 4.1.0 is below minimum → force-update",
+      "step5": "✓ One round trip, already shaped for this screen"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Gesture Physics",
       "nodeapi": "Node.js API",
       "reactweb": "React & Next.js",
-      "security": "Security & Crypto"
+      "security": "Security & Crypto",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

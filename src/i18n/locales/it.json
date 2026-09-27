@@ -101,6 +101,10 @@
     "security": {
       "desc": "Riprodurre un contratto AES di livello bancario è una richiesta comune che non ho ancora consegnato, ma la stessa disciplina di storage sicuro è reale — ho migrato la persistenza di un'app in produzione a MMKV, con la chiave di cifratura conservata nel Keychain. Sotto: come collegherei un contratto richiesta/risposta AES-256-GCM end-to-end.",
       "note": "// La chiave AES non viene mai spedita nel bundle JS — arriva da un handshake e vive solo in memoria o nel Keychain."
+    },
+    "bff": {
+      "desc": "Il client mobile non parla mai direttamente con i servizi — un Mobile BFF si frappone, modella ogni risposta su ciò di cui lo schermo ha davvero bisogno e riduce i round trip. Sotto: cinque chiamate separate condensate in un'unica risposta BFF, e come segnala un aggiornamento obbligatorio.",
+      "note": "// Il BFF gestisce anche il versioning — un client obsoleto riceve un flag minSupportedVersion prima di ricevere qualsiasi dato."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ testo cifrato ‖ tag)",
       "step4": "Il server verifica il tag di autenticazione, decifra",
       "step5": "✓ Risposta decifrata — tag corrispondente, nessuna manomissione"
+    },
+    "bff": {
+      "runButton": "Carica schermata principale",
+      "placeholder": "Avvia la richiesta per vedere la differenza →",
+      "step1": "Senza BFF: 5 chiamate separate — /accounts /cards /offers /profile /notifications",
+      "step2": "Con BFF: GET /mobile/home → una risposta aggregata",
+      "step3": "Header di risposta: X-Min-Supported-Version: 4.2.0",
+      "step4": "La build client 4.1.0 è sotto il minimo → aggiornamento obbligatorio",
+      "step5": "✓ Un solo round trip, già modellato per questa schermata"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Fisica dei gesti",
       "nodeapi": "API Node.js",
       "reactweb": "React e Next.js",
-      "security": "Sicurezza e crittografia"
+      "security": "Sicurezza e crittografia",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

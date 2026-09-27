@@ -101,6 +101,10 @@
     "security": {
       "desc": "Banka düzeyinde bir AES sözleşmesini yeniden üretmek henüz teslim etmediğim yaygın bir talep, ama aynı güvenli depolama disiplini gerçek — bir production uygulamasının kalıcılığını, şifreleme anahtarı Keychain'de tutulacak şekilde MMKV'ye taşıdım. Aşağıda: uçtan uca bir AES-256-GCM istek/yanıt sözleşmesini nasıl kuracağım.",
       "note": "// AES anahtarı asla JS bundle'ında gönderilmez — bir handshake'ten gelir ve yalnızca bellekte veya Keychain'de yaşar."
+    },
+    "bff": {
+      "desc": "Mobil istemci hiçbir zaman servislerle doğrudan konuşmaz — bir Mobile BFF önlerinde durur, her yanıtı ekranın gerçekten ihtiyaç duyduğu şekilde biçimlendirir ve gidiş-dönüşleri azaltır. Aşağıda: beş ayrı çağrı tek bir BFF yanıtında birleştirildi, ve zorunlu güncellemeyi nasıl sinyallediği.",
+      "note": "// BFF ayrıca versiyonlamayı da yönetir — eski bir istemci herhangi bir veri almadan önce bir minSupportedVersion bayrağı alır."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ şifreli metin ‖ tag)",
       "step4": "Sunucu auth tag'ini doğrular, şifreyi çözer",
       "step5": "✓ Yanıt çözüldü — tag eşleşti, müdahale yok"
+    },
+    "bff": {
+      "runButton": "Ana ekranı yükle",
+      "placeholder": "Farkı görmek için isteği tetikleyin →",
+      "step1": "BFF olmadan: 5 ayrı çağrı — /accounts /cards /offers /profile /notifications",
+      "step2": "BFF ile: GET /mobile/home → tek toplu yanıt",
+      "step3": "Yanıt başlığı: X-Min-Supported-Version: 4.2.0",
+      "step4": "İstemci sürümü 4.1.0 minimumun altında → zorunlu güncelleme",
+      "step5": "✓ Tek gidiş-dönüş, zaten bu ekran için biçimlendirilmiş"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Jest Fiziği",
       "nodeapi": "Node.js API",
       "reactweb": "React ve Next.js",
-      "security": "Güvenlik ve Kriptografi"
+      "security": "Güvenlik ve Kriptografi",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

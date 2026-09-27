@@ -101,6 +101,10 @@
     "security": {
       "desc": "Reproduzir um contrato AES de nível bancário é um pedido comum que ainda não entreguei, mas a mesma disciplina de armazenamento seguro é real — migrei a persistência de um app em produção para o MMKV, com a chave de criptografia guardada no Keychain. Abaixo: como eu ligaria um contrato de requisição/resposta AES-256-GCM de ponta a ponta.",
       "note": "// A chave AES nunca vai no bundle JS — ela vem de um handshake e vive só na memória ou no Keychain."
+    },
+    "bff": {
+      "desc": "O cliente móvel nunca fala diretamente com os serviços — um Mobile BFF fica na frente deles, molda cada resposta conforme o que a tela realmente precisa e reduz round trips. Abaixo: cinco chamadas separadas condensadas em uma única resposta do BFF, e como ele sinaliza uma atualização obrigatória.",
+      "note": "// O BFF também cuida do versionamento — um cliente desatualizado recebe uma flag minSupportedVersion antes de receber qualquer dado."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ texto cifrado ‖ tag)",
       "step4": "O servidor verifica a tag de autenticação e descriptografa",
       "step5": "✓ Resposta descriptografada — tag corresponde, sem adulteração"
+    },
+    "bff": {
+      "runButton": "Carregar tela inicial",
+      "placeholder": "Dispare a requisição para ver a diferença →",
+      "step1": "Sem BFF: 5 chamadas separadas — /accounts /cards /offers /profile /notifications",
+      "step2": "Com BFF: GET /mobile/home → uma resposta agregada",
+      "step3": "Cabeçalho da resposta: X-Min-Supported-Version: 4.2.0",
+      "step4": "A build do cliente 4.1.0 está abaixo do mínimo → atualização obrigatória",
+      "step5": "✓ Um único round trip, já moldado para essa tela"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Física de Gestos",
       "nodeapi": "API Node.js",
       "reactweb": "React e Next.js",
-      "security": "Segurança e criptografia"
+      "security": "Segurança e criptografia",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

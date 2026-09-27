@@ -101,6 +101,10 @@
     "security": {
       "desc": "Reproducerea unui contract AES de nivel bancar este o cerință frecventă pe care nu am livrat-o încă, dar aceeași disciplină de stocare sigură este reală — am migrat persistența unei aplicații de producție la MMKV, cu cheia de criptare păstrată în Keychain. Mai jos: cum aș conecta un contract cerere/răspuns AES-256-GCM de la un capăt la altul.",
       "note": "// Cheia AES nu ajunge niciodată în bundle-ul JS — vine dintr-un handshake și trăiește doar în memorie sau în Keychain."
+    },
+    "bff": {
+      "desc": "Clientul mobil nu vorbește niciodată direct cu serviciile — un Mobile BFF stă în față, modelează fiecare răspuns după ce are nevoie ecranul cu adevărat și reduce round trip-urile. Mai jos: cinci apeluri separate condensate într-un singur răspuns BFF, și cum semnalează o actualizare obligatorie.",
+      "note": "// BFF-ul gestionează și versioning-ul — un client învechit primește un flag minSupportedVersion înainte să primească vreo dată."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ text cifrat ‖ tag)",
       "step4": "Serverul verifică tag-ul de autentificare, decriptează",
       "step5": "✓ Răspuns decriptat — tag potrivit, fără manipulare"
+    },
+    "bff": {
+      "runButton": "Încarcă ecranul principal",
+      "placeholder": "Declanșează cererea pentru a vedea diferența →",
+      "step1": "Fără BFF: 5 apeluri separate — /accounts /cards /offers /profile /notifications",
+      "step2": "Cu BFF: GET /mobile/home → un singur răspuns agregat",
+      "step3": "Header de răspuns: X-Min-Supported-Version: 4.2.0",
+      "step4": "Build-ul clientului 4.1.0 e sub minim → actualizare obligatorie",
+      "step5": "✓ Un singur round trip, deja modelat pentru acest ecran"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Fizica gesturilor",
       "nodeapi": "API Node.js",
       "reactweb": "React și Next.js",
-      "security": "Securitate și criptografie"
+      "security": "Securitate și criptografie",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {

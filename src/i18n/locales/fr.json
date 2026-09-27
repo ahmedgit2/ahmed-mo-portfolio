@@ -101,6 +101,10 @@
     "security": {
       "desc": "Reproduire un contrat AES de niveau bancaire est une demande fréquente que je n'ai pas encore livrée, mais la même discipline de stockage sécurisé est réelle — j'ai migré la persistance d'une application en production vers MMKV, avec la clé de chiffrement conservée dans le Keychain. Ci-dessous : comment je câblerais un contrat requête/réponse AES-256-GCM de bout en bout.",
       "note": "// La clé AES n'est jamais livrée dans le bundle JS — elle provient d'un handshake et ne vit qu'en mémoire ou dans le Keychain."
+    },
+    "bff": {
+      "desc": "Le client mobile ne parle jamais directement aux services — un Mobile BFF se place devant eux, façonne chaque réponse selon les besoins réels de l'écran et réduit les allers-retours. Ci-dessous : cinq appels séparés condensés en une seule réponse BFF, et comment il signale une mise à jour obligatoire.",
+      "note": "// Le BFF gère aussi le versioning — un client obsolète reçoit un indicateur minSupportedVersion avant de recevoir la moindre donnée."
     }
   },
   "demoUI": {
@@ -295,6 +299,15 @@
       "step3": "POST base64(iv ‖ texte chiffré ‖ tag)",
       "step4": "Le serveur vérifie le tag d'authentification, déchiffre",
       "step5": "✓ Réponse déchiffrée — tag correspondant, aucune altération"
+    },
+    "bff": {
+      "runButton": "Charger l'écran d'accueil",
+      "placeholder": "Déclenchez la requête pour voir la différence →",
+      "step1": "Sans BFF : 5 appels séparés — /accounts /cards /offers /profile /notifications",
+      "step2": "Avec BFF : GET /mobile/home → une réponse agrégée",
+      "step3": "En-tête de réponse : X-Min-Supported-Version: 4.2.0",
+      "step4": "La build client 4.1.0 est sous le minimum → mise à jour obligatoire",
+      "step5": "✓ Un seul aller-retour, déjà façonné pour cet écran"
     }
   },
   "hero": {
@@ -392,7 +405,8 @@
       "gesture": "Physique des gestes",
       "nodeapi": "API Node.js",
       "reactweb": "React & Next.js",
-      "security": "Sécurité & Crypto"
+      "security": "Sécurité & Crypto",
+      "bff": "Mobile BFF"
     }
   },
   "experience": {
