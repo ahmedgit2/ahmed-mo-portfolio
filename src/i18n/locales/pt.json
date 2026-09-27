@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Além do React Native, trabalho com fundamentos de React.js e Next.js — este portfólio em si é um exemplo. Abaixo: como uma página vai de uma resposta renderizada no servidor a totalmente interativa, via hidratação.",
       "note": "// O servidor envia HTML real imediatamente — a hidratação anexa os listeners de evento a ele, sem renderizar tudo de novo."
+    },
+    "security": {
+      "desc": "Reproduzir um contrato AES de nível bancário é um pedido comum que ainda não entreguei, mas a mesma disciplina de armazenamento seguro é real — migrei a persistência de um app em produção para o MMKV, com a chave de criptografia guardada no Keychain. Abaixo: como eu ligaria um contrato de requisição/resposta AES-256-GCM de ponta a ponta.",
+      "note": "// A chave AES nunca vai no bundle JS — ela vem de um handshake e vive só na memória ou no Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Cliente: baixa o bundle React em segundo plano",
       "step5": "Cliente: hidrata — a página já está interativa",
       "hydratedButton": "✓ Hidratado — clique em mim ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Tela segura",
+      "secureScreenOn": "Ativada, capturas bloqueadas",
+      "secureScreenOff": "Desativada",
+      "encryptButton": "Criptografar e enviar requisição",
+      "placeholder": "Dispare a requisição para rastrear o pipeline de criptografia →",
+      "step1": "Gera um IV aleatório de 12 bytes",
+      "step2": "Criptografa o corpo com AES-256-GCM e a chave de sessão",
+      "step3": "POST base64(iv ‖ texto cifrado ‖ tag)",
+      "step4": "O servidor verifica a tag de autenticação e descriptografa",
+      "step5": "✓ Resposta descriptografada — tag corresponde, sem adulteração"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "Chat de IA",
       "gesture": "Física de Gestos",
       "nodeapi": "API Node.js",
-      "reactweb": "React e Next.js"
+      "reactweb": "React e Next.js",
+      "security": "Segurança e criptografia"
     }
   },
   "experience": {

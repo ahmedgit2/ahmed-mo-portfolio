@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Bortom React Native arbetar jag med React.js- och Next.js-grunder — den här portfolion är själv ett exempel. Nedan: hur en sida går från ett serverrendrerat svar till fullt interaktiv, via hydrering.",
       "note": "// Servern skickar riktig HTML direkt — hydrering fäster event-lyssnare på den, den rendrerar inte om från grunden."
+    },
+    "security": {
+      "desc": "Att återskapa ett bank-AES-kontrakt är en vanlig begäran jag inte levererat ännu, men samma disciplin för säker lagring är verklig — jag migrerade en produktionsapps beständiga lagring till MMKV, med krypteringsnyckeln i Keychain. Nedan: hur jag skulle koppla ett AES-256-GCM-request/response-kontrakt end-to-end.",
+      "note": "// AES-nyckeln skickas aldrig i JS-bundeln — den kommer från en handskakning och lever bara i minnet eller i Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Klient: laddar ner React-bundeln i bakgrunden",
       "step5": "Klient: hydrerar — sidan är nu interaktiv",
       "hydratedButton": "✓ Hydrerad — klicka på mig ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Säker skärm",
+      "secureScreenOn": "På, skärmdumpar blockerade",
+      "secureScreenOff": "Av",
+      "encryptButton": "Kryptera & skicka förfrågan",
+      "placeholder": "Utlös förfrågan för att spåra kryptopipelinen →",
+      "step1": "Generera en slumpmässig 12-byte IV",
+      "step2": "Kryptera body med AES-256-GCM och sessionsnyckeln",
+      "step3": "POST base64(iv ‖ chiffertext ‖ tag)",
+      "step4": "Servern verifierar auth-taggen, dekrypterar",
+      "step5": "✓ Svar dekrypterat — tagg matchade, ingen manipulation"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "AI-chatt",
       "gesture": "Gestfysik",
       "nodeapi": "Node.js API",
-      "reactweb": "React & Next.js"
+      "reactweb": "React & Next.js",
+      "security": "Säkerhet & kryptering"
     }
   },
   "experience": {

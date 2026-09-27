@@ -23,10 +23,12 @@ import FirebaseDemo from '../demos/FirebaseDemo';
 import RestApiDemo from '../demos/RestApiDemo';
 import NodeApiDemo from '../demos/NodeApiDemo';
 import ReactWebDemo from '../demos/ReactWebDemo';
+import SecurityDemo from '../demos/SecurityDemo';
 
 const DEMO_COMPONENTS: Record<DemoId, React.ComponentType> = {
   list: ListPerfDemo,
   storage: StorageDemo,
+  security: SecurityDemo,
   sync: SyncDemo,
   firebase: FirebaseDemo,
   restapi: RestApiDemo,

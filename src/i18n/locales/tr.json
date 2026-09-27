@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "React Native'in ötesinde, React.js ve Next.js temelleriyle çalışıyorum — bu portföyün kendisi buna bir örnek. Aşağıda: bir sayfa sunucu tarafında render edilen bir yanıttan hydration yoluyla tam etkileşimli hale nasıl gelir.",
       "note": "// Sunucu gerçek HTML'i hemen gönderir — hydration olay dinleyicilerini ona ekler, sıfırdan yeniden render etmez."
+    },
+    "security": {
+      "desc": "Banka düzeyinde bir AES sözleşmesini yeniden üretmek henüz teslim etmediğim yaygın bir talep, ama aynı güvenli depolama disiplini gerçek — bir production uygulamasının kalıcılığını, şifreleme anahtarı Keychain'de tutulacak şekilde MMKV'ye taşıdım. Aşağıda: uçtan uca bir AES-256-GCM istek/yanıt sözleşmesini nasıl kuracağım.",
+      "note": "// AES anahtarı asla JS bundle'ında gönderilmez — bir handshake'ten gelir ve yalnızca bellekte veya Keychain'de yaşar."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "İstemci: React paketini arka planda indirir",
       "step5": "İstemci: hydration — sayfa artık etkileşimli",
       "hydratedButton": "✓ Hydration tamam — bana tıkla ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Güvenli Ekran",
+      "secureScreenOn": "Açık, ekran görüntüsü engellendi",
+      "secureScreenOff": "Kapalı",
+      "encryptButton": "Şifrele ve isteği gönder",
+      "placeholder": "Kripto pipeline'ını izlemek için isteği tetikleyin →",
+      "step1": "Rastgele 12 bayt IV oluştur",
+      "step2": "Gövdeyi oturum anahtarıyla AES-256-GCM ile şifrele",
+      "step3": "POST base64(iv ‖ şifreli metin ‖ tag)",
+      "step4": "Sunucu auth tag'ini doğrular, şifreyi çözer",
+      "step5": "✓ Yanıt çözüldü — tag eşleşti, müdahale yok"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "Yapay Zeka Sohbeti",
       "gesture": "Jest Fiziği",
       "nodeapi": "Node.js API",
-      "reactweb": "React ve Next.js"
+      "reactweb": "React ve Next.js",
+      "security": "Güvenlik ve Kriptografi"
     }
   },
   "experience": {

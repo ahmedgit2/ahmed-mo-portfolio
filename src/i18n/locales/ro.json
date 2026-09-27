@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Dincolo de React Native, lucrez cu fundamentele React.js și Next.js — acest portofoliu este el însuși un exemplu. Mai jos: cum ajunge o pagină de la un răspuns randat pe server la interactivitate completă, prin hidratare.",
       "note": "// Serverul trimite HTML real imediat — hidratarea atașează listenerii de evenimente pe el, nu re-randează totul."
+    },
+    "security": {
+      "desc": "Reproducerea unui contract AES de nivel bancar este o cerință frecventă pe care nu am livrat-o încă, dar aceeași disciplină de stocare sigură este reală — am migrat persistența unei aplicații de producție la MMKV, cu cheia de criptare păstrată în Keychain. Mai jos: cum aș conecta un contract cerere/răspuns AES-256-GCM de la un capăt la altul.",
+      "note": "// Cheia AES nu ajunge niciodată în bundle-ul JS — vine dintr-un handshake și trăiește doar în memorie sau în Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Client: descarcă bundle-ul React în fundal",
       "step5": "Client: hidratare — pagina e acum interactivă",
       "hydratedButton": "✓ Hidratat — apasă-mă ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Ecran securizat",
+      "secureScreenOn": "Activat, capturi blocate",
+      "secureScreenOff": "Dezactivat",
+      "encryptButton": "Criptează și trimite cererea",
+      "placeholder": "Declanșează cererea pentru a urmări pipeline-ul criptografic →",
+      "step1": "Generează un IV aleatoriu de 12 octeți",
+      "step2": "Criptează corpul cu AES-256-GCM și cheia de sesiune",
+      "step3": "POST base64(iv ‖ text cifrat ‖ tag)",
+      "step4": "Serverul verifică tag-ul de autentificare, decriptează",
+      "step5": "✓ Răspuns decriptat — tag potrivit, fără manipulare"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "Chat AI",
       "gesture": "Fizica gesturilor",
       "nodeapi": "API Node.js",
-      "reactweb": "React și Next.js"
+      "reactweb": "React și Next.js",
+      "security": "Securitate și criptografie"
     }
   },
   "experience": {

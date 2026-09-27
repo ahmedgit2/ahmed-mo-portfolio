@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Beyond React Native, I work with React.js and Next.js fundamentals — this portfolio itself is one example. Below: how a page goes from a server-rendered response to fully interactive, via hydration.",
       "note": "// The server sends real HTML immediately — hydration attaches event listeners to it, it doesn't re-render from scratch."
+    },
+    "security": {
+      "desc": "Reproducing a bank-grade AES contract is a common ask I haven't shipped yet, but the same secure-storage discipline is real — I migrated a production app's persistence to MMKV with the encryption key held in the Keychain. Below: how I'd wire an AES-256-GCM request/response contract end to end.",
+      "note": "// The AES key never ships in the JS bundle — it comes from a handshake and lives only in memory or the Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Client: downloads React bundle in background",
       "step5": "Client: hydrates — page is now interactive",
       "hydratedButton": "✓ Hydrated — click me ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Secure Screen",
+      "secureScreenOn": "On, screenshots blocked",
+      "secureScreenOff": "Off",
+      "encryptButton": "Encrypt & send request",
+      "placeholder": "Trigger the request to trace the crypto pipeline →",
+      "step1": "Generate a random 12-byte IV",
+      "step2": "AES-256-GCM encrypt body with the session key",
+      "step3": "POST base64(iv ‖ ciphertext ‖ tag)",
+      "step4": "Server verifies the auth tag, decrypts",
+      "step5": "✓ Response decrypted — tag matched, no tampering"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "AI Chat",
       "gesture": "Gesture Physics",
       "nodeapi": "Node.js API",
-      "reactweb": "React & Next.js"
+      "reactweb": "React & Next.js",
+      "security": "Security & Crypto"
     }
   },
   "experience": {

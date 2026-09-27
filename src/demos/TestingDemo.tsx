@@ -107,6 +107,24 @@ it('flushes the queue in order once NetInfo reports back online', async () => {
 // merge is blocked below threshold on changed files — the tighter
 // container-level bar is where most business logic lives`,
           },
+          {
+            name: '.maestro/approve-item.yaml',
+            code: `# E2E sits above unit + component tests in the pyramid — a handful of
+# critical flows only, run against a real build, not mocked native modules
+appId: com.company.app
+---
+- launchApp: { clearState: true }
+- tapOn: "Username"
+- inputText: "demo"
+- tapOn: "Password"
+- inputText: "demo-pass"
+- tapOn: "Log in"
+- tapOn: "Approve"
+- assertVisible: "queued — will sync when online"
+
+# Maestro over Detox here: plain YAML, no native project changes to add
+# it, and the same flow runs unmodified against the Expo dev-client build`,
+          },
         ]}
       />
     </DemoPanel>

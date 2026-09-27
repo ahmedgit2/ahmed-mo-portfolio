@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Oltre a React Native, lavoro con i fondamentali di React.js e Next.js — questo stesso portfolio ne è un esempio. Sotto: come una pagina passa da una risposta renderizzata sul server alla piena interattività, tramite l'idratazione.",
       "note": "// Il server invia subito HTML reale — l'idratazione vi collega i listener degli eventi, senza ri-renderizzare tutto."
+    },
+    "security": {
+      "desc": "Riprodurre un contratto AES di livello bancario è una richiesta comune che non ho ancora consegnato, ma la stessa disciplina di storage sicuro è reale — ho migrato la persistenza di un'app in produzione a MMKV, con la chiave di cifratura conservata nel Keychain. Sotto: come collegherei un contratto richiesta/risposta AES-256-GCM end-to-end.",
+      "note": "// La chiave AES non viene mai spedita nel bundle JS — arriva da un handshake e vive solo in memoria o nel Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Client: scarica il bundle React in background",
       "step5": "Client: idratazione — la pagina è ora interattiva",
       "hydratedButton": "✓ Idratato — cliccami ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Schermo sicuro",
+      "secureScreenOn": "Attivo, screenshot bloccati",
+      "secureScreenOff": "Disattivo",
+      "encryptButton": "Cifra e invia la richiesta",
+      "placeholder": "Avvia la richiesta per tracciare la pipeline crittografica →",
+      "step1": "Genera un IV casuale di 12 byte",
+      "step2": "Cifra il corpo con AES-256-GCM e la chiave di sessione",
+      "step3": "POST base64(iv ‖ testo cifrato ‖ tag)",
+      "step4": "Il server verifica il tag di autenticazione, decifra",
+      "step5": "✓ Risposta decifrata — tag corrispondente, nessuna manomissione"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "Chat IA",
       "gesture": "Fisica dei gesti",
       "nodeapi": "API Node.js",
-      "reactweb": "React e Next.js"
+      "reactweb": "React e Next.js",
+      "security": "Sicurezza e crittografia"
     }
   },
   "experience": {

@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Au-delà de React Native, je travaille avec les fondamentaux de React.js et Next.js — ce portfolio en est un exemple. Ci-dessous : comment une page passe d'une réponse rendue côté serveur à une interactivité complète, via l'hydratation.",
       "note": "// Le serveur envoie du vrai HTML immédiatement — l'hydratation y attache les écouteurs d'événements, sans tout re-rendre."
+    },
+    "security": {
+      "desc": "Reproduire un contrat AES de niveau bancaire est une demande fréquente que je n'ai pas encore livrée, mais la même discipline de stockage sécurisé est réelle — j'ai migré la persistance d'une application en production vers MMKV, avec la clé de chiffrement conservée dans le Keychain. Ci-dessous : comment je câblerais un contrat requête/réponse AES-256-GCM de bout en bout.",
+      "note": "// La clé AES n'est jamais livrée dans le bundle JS — elle provient d'un handshake et ne vit qu'en mémoire ou dans le Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Client : télécharge le bundle React en arrière-plan",
       "step5": "Client : hydratation — la page est maintenant interactive",
       "hydratedButton": "✓ Hydraté — cliquez-moi ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Écran sécurisé",
+      "secureScreenOn": "Activé, captures bloquées",
+      "secureScreenOff": "Désactivé",
+      "encryptButton": "Chiffrer et envoyer la requête",
+      "placeholder": "Déclenchez la requête pour tracer le pipeline crypto →",
+      "step1": "Génère un IV aléatoire de 12 octets",
+      "step2": "Chiffre le corps avec AES-256-GCM et la clé de session",
+      "step3": "POST base64(iv ‖ texte chiffré ‖ tag)",
+      "step4": "Le serveur vérifie le tag d'authentification, déchiffre",
+      "step5": "✓ Réponse déchiffrée — tag correspondant, aucune altération"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "Chat IA",
       "gesture": "Physique des gestes",
       "nodeapi": "API Node.js",
-      "reactweb": "React & Next.js"
+      "reactweb": "React & Next.js",
+      "security": "Sécurité & Crypto"
     }
   },
   "experience": {

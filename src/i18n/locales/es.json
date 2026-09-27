@@ -97,6 +97,10 @@
     "reactweb": {
       "desc": "Más allá de React Native, trabajo con fundamentos de React.js y Next.js — este portafolio es un ejemplo. Abajo: cómo una página pasa de una respuesta renderizada en el servidor a ser totalmente interactiva, mediante hidratación.",
       "note": "// El servidor envía HTML real de inmediato — la hidratación le agrega los listeners de eventos, no vuelve a renderizar todo."
+    },
+    "security": {
+      "desc": "Reproducir un contrato AES de nivel bancario es una petición frecuente que aún no he entregado, pero la misma disciplina de almacenamiento seguro es real — migré la persistencia de una app en producción a MMKV, con la clave de cifrado guardada en el Keychain. Abajo: cómo conectaría un contrato de solicitud/respuesta AES-256-GCM de extremo a extremo.",
+      "note": "// La clave AES nunca viaja en el bundle de JS — proviene de un handshake y vive solo en memoria o en el Keychain."
     }
   },
   "demoUI": {
@@ -279,6 +283,18 @@
       "step4": "Cliente: descarga el bundle de React en segundo plano",
       "step5": "Cliente: hidrata — la página ya es interactiva",
       "hydratedButton": "✓ Hidratado — haz clic ({{count}})"
+    },
+    "security": {
+      "secureScreenLabel": "Pantalla segura",
+      "secureScreenOn": "Activada, capturas bloqueadas",
+      "secureScreenOff": "Desactivada",
+      "encryptButton": "Cifrar y enviar solicitud",
+      "placeholder": "Dispara la solicitud para trazar el pipeline de cifrado →",
+      "step1": "Genera un IV aleatorio de 12 bytes",
+      "step2": "Cifra el cuerpo con AES-256-GCM y la clave de sesión",
+      "step3": "POST base64(iv ‖ texto cifrado ‖ tag)",
+      "step4": "El servidor verifica el tag de autenticación y descifra",
+      "step5": "✓ Respuesta descifrada — el tag coincide, sin manipulación"
     }
   },
   "hero": {
@@ -375,7 +391,8 @@
       "aiassistant": "Chat de IA",
       "gesture": "Física de Gestos",
       "nodeapi": "API de Node.js",
-      "reactweb": "React y Next.js"
+      "reactweb": "React y Next.js",
+      "security": "Seguridad y criptografía"
     }
   },
   "experience": {
